@@ -1,23 +1,23 @@
-from enum import Enum
+# from enum import Enum
 import pygame
 import random
 
 
 class Character:
-    def __init__(self, name, strength, craft, life, x, y):
+    def __init__(self, name, strength, craft, life, fate, gold):
         self.name = name
         self.strength = strength
         self.craft = craft
         self.life = life
         self.gold = 0
         self.talisman = False
-        self.x = x
-        self.y = y
+        self.fate = fate
+        self.gold = gold
 
     def display(self, screen):
         font = pygame.font.Font(None, 24)
         text = font.render(self.name, True, (255, 255, 255))
-        screen.blit(text, (self.x + 10, self.y + 10))
+        # screen.blit(text, (self.x + 10, self.y + 10))
 
 
 class Dice:
@@ -64,7 +64,21 @@ def main():
     image1 = pygame.transform.scale(image, (board_width, board_height))
 
     characters = [
-        Character("Warrior", 4, 3, 4, 1000, 1000)
+        Character("Warrior", 4, 2, 5, 1, 1),
+        Character("Assassin", 3, 3, 4, 3, 1),
+        Character("Druid", 2, 4, 4, 4, 1),
+        Character("Dwarf", 3, 3, 5, 5, 1),
+        Character("Elf", 3, 4, 4, 3, 1),
+        Character("Ghoul", 2, 4, 4, 4, 1),
+        Character("Minstrel", 2, 4, 4, 5, 1),
+        Character("Monk", 2, 3, 4, 5, 1),
+        Character("Priest", 2, 4, 4, 5, 1),
+        Character("Prophetess", 2, 4, 4, 2, 1),
+        Character("Sorceress", 2, 4, 4, 3, 1),
+        Character("Thief", 3, 3, 4, 2, 1),
+        Character("Troll", 6, 1, 6, 1, 1),
+        Character("Wizard", 2, 5, 4, 3, 1),
+        Character("Toad", 1, 0, 0, 0, 1)
     ]
 
     my_die = Dice()
@@ -97,5 +111,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
