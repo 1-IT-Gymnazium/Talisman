@@ -3,6 +3,8 @@ import pygame
 import random
 
 
+# Make life craft strength gold values adding manual, for card and effect that affect it
+# cuz I don't know ho to make it automatic
 class Character:
     def __init__(self, name, strength, craft, life, fate, gold):
         self.name = name
@@ -18,6 +20,63 @@ class Character:
         font = pygame.font.Font(None, 24)
         text = font.render(self.name, True, (255, 255, 255))
         # screen.blit(text, (self.x + 10, self.y + 10))
+
+
+class Cards:
+    def __init__(self, image, types):
+        self.image = image
+        self.types = types
+
+
+class ObjectCard(Cards):
+    def __init__(self, name, image, effect):
+        super().__init__(image, "Object")
+        self.name = name
+        self.effect = effect
+
+
+class MagicObject(Cards):
+    def __init__(self, name, image, effect):
+        super().__init__(image, "MagicObject")
+        self.name = name
+        self.effect = effect
+
+
+class Follower(Cards):
+    def __init__(self, name, image, effect):
+        super().__init__(image, "Follower")
+        self.name = name
+        self.effect = effect
+
+
+class Stranger(Cards):
+    def __init__(self, name, image, effect):
+        super().__init__(image, "Stranger")
+        self.name = name
+        self.effect = effect
+
+
+class Enemy(Cards):
+    def __init__(self, name, image, effect, craft, strength):
+        super().__init__(image, "Enemy")
+        self.name = name
+        self.effect = effect
+        self.craft = craft
+        self.strength = strength
+
+
+class Place(Cards):
+    def __init__(self, name, image, effect):
+        super().__init__(image, "Place")
+        self.name = name
+        self.effect = effect
+
+
+class Spell(Cards):
+    def __init__(self, name, image, effect):
+        super().__init__(image, "Spell")
+        self.name = name
+        self.effect = effect
 
 
 class Dice:
