@@ -22,41 +22,41 @@ class Character:
         # screen.blit(text, (self.x + 10, self.y + 10))
 
 
-class Cards:
+class Card:
     def __init__(self, image, types):
         self.image = image
         self.types = types
 
 
-class ObjectCard(Cards):
+class ObjectCard(Card):
     def __init__(self, name, image, effect):
         super().__init__(image, "Object")
         self.name = name
         self.effect = effect
 
 
-class MagicObject(Cards):
+class MagicObject(Card):
     def __init__(self, name, image, effect):
         super().__init__(image, "MagicObject")
         self.name = name
         self.effect = effect
 
 
-class Follower(Cards):
+class Follower(Card):
     def __init__(self, name, image, effect):
         super().__init__(image, "Follower")
         self.name = name
         self.effect = effect
 
 
-class Stranger(Cards):
+class Stranger(Card):
     def __init__(self, name, image, effect):
         super().__init__(image, "Stranger")
         self.name = name
         self.effect = effect
 
 
-class Enemy(Cards):
+class Enemy(Card):
     def __init__(self, name, image, effect, craft, strength):
         super().__init__(image, "Enemy")
         self.name = name
@@ -65,15 +65,15 @@ class Enemy(Cards):
         self.strength = strength
 
 
-class Place(Cards):
+class Place(Card):
     def __init__(self, name, image, effect):
         super().__init__(image, "Place")
         self.name = name
         self.effect = effect
 
 
-class Spell(Cards):
-    def __init__(self, name, image, effect):
+class Spell(Card):
+    def __init__(self, name, image, effect, type):
         super().__init__(image, "Spell")
         self.name = name
         self.effect = effect
@@ -121,6 +121,22 @@ def main():
 
     image = pygame.image.load("board.png")
     image1 = pygame.transform.scale(image, (board_width, board_height))
+
+    # CardsType = [
+    #     Cards("./ObjectCards", "Object"),
+    #     Cards("./MagicObjects", "MagicObject"),
+    #     Cards("./FollowerCards", "Follower"),
+    #     Cards("./StrangerCards", "Stranger"),
+    #     Cards("./EnemyCards", "Enemy"),
+    #     Cards("./Place", "Place"),
+    #     Cards("./Spell", "Spell")
+    # ]
+
+    SpellCards = [
+        Spell("Acqusition", "./Spell/Acqusition.png", "yep", "Spell"),
+        Spell("Alchemy", "./Spell/Alchemy.png", "yep", "Spell")
+
+    ]
 
     characters = [
         Character("Warrior", 4, 2, 5, 1, 1),
