@@ -132,9 +132,89 @@ def main():
     #     Cards("./Spell", "Spell")
     # ]
 
+    ObjectCards = [
+        ObjectCard("Armour", "./ObjectCards/Armour.png", "yep"),
+        ObjectCard("Axe", "./ObjectCards/Axe.png", "yep"),
+        ObjectCard("BagOfGold", "./ObjectCards/BagOfGold.png", "yep"),
+        ObjectCard("Helmet", "./ObjectCards/Helmet.png", "yep"),
+        ObjectCard("Shield", "./ObjectCards/Shield.png", "yep"),
+        ObjectCard("Sword", "./ObjectCards/Sword.png", "yep"),
+        ObjectCard("TwoBagsOfGold", "./ObjectCards/TwoBagsOfGold.png", "yep"),
+        ObjectCard("WaterBottle", "./ObjectCards/WaterBottle.png", "yep"),
+    ]
+
+    FollowerCards = [
+        Follower("Alchemist", "./FollowerCards/Alchemist.png", "yep"),
+        Follower("Gnome", "./FollowerCards/Gnome.png", "yep"),
+        Follower("Guide", "./FollowerCards/Guide.png", "yep"),
+        Follower("Hag", "./FollowerCards/Hag.png", "yep"),
+        Follower("Maiden", "./FollowerCards/Maiden.png", "yep"),
+        Follower("Mercenary", "./FollowerCards/Mercenary.png", "yep"),
+        Follower("Mule", "./FollowerCards/Mule.png", "yep"),
+        Follower("Pixie", "./FollowerCards/Pixie.png", "yep"),
+        Follower("Poltergeist", "./FollowerCards/Poltergeist.png", "yep"),
+        Follower("Prince", "./FollowerCards/Prince.png", "yep"),
+        Follower("Princess", "./FollowerCards/Princess.png", "yep"),
+        Follower("Unicorn", "./FollowerCards/Unicorn.png", "yep")
+    ]
+
+    MagicObjectCards = [
+        MagicObject("Amulet", "./MagicObject/Amulet", "yep"),
+        MagicObject("Cross", "./MagicObject/Cross", "yep"),
+        MagicObject("HolyGrail", "./MagicObject/HolyGrail", "yep"),
+        MagicObject("HolyLance", "./MagicObject/HolyLance", "yep"),
+        MagicObject("MagicBelt", "./MagicObject/MagicBelt", "yep"),
+        MagicObject("OrbOfKnowledge", "./MagicObject/OrbOfKnowledge", "yep"),
+        MagicObject("PotionOfStrength", "./MagicObject/PotionOfStrength", "yep"),
+        MagicObject("Ring", "./MagicObject/Ring", "yep"),
+        MagicObject("RuneSword", "./MagicObject/RuneSword", "yep"),
+        MagicObject("SolomonCrown", "./MagicObject/SolomonCrown", "yep"),
+        MagicObject("Talisman", "./MagicObject/Talisman", "yep"),
+        MagicObject("Wand", "./MagicObject/Wand", "yep"),
+
+    ]
+    StrangerCards = [
+        Stranger("Enchanter", "./StrangerCards/Enchanter.png", "yep"),
+        Stranger("Fairy", "./StrangerCards/Fairy.png", "yep"),
+        Stranger("Healer", "./StrangerCards/Healer.png", "yep"),
+        Stranger("Hermit", "./StrangerCards/Hermit.png", "yep"),
+        Stranger("Instructor", "./StrangerCards/Instructor.png", "yep"),
+        Stranger("Mage", "./StrangerCards/Mage.png", "yep"),
+        Stranger("Phantom", "./StrangerCards/Phantom.png", "yep"),
+        Stranger("Sorcerer", "./StrangerCards/Sorcerer.png", "yep"),
+        Stranger("Witch", "./StrangerCards/Witch.png", "yep")
+    ]
+
+    PlaceCards = [
+        Place("Cave", "./Place/Cave.png", "Yep"),
+        Place("FountainOfW", "./Place/FountainOfW.png", "Yep"),
+        Place("MagicPortal", "./Place/MagicPortal.png", "Yep"),
+        Place("MagicStream", "./Place/MagicStream.png", "Yep"),
+        Place("Market", "./Place/Market.png", "Yep"),
+        Place("Marsh", "./Place/Marsh.png", "Yep"),
+        Place("Maze", "./Place/Maze.png", "Yep"),
+        Place("PoolOfLife", "./Place/PoolOfLife.png", "Yep"),
+        Place("Shrine", "./Place/Shrine.png", "Yep"),
+    ]
+
     SpellCards = [
         Spell("Acqusition", "./Spell/Acqusition.png", "yep", "Spell"),
-        Spell("Alchemy", "./Spell/Alchemy.png", "yep", "Spell")
+        Spell("Alchemy", "./Spell/Alchemy.png", "yep", "Spell"),
+        Spell("CounterSpell", "./Spell/CounterSpell.png", "yep", "Spell"),
+        Spell("DestroyMagic", "./Spell/DestroyMagic.png", "yep", "Spell"),
+        Spell("Destruction", "./Spell/Destruction.png", "yep", "Spell"),
+        Spell("Divination", "./Spell/Divination.png", "yep", "Spell"),
+        Spell("Healing", "./Spell/Healing.png", "yep", "Spell"),
+        Spell("Hex", "./Spell/Hex.png", "yep", "Spell"),
+        Spell("Immobility", "./Spell/Immobility.png", "yep", "Spell"),
+        Spell("Invisibility", "./Spell/Invisibility.png", "yep", "Spell"),
+        Spell("Mesmerism", "./Spell/Mesmerism.png", "yep", "Spell"),
+        Spell("Nullify", "./Spell/Nullify.png", "yep", "Spell"),
+        Spell("Preservation", "./Spell/Preservation.png", "yep", "Spell"),
+        Spell("PsionicBlast", "./Spell/PsionicBlast.png", "yep", "Spell"),
+        Spell("Random", "./Spell/Random.png", "yep", "Spell"),
+        Spell("Teleport", "./Spell/Teleport.png", "yep", "Spell"),
+        Spell("TemporalWarp", "./Spell/TemporalWarp.png", "yep", "Spell")
 
     ]
 
