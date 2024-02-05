@@ -132,7 +132,29 @@ def main():
     #     Cards("./Spell", "Spell")
     # ]
 
-    ObjectCards = [
+    enemycards = [
+        Enemy("Ape", "./EnemyCards/Ape.png", "yep", "0", "3"),
+        Enemy("Bandit", "./EnemyCards/Bandit.png", "yep", "0", "4"),
+        Enemy("Bear", "./EnemyCards/Bear.png", "yep", "0", "3"),
+        Enemy("Demon", "./EnemyCards/Demon.png", "yep", "10", "0"),
+        Enemy("Dopplergang", "./EnemyCards/Dopplergang.png", "yep", "0", "7"),
+        Enemy("Dragon", "./EnemyCards/Dragon.png", "yep", "0", "7"),
+        Enemy("Ghost", "./EnemyCards/Ghost.png", "yep", "4", "0"),
+        Enemy("Giant", "./EnemyCards/Giant.png", "yep", "0", "6"),
+        Enemy("Goblin", "./EnemyCards/Goblin.png", "yep", "0", "2"),
+        Enemy("Hobgoblin", "./EnemyCards/Hobgoblin.png", "yep", "0", "3"),
+        Enemy("Lemure", "./EnemyCards/Lemure.png", "yep", "1", "0"),
+        Enemy("Lion", "./EnemyCards/Lion.png", "yep", "0", "3"),
+        Enemy("Orge", "./EnemyCards/Orge.png", "yep", "0", "5"),
+        Enemy("Serpent", "./EnemyCards/Serpent.png", "yep", "0", "4"),
+        Enemy("Shadow", "./EnemyCards/Shadow.png", "yep", "2", "0"),
+        Enemy("Spectre", "./EnemyCards/Spectre.png", "yep", "3", "0"),
+        Enemy("WildBoar", "./EnemyCards/WildBoar.png", "yep", "0", "1"),
+        Enemy("Wolf", "./EnemyCards/Wolf.png", "yep", "0", "2"),
+        Enemy("Wraith", "./EnemyCards/Wraith.png", "yep", "5", "0"),
+    ]
+
+    objectcards = [
         ObjectCard("Armour", "./ObjectCards/Armour.png", "yep"),
         ObjectCard("Axe", "./ObjectCards/Axe.png", "yep"),
         ObjectCard("BagOfGold", "./ObjectCards/BagOfGold.png", "yep"),
@@ -143,7 +165,7 @@ def main():
         ObjectCard("WaterBottle", "./ObjectCards/WaterBottle.png", "yep"),
     ]
 
-    FollowerCards = [
+    followercards = [
         Follower("Alchemist", "./FollowerCards/Alchemist.png", "yep"),
         Follower("Gnome", "./FollowerCards/Gnome.png", "yep"),
         Follower("Guide", "./FollowerCards/Guide.png", "yep"),
@@ -158,7 +180,7 @@ def main():
         Follower("Unicorn", "./FollowerCards/Unicorn.png", "yep")
     ]
 
-    MagicObjectCards = [
+    magicobjectcards = [
         MagicObject("Amulet", "./MagicObject/Amulet", "yep"),
         MagicObject("Cross", "./MagicObject/Cross", "yep"),
         MagicObject("HolyGrail", "./MagicObject/HolyGrail", "yep"),
@@ -173,7 +195,7 @@ def main():
         MagicObject("Wand", "./MagicObject/Wand", "yep"),
 
     ]
-    StrangerCards = [
+    strangercards = [
         Stranger("Enchanter", "./StrangerCards/Enchanter.png", "yep"),
         Stranger("Fairy", "./StrangerCards/Fairy.png", "yep"),
         Stranger("Healer", "./StrangerCards/Healer.png", "yep"),
@@ -185,7 +207,7 @@ def main():
         Stranger("Witch", "./StrangerCards/Witch.png", "yep")
     ]
 
-    PlaceCards = [
+    placecards = [
         Place("Cave", "./Place/Cave.png", "Yep"),
         Place("FountainOfW", "./Place/FountainOfW.png", "Yep"),
         Place("MagicPortal", "./Place/MagicPortal.png", "Yep"),
@@ -197,7 +219,7 @@ def main():
         Place("Shrine", "./Place/Shrine.png", "Yep"),
     ]
 
-    SpellCards = [
+    spellcards = [
         Spell("Acqusition", "./Spell/Acqusition.png", "yep", "Spell"),
         Spell("Alchemy", "./Spell/Alchemy.png", "yep", "Spell"),
         Spell("CounterSpell", "./Spell/CounterSpell.png", "yep", "Spell"),
