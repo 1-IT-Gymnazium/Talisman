@@ -3,8 +3,22 @@ import pygame
 import random
 
 
-# Make life craft strength gold values adding manual, for card and effect that affect it
-# cuz I don't know ho to make it automatic
+class DeckShuffle:
+    def __init__(self, deck):
+        self.cards = []
+        self.deck = deck
+        self.screen = None
+        self.image = None
+
+    def shuffle(self):
+        random.shuffle(self.deck)
+
+    def display(self, screen):
+        self.screen = screen
+        self.image = pygame.image.load("backside.png")
+        screen.blit(self.image, (0, 200))
+
+
 class Character:
     def __init__(self, name, strength, craft, life, fate, gold):
         self.name = name
@@ -16,7 +30,7 @@ class Character:
         self.fate = fate
         self.gold = gold
 
-    def display(self, screen):
+    def display(self):
         font = pygame.font.Font(None, 24)
         text = font.render(self.name, True, (255, 255, 255))
         # screen.blit(text, (self.x + 10, self.y + 10))
@@ -24,8 +38,14 @@ class Character:
 
 class Card:
     def __init__(self, image, types):
-        self.image = image
+        self.screen = None
+        self.image_path = image
         self.types = types
+        self.image = pygame.image.load(image)
+        
+    def display(self, screen):
+        self.screen = screen
+        screen.blit(self.image, (0, 400))
 
 
 class ObjectCard(Card):
@@ -73,7 +93,7 @@ class Place(Card):
 
 
 class Spell(Card):
-    def __init__(self, name, image, effect, type):
+    def __init__(self, name, image, effect):
         super().__init__(image, "Spell")
         self.name = name
         self.effect = effect
@@ -181,18 +201,18 @@ def main():
     ]
 
     magicobjectcards = [
-        MagicObject("Amulet", "./MagicObject/Amulet", "yep"),
-        MagicObject("Cross", "./MagicObject/Cross", "yep"),
-        MagicObject("HolyGrail", "./MagicObject/HolyGrail", "yep"),
-        MagicObject("HolyLance", "./MagicObject/HolyLance", "yep"),
-        MagicObject("MagicBelt", "./MagicObject/MagicBelt", "yep"),
-        MagicObject("OrbOfKnowledge", "./MagicObject/OrbOfKnowledge", "yep"),
-        MagicObject("PotionOfStrength", "./MagicObject/PotionOfStrength", "yep"),
-        MagicObject("Ring", "./MagicObject/Ring", "yep"),
-        MagicObject("RuneSword", "./MagicObject/RuneSword", "yep"),
-        MagicObject("SolomonCrown", "./MagicObject/SolomonCrown", "yep"),
-        MagicObject("Talisman", "./MagicObject/Talisman", "yep"),
-        MagicObject("Wand", "./MagicObject/Wand", "yep"),
+        MagicObject("Amulet", "./MagicObjects/Amulet.png", "yep"),
+        MagicObject("Cross", "./MagicObjects/Cross.png", "yep"),
+        MagicObject("HolyGrail", "./MagicObjects/HolyGrail.png", "yep"),
+        MagicObject("HolyLance", "./MagicObjects/HolyLance.png", "yep"),
+        MagicObject("MagicBelt", "./MagicObjects/MagicBelt.png", "yep"),
+        MagicObject("OrbOfKnowledge", "./MagicObjects/OrbOfKnowledge.png", "yep"),
+        MagicObject("PotionOfStrength", "./MagicObjects/PotionOfStrength.png", "yep"),
+        MagicObject("Ring", "./MagicObjects/Ring.png", "yep"),
+        MagicObject("RuneSword", "./MagicObjects/RuneSword.png", "yep"),
+        MagicObject("SolomonCrown", "./MagicObjects/SolomonCrown.png", "yep"),
+        MagicObject("Talisman", "./MagicObjects/Talisman.png", "yep"),
+        MagicObject("Wand", "./MagicObjects/Wand.png", "yep"),
 
     ]
     strangercards = [
@@ -220,23 +240,23 @@ def main():
     ]
 
     spellcards = [
-        Spell("Acqusition", "./Spell/Acqusition.png", "yep", "Spell"),
-        Spell("Alchemy", "./Spell/Alchemy.png", "yep", "Spell"),
-        Spell("CounterSpell", "./Spell/CounterSpell.png", "yep", "Spell"),
-        Spell("DestroyMagic", "./Spell/DestroyMagic.png", "yep", "Spell"),
-        Spell("Destruction", "./Spell/Destruction.png", "yep", "Spell"),
-        Spell("Divination", "./Spell/Divination.png", "yep", "Spell"),
-        Spell("Healing", "./Spell/Healing.png", "yep", "Spell"),
-        Spell("Hex", "./Spell/Hex.png", "yep", "Spell"),
-        Spell("Immobility", "./Spell/Immobility.png", "yep", "Spell"),
-        Spell("Invisibility", "./Spell/Invisibility.png", "yep", "Spell"),
-        Spell("Mesmerism", "./Spell/Mesmerism.png", "yep", "Spell"),
-        Spell("Nullify", "./Spell/Nullify.png", "yep", "Spell"),
-        Spell("Preservation", "./Spell/Preservation.png", "yep", "Spell"),
-        Spell("PsionicBlast", "./Spell/PsionicBlast.png", "yep", "Spell"),
-        Spell("Random", "./Spell/Random.png", "yep", "Spell"),
-        Spell("Teleport", "./Spell/Teleport.png", "yep", "Spell"),
-        Spell("TemporalWarp", "./Spell/TemporalWarp.png", "yep", "Spell")
+        Spell("Acqusition", "./Spell/Acqusition.png", "yep"),
+        Spell("Alchemy", "./Spell/Alchemy.png", "yep"),
+        Spell("CounterSpell", "./Spell/CounterSpell.png", "yep"),
+        Spell("DestroyMagic", "./Spell/DestroyMagic.png", "yep"),
+        Spell("Destruction", "./Spell/Destruction.png", "yep"),
+        Spell("Divination", "./Spell/Divination.png", "yep"),
+        Spell("Healing", "./Spell/Healing.png", "yep"),
+        Spell("Hex", "./Spell/Hex.png", "yep"),
+        Spell("Immobility", "./Spell/Immobility.png", "yep"),
+        Spell("Invisibility", "./Spell/Invisibility.png", "yep"),
+        Spell("Mesmerism", "./Spell/Mesmerism.png", "yep"),
+        Spell("Nullify", "./Spell/Nullify.png", "yep"),
+        Spell("Preservation", "./Spell/Preservation.png", "yep"),
+        Spell("PsionicBlast", "./Spell/PsionicBlast.png", "yep"),
+        Spell("Random", "./Spell/Random.png", "yep"),
+        Spell("Teleport", "./Spell/Teleport.png", "yep"),
+        Spell("TemporalWarp", "./Spell/TemporalWarp.png", "yep")
 
     ]
 
@@ -257,6 +277,10 @@ def main():
         Character("Wizard", 2, 5, 4, 3, 1),
         Character("Toad", 1, 0, 0, 0, 1)
     ]
+    deck = [enemycards, followercards, magicobjectcards, objectcards, placecards, spellcards, strangercards]
+    deck_shuffler = DeckShuffle(deck)
+    deck_shuffler.shuffle()
+    deck_shuffler.display(screen)
 
     my_die = Dice()
 
@@ -272,15 +296,21 @@ def main():
                     if not my_die.visible:
                         my_die.roll()
                         my_die.display(screen, 0, 0)
-
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_d:
+                    random_card_type = random.choice(deck)
+                    random_card = random.choice(random_card_type)
+                    random_card.display(screen)
+                    ## todo: MÍCHAT BALÍČEK JEN JEDNOU
+                    ## TODO: VYTVOŘIT ODKLÁDACÍ BALÍČEK
+                    ## TODO: HRÁČOVI KARTY
+                    ## TODO: VYŘEŠIT PROTIVNÍKOVI KARTY
         for row in range(row):
             for col in range(columns):
                 x = col * cell_width
                 y = row * cell_height
                 pygame.draw.rect(screen, (0, 0, 0),
                                  (x + screen_width / 10, y + screen_height / 10, cell_width, cell_height), 1)
-        for character in characters:
-            character.display(screen)
 
         pygame.display.update()
     pygame.quit()
