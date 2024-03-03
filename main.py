@@ -1,6 +1,13 @@
 # from enum import Enum
-import pygame
+import pygame, sys
 import random
+from button import Button
+
+pygame.init()
+screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+BackGround = pygame.image.load("Background.png")
+num_players = 0
+selected_characters = [None] * num_players
 
 
 class DeckShuffle:
@@ -20,7 +27,7 @@ class DeckShuffle:
 
 
 class Character:
-    def __init__(self, name, strength, craft, life, fate, gold):
+    def __init__(self, name, image, strength, craft, life, fate, gold):
         self.name = name
         self.strength = strength
         self.craft = craft
@@ -29,6 +36,7 @@ class Character:
         self.talisman = False
         self.fate = fate
         self.gold = gold
+        self.image = image
 
     def display(self):
         font = pygame.font.Font(None, 24)
@@ -42,7 +50,7 @@ class Card:
         self.image_path = image
         self.types = types
         self.image = pygame.image.load(image)
-        
+
     def display(self, screen):
         self.screen = screen
         screen.blit(self.image, (0, 400))
@@ -123,8 +131,196 @@ class Dice:
         text = font.render(str(self.value), True, (255, 255, 255))
 
 
+def get_font(size):
+    return pygame.font.Font("Stuff/font.ttf", size)
+
+
+def main_menu():
+    pygame.display.set_caption("Menu")
+
+    while True:
+        screen.blit(BackGround, (0, 0))
+
+        MenuMousePos = pygame.mouse.get_pos()
+
+        MenuText = get_font(100).render("Main Menu", True, "#ffffff")
+        MenuRect = MenuText.get_rect(center=(640, 100))
+
+        PlayButton = Button(image=pygame.image.load("Stuff/Rect.png"), pos=(640, 250),
+                            text_input="PLAY", font=get_font(75), base_color="#ffffff", hovering_color="Blue")
+        QuitButton = Button(image=pygame.image.load("Stuff/Rect.png"), pos=(640, 550),
+                            text_input="QUIT", font=get_font(75), base_color="#ffffff", hovering_color="Blue")
+
+        screen.blit(MenuText, MenuRect)
+
+        for button in [PlayButton, QuitButton]:
+            button.changeColor(MenuMousePos)
+            button.update(screen)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT():
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if PlayButton.checkForInput(MenuMousePos):
+                    PlayerNum()
+                if QuitButton.checkForInput(MenuMousePos):
+                    pygame.quit()
+                    sys.exit()
+
+        pygame.display.update()
+
+
+def PlayerNum():
+    pygame.display.set_caption("Player_Selection")
+    global num_players
+    while True:
+        CharMousePos = pygame.mouse.get_pos()
+
+        screen.fill("black")
+
+        CharText = get_font(100).render("Player Selection", True, "#ffffff")
+        CharRect = CharText.get_rect(center=(640, 100))
+
+        TwoPlayersButton = Button(image=pygame.image.load("Stuff/Rect.png"), pos=(640, 250),
+                                  text_input="2 Players", font=get_font(50), base_color="#ffffff",
+                                  hovering_color="Blue")
+        ThreePlayersButton = Button(image=pygame.image.load("Stuff/Rect.png"), pos=(640, 400),
+                                    text_input="3 Players", font=get_font(50), base_color="#ffffff",
+                                    hovering_color="Blue")
+        FourPlayersButton = Button(image=pygame.image.load("Stuff/Rect.png"), pos=(640, 400),
+                                   text_input="4 Players", font=get_font(50), base_color="#ffffff",
+                                   hovering_color="Blue")
+
+        screen.blit(CharText, CharRect)
+
+        for button in [TwoPlayersButton, ThreePlayersButton, FourPlayersButton]:
+            button.changeColor(CharMousePos)
+            button.update(screen)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT():
+                pygame.quit()
+                sys.exit()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if TwoPlayersButton.checkForInput(CharMousePos):
+                    num_players = 2
+                    CharSelection()
+                elif ThreePlayersButton.checkForInput(CharMousePos):
+                    num_players = 3
+                    CharSelection()
+                elif FourPlayersButton.checkForInput(CharMousePos):
+                    num_players = 4
+                    CharSelection()
+
+        pygame.display.update()
+
+
+def CharSelection():
+    pygame.display.set_caption("Character_Selection")
+    global num_players
+    global selected_characters
+
+    character_images = [
+        pygame.image.load("Characters/Assassin.png"),
+        pygame.image.load("Characters/Druid.png"),
+        pygame.image.load("Characters/Dwarf.png"),
+        pygame.image.load("Characters/Elf.png"),
+        pygame.image.load("Characters/Ghoul.png"),
+        pygame.image.load("Characters/Minstrel.png"),
+        pygame.image.load("Characters/Monk.png"),
+        pygame.image.load("Characters/Priest.png"),
+        pygame.image.load("Characters/Prophetess.png"),
+        pygame.image.load("Characters/Sorceress.png"),
+        pygame.image.load("Characters/Thief.png"),
+        pygame.image.load("Characters/Toad.png"),
+        pygame.image.load("Characters/Troll.png"),
+        pygame.image.load("Characters/Warrior.png"),
+        pygame.image.load("Characters/Wizard.png")
+    ]
+    buttons = []
+
+    for i, image in enumerate(character_images):
+        x = 150 + (i % 5) * 200
+        y = 150 + (i // 5) * 200
+        button = Button(image, (x, y), i, None, None)
+        buttons.append(button)
+
+    while True:
+        CharMousePos = pygame.mouse.get_pos()
+
+        screen.fill("black")
+
+        CharText = get_font(100).render("Character Selection", True, "#ffffff")
+        CharRect = CharText.get_rect(center=(640, 100))
+
+        ##AssassinButton = Button(image=pygame.image.load("Characters/Assassin.png"), pos=(640, 250),
+        ##                        text_input=None, font=None, base_color=None,
+        ##                        hovering_color=None)
+        ##DruidButton = Button(image=pygame.image.load("Characters/Druid.png"), pos=(640, 250),
+        ##                     text_input=None, font=None, base_color=None,
+        ##                     hovering_color=None)
+        ##DwarfButton = Button(image=pygame.image.load("Characters/Dwarf.png"), pos=(640, 250),
+        ##                     text_input=None, font=None, base_color=None,
+        ##                     hovering_color=None)
+        ##ElfButton = Button(image=pygame.image.load("Characters/Elf.png"), pos=(640, 250),
+        ##                   text_input=None, font=None, base_color=None,
+        ##                   hovering_color=None)
+        ##GhoulButton = Button(image=pygame.image.load("Characters/Ghoul.png"), pos=(640, 250),
+        ##                     text_input=None, font=None, base_color=None,
+        ##                     hovering_color=None)
+        ##MinstrelButton = Button(image=pygame.image.load("Characters/Minstrel.png"), pos=(640, 250),
+        ##                        text_input=None, font=None, base_color=None,
+        ##                        hovering_color=None)
+        ##MonkButton = Button(image=pygame.image.load("Characters/Monk.png"), pos=(640, 250),
+        ##                    text_input=None, font=None, base_color=None,
+        ##                    hovering_color=None)
+        ##PriestButton = Button(image=pygame.image.load("Characters/Priest.png"), pos=(640, 250),
+        ##                      text_input=None, font=None, base_color=None,
+        ##                      hovering_color=None)
+        ##ProphetessButton = Button(image=pygame.image.load("Characters/Prophetess.png"), pos=(640, 250),
+        ##                          text_input=None, font=None, base_color=None,
+        ##                          hovering_color=None)
+        ##SorceressButton = Button(image=pygame.image.load("Characters/Sorceress.png"), pos=(640, 250),
+        ##                         text_input=None, font=None, base_color=None,
+        ##                         hovering_color=None)
+        ##ThiefButton = Button(image=pygame.image.load("Characters/Thief.png"), pos=(640, 250),
+        ##                     text_input=None, font=None, base_color=None,
+        ##                     hovering_color=None)
+        ##ToadButton = Button(image=pygame.image.load("Characters/Toad.png"), pos=(640, 250),
+        ##                    text_input=None, font=None, base_color=None,
+        ##                    hovering_color=None)
+        ##TrollButton = Button(image=pygame.image.load("Characters/Troll.png"), pos=(640, 250),
+        ##                     text_input=None, font=None, base_color=None,
+        ##                     hovering_color=None)
+        ##WarriorButton = Button(image=pygame.image.load("Characters/Warrior.png"), pos=(640, 250),
+        ##                       text_input=None, font=None, base_color=None,
+        ##                       hovering_color=None)
+        ##WizardButton = Button(image=pygame.image.load("Characters/Wizard.png"), pos=(640, 250),
+        ##                      text_input=None, font=None, base_color=None,
+        ##                      hovering_color=None)
+        screen.blit(CharText, CharRect)
+
+        for button in buttons:
+            button.changeColor(CharMousePos)
+            button.update(screen)
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    quit()
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    for i, button in enumerate(buttons):
+                        if button.checkForInput(CharMousePos):
+                            selected_characters[i % num_players] = button.character
+
+            if all(character is not None for character in selected_characters):
+                main()
+        pygame.display.flip()
+
+
 def main():
-    pygame.init()
+    pygame.display.set_caption("Game")
 
     screen_height = 1080
     screen_width = 1920
@@ -136,7 +332,6 @@ def main():
     cell_width = board_width // columns
     cell_height = board_height // row
 
-    screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
     # screen_width, screen_height = pygame.display.get_surface().get_size()
 
     image = pygame.image.load("board.png")
@@ -215,6 +410,7 @@ def main():
         MagicObject("Wand", "./MagicObjects/Wand.png", "yep"),
 
     ]
+
     strangercards = [
         Stranger("Enchanter", "./StrangerCards/Enchanter.png", "yep"),
         Stranger("Fairy", "./StrangerCards/Fairy.png", "yep"),
@@ -261,21 +457,21 @@ def main():
     ]
 
     characters = [
-        Character("Warrior", 4, 2, 5, 1, 1),
-        Character("Assassin", 3, 3, 4, 3, 1),
-        Character("Druid", 2, 4, 4, 4, 1),
-        Character("Dwarf", 3, 3, 5, 5, 1),
-        Character("Elf", 3, 4, 4, 3, 1),
-        Character("Ghoul", 2, 4, 4, 4, 1),
-        Character("Minstrel", 2, 4, 4, 5, 1),
-        Character("Monk", 2, 3, 4, 5, 1),
-        Character("Priest", 2, 4, 4, 5, 1),
-        Character("Prophetess", 2, 4, 4, 2, 1),
-        Character("Sorceress", 2, 4, 4, 3, 1),
-        Character("Thief", 3, 3, 4, 2, 1),
-        Character("Troll", 6, 1, 6, 1, 1),
-        Character("Wizard", 2, 5, 4, 3, 1),
-        Character("Toad", 1, 0, 0, 0, 1)
+        Character("Warrior", "./Characters/Warrior.png", 4, 2, 5, 1, 1),
+        Character("Assassin", "./Characters/Assassin.png", 3, 3, 4, 3, 1),
+        Character("Druid", "./Characters/Druid.png", 2, 4, 4, 4, 1),
+        Character("Dwarf", "./Characters/Dwarf.png", 3, 3, 5, 5, 1),
+        Character("Elf", "./Characters/Elf.png", 3, 4, 4, 3, 1),
+        Character("Ghoul", "./Characters/Ghoul.png", 2, 4, 4, 4, 1),
+        Character("Minstrel", "./Characters/Minstrel.png", 2, 4, 4, 5, 1),
+        Character("Monk", "./Characters/Monk.png", 2, 3, 4, 5, 1),
+        Character("Priest", "./Characters/Priest.png", 2, 4, 4, 5, 1),
+        Character("Prophetess", "./Characters/Prophetess.png", 2, 4, 4, 2, 1),
+        Character("Sorceress", "./Characters/Sorceress.png", 2, 4, 4, 3, 1),
+        Character("Thief", "./Characters/Thief.png", 3, 3, 4, 2, 1),
+        Character("Troll", "./Characters/Troll.png", 6, 1, 6, 1, 1),
+        Character("Wizard", "./Characters/Wizard.png", 2, 5, 4, 3, 1),
+        Character("Toad", "./Characters/Toad.png", 1, 0, 0, 0, 1)
     ]
     deck = [enemycards, followercards, magicobjectcards, objectcards, placecards, spellcards, strangercards]
     deck_shuffler = DeckShuffle(deck)
