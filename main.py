@@ -3,9 +3,13 @@ import pygame, sys
 import random
 from button import Button
 
+
 pygame.init()
-screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+
+Screen = pygame.display.set_mode((1280, 720))
+pygame.display.set_caption("Menu")
 BackGround = pygame.image.load("Background.png")
+
 num_players = 0
 selected_characters = [None] * num_players
 
@@ -139,26 +143,26 @@ def main_menu():
     pygame.display.set_caption("Menu")
 
     while True:
-        screen.blit(BackGround, (0, 0))
+        Screen.blit(BackGround, (0, 0))
 
         MenuMousePos = pygame.mouse.get_pos()
 
-        MenuText = get_font(100).render("Main Menu", True, "#ffffff")
+        MenuText = get_font(100).render("Main Menu", True, "#b68f40")
         MenuRect = MenuText.get_rect(center=(640, 100))
 
         PlayButton = Button(image=pygame.image.load("Stuff/Rect.png"), pos=(640, 250),
-                            text_input="PLAY", font=get_font(75), base_color="#ffffff", hovering_color="Blue")
+                            text_input="PLAY", font=get_font(75), base_color="#b68f40", hovering_color="Blue")
         QuitButton = Button(image=pygame.image.load("Stuff/Rect.png"), pos=(640, 550),
-                            text_input="QUIT", font=get_font(75), base_color="#ffffff", hovering_color="Blue")
+                            text_input="QUIT", font=get_font(75), base_color="#b68f40", hovering_color="Blue")
 
-        screen.blit(MenuText, MenuRect)
+        Screen.blit(MenuText, MenuRect)
 
         for button in [PlayButton, QuitButton]:
             button.changeColor(MenuMousePos)
-            button.update(screen)
+            button.update(Screen)
 
         for event in pygame.event.get():
-            if event.type == pygame.QUIT():
+            if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
@@ -171,35 +175,38 @@ def main_menu():
         pygame.display.update()
 
 
+main_menu()
+
+
 def PlayerNum():
     pygame.display.set_caption("Player_Selection")
     global num_players
     while True:
         CharMousePos = pygame.mouse.get_pos()
 
-        screen.fill("black")
+        Screen.fill("black")
 
-        CharText = get_font(100).render("Player Selection", True, "#ffffff")
+        CharText = get_font(100).render("Player Selection", True, "#b68f40")
         CharRect = CharText.get_rect(center=(640, 100))
 
         TwoPlayersButton = Button(image=pygame.image.load("Stuff/Rect.png"), pos=(640, 250),
-                                  text_input="2 Players", font=get_font(50), base_color="#ffffff",
+                                  text_input="2 Players", font=get_font(50), base_color="#b68f40",
                                   hovering_color="Blue")
         ThreePlayersButton = Button(image=pygame.image.load("Stuff/Rect.png"), pos=(640, 400),
-                                    text_input="3 Players", font=get_font(50), base_color="#ffffff",
+                                    text_input="3 Players", font=get_font(50), base_color="#b68f40",
                                     hovering_color="Blue")
         FourPlayersButton = Button(image=pygame.image.load("Stuff/Rect.png"), pos=(640, 400),
-                                   text_input="4 Players", font=get_font(50), base_color="#ffffff",
+                                   text_input="4 Players", font=get_font(50), base_color="#b68f40",
                                    hovering_color="Blue")
 
-        screen.blit(CharText, CharRect)
+        Screen.blit(CharText, CharRect)
 
         for button in [TwoPlayersButton, ThreePlayersButton, FourPlayersButton]:
             button.changeColor(CharMousePos)
-            button.update(screen)
+            button.update(Screen)
 
         for event in pygame.event.get():
-            if event.type == pygame.QUIT():
+            if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
@@ -249,9 +256,9 @@ def CharSelection():
     while True:
         CharMousePos = pygame.mouse.get_pos()
 
-        screen.fill("black")
+        Screen.fill("black")
 
-        CharText = get_font(100).render("Character Selection", True, "#ffffff")
+        CharText = get_font(100).render("Character Selection", True, "#b68f40")
         CharRect = CharText.get_rect(center=(640, 100))
 
         ##AssassinButton = Button(image=pygame.image.load("Characters/Assassin.png"), pos=(640, 250),
@@ -299,11 +306,11 @@ def CharSelection():
         ##WizardButton = Button(image=pygame.image.load("Characters/Wizard.png"), pos=(640, 250),
         ##                      text_input=None, font=None, base_color=None,
         ##                      hovering_color=None)
-        screen.blit(CharText, CharRect)
+        Screen.blit(CharText, CharRect)
 
         for button in buttons:
             button.changeColor(CharMousePos)
-            button.update(screen)
+            button.update(Screen)
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -315,11 +322,11 @@ def CharSelection():
                             selected_characters[i % num_players] = button.character
 
             if all(character is not None for character in selected_characters):
-                main()
+                Game()
         pygame.display.flip()
 
 
-def main():
+def Game():
     pygame.display.set_caption("Game")
 
     screen_height = 1080
@@ -476,12 +483,11 @@ def main():
     deck = [enemycards, followercards, magicobjectcards, objectcards, placecards, spellcards, strangercards]
     deck_shuffler = DeckShuffle(deck)
     deck_shuffler.shuffle()
-    deck_shuffler.display(screen)
+    deck_shuffler.display(Screen)
 
     my_die = Dice()
 
-    screen.blit(image1, (screen_width / 10, screen_height / 10))
-
+    Screen.blit(image1, (screen_width / 10, screen_height / 10))
     run = True
     while run:
         for event in pygame.event.get():
@@ -491,12 +497,12 @@ def main():
                 if event.key == pygame.K_SPACE:
                     if not my_die.visible:
                         my_die.roll()
-                        my_die.display(screen, 0, 0)
+                        my_die.display(Screen, 0, 0)
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_d:
                     random_card_type = random.choice(deck)
                     random_card = random.choice(random_card_type)
-                    random_card.display(screen)
+                    random_card.display(Screen)
                     ## todo: MÍCHAT BALÍČEK JEN JEDNOU
                     ## TODO: VYTVOŘIT ODKLÁDACÍ BALÍČEK
                     ## TODO: HRÁČOVI KARTY
@@ -505,12 +511,10 @@ def main():
             for col in range(columns):
                 x = col * cell_width
                 y = row * cell_height
-                pygame.draw.rect(screen, (0, 0, 0),
+                pygame.draw.rect(Screen, (0, 0, 0),
                                  (x + screen_width / 10, y + screen_height / 10, cell_width, cell_height), 1)
 
         pygame.display.update()
     pygame.quit()
 
 
-if __name__ == "__main__":
-    main()
