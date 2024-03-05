@@ -156,6 +156,24 @@ def CharSelection(num_players):
     pygame.display.set_caption("Character_Selection")
     selected_characters = [[] for _ in range(num_players)]
 
+    character_images = [
+        pygame.image.load("Characters/Assassin.png"),
+        pygame.image.load("Characters/Druid.png"),
+        pygame.image.load("Characters/Dwarf.png"),
+        pygame.image.load("Characters/Elf.png"),
+        pygame.image.load("Characters/Ghoul.png"),
+        pygame.image.load("Characters/Minstrel.png"),
+        pygame.image.load("Characters/Monk.png"),
+        pygame.image.load("Characters/Priest.png"),
+        pygame.image.load("Characters/Prophetess.png"),
+        pygame.image.load("Characters/Sorceress.png"),
+        pygame.image.load("Characters/Thief.png"),
+        pygame.image.load("Characters/Toad.png"),
+        pygame.image.load("Characters/Troll.png"),
+        pygame.image.load("Characters/Warrior.png"),
+        pygame.image.load("Characters/Wizard.png")
+    ]
+
     while True:
         CharMousePos = pygame.mouse.get_pos()
 
@@ -224,19 +242,29 @@ def CharSelection(num_players):
             CharText = get_font(75).render(f"Player {current_player + 1} Character Selection", True, "#b68f40")
             CharRect = CharText.get_rect(center=(640, 100))
 
-            for button in characters:
-                button.changeColor(CharMousePos)
-                button.update(Screen)
+            button_y = 250
+            for j, character_image in enumerate(character_images):
+                x_offset = (j % 5) * 140
+                y_offset = (j // 5) * 140
+                character_button = Button(image=character_image, pos=(150 + x_offset, button_y + y_offset),
+                                          text_input="xd", font=get_font(1), base_color="#b68f40",
+                                          hovering_color="Blue")
+                character_button.update(Screen)
+                if character_button.checkForInput(CharMousePos):
+                    # Store the selected character for the current player
+                    selected_characters[current_player] = character_image
+                    current_player += 1  # Move to the next player
+                    break
 
             Screen.blit(CharText, CharRect)
 
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                if AssassinButton.checkForInput(CharMousePos):
-                    selected_characters[current_player].append(AssassinButton.name)
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    if AssassinButton.checkForInput(CharMousePos):
+                        selected_characters[current_player].append(AssassinButton.name)
 
         pygame.display.flip()
 
