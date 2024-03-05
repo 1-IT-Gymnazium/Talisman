@@ -211,7 +211,7 @@ def CharSelection(num_players):
                               hovering_color="Blue", name="Wizard")
         Screen.blit(CharText, CharRect)
 
-        characters = [AssassinButton, DruidButton, DwarfButton, ElfButton, GhoulButton, MinstrelButton, MonkButton,
+        Characters = [AssassinButton, DruidButton, DwarfButton, ElfButton, GhoulButton, MinstrelButton, MonkButton,
                       PriestButton, ProphetessButton, SorceressButton, ThiefButton, ToadButton, TrollButton,
                       WarriorButton, WizardButton]
 
@@ -224,7 +224,7 @@ def CharSelection(num_players):
             CharText = get_font(75).render(f"Player {current_player + 1} Character Selection", True, "#b68f40")
             CharRect = CharText.get_rect(center=(640, 100))
 
-            for button in characters:
+            for button in Characters:
                 button.changeColor(CharMousePos)
                 button.update(Screen)
 
@@ -237,6 +237,78 @@ def CharSelection(num_players):
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if AssassinButton.checkForInput(CharMousePos):
                     selected_characters[current_player].append(AssassinButton.name)
+                    current_player += 1
+                    break
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if DruidButton.checkForInput(CharMousePos):
+                    selected_characters[current_player].append(DruidButton.name)
+                    current_player += 1
+                    break
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if DwarfButton.checkForInput(CharMousePos):
+                    selected_characters[current_player].append(DwarfButton.name)
+                    current_player += 1
+                    break
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if ElfButton.checkForInput(CharMousePos):
+                    selected_characters[current_player].append(ElfButton.name)
+                    current_player += 1
+                    break
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if GhoulButton.checkForInput(CharMousePos):
+                    selected_characters[current_player].append(GhoulButton.name)
+                    current_player += 1
+                    break
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if MinstrelButton.checkForInput(CharMousePos):
+                    selected_characters[current_player].append(MinstrelButton.name)
+                    current_player += 1
+                    break
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if MonkButton.checkForInput(CharMousePos):
+                    selected_characters[current_player].append(MonkButton.name)
+                    current_player += 1
+                    break
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if PriestButton.checkForInput(CharMousePos):
+                    selected_characters[current_player].append(PriestButton.name)
+                    current_player += 1
+                    break
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if ProphetessButton.checkForInput(CharMousePos):
+                    selected_characters[current_player].append(ProphetessButton.name)
+                    current_player += 1
+                    break
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if SorceressButton.checkForInput(CharMousePos):
+                    selected_characters[current_player].append(SorceressButton.name)
+                    current_player += 1
+                    break
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if ThiefButton.checkForInput(CharMousePos):
+                    selected_characters[current_player].append(ThiefButton.name)
+                    current_player += 1
+                    break
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if ToadButton.checkForInput(CharMousePos):
+                    selected_characters[current_player].append(ToadButton.name)
+                    current_player += 1
+                    break
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if TrollButton.checkForInput(CharMousePos):
+                    selected_characters[current_player].append(TrollButton.name)
+                    current_player += 1
+                    break
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if WarriorButton.checkForInput(CharMousePos):
+                    selected_characters[current_player].append(WarriorButton.name)
+                    current_player += 1
+                    break
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if WizardButton.checkForInput(CharMousePos):
+                    selected_characters[current_player].append(WizardButton.name)
+                    current_player += 1
+                    break
 
         pygame.display.flip()
 
