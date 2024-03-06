@@ -1,9 +1,5 @@
 class Button:
-<<<<<<< HEAD
-    def __init__(self, image, pos, text_input, font, base_color, hovering_color):
-=======
     def __init__(self, image, pos, text_input, font, base_color, hovering_color, name):
->>>>>>> 67437e5e86fcfd5ba2d97fd3714a7c0b01e35ede
         self.image = image
         self.x_pos = pos[0]
         self.y_pos = pos[1]
