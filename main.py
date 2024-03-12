@@ -6,7 +6,7 @@ from button import Button
 
 pygame.init()
 
-Screen = pygame.display.set_mode((1280, 720))
+Screen = pygame.display.set_mode((1920, 1080), pygame.FULLSCREEN)
 pygame.display.set_caption("Menu")
 BackGround = pygame.image.load("Background.png")
 
@@ -354,8 +354,8 @@ def CharSelection(num_players):
     stuff = [pygame.image.load("Stuff/Brick.png")] * 15
     current_player = 1  # Initialize the current player index
 
-    CharText = get_font(25).render(f"Player {current_player} Character Selection", True, "#b68f40")
-    CharRect = CharText.get_rect(center=(640, 100))
+    CharText = get_font(75).render(f"Player {current_player} Character Selection", True, "#b68f40")
+    CharRect = CharText.get_rect(center=(960, 100))
 
     while current_player <= num_players:
         Screen.fill("black")
@@ -363,16 +363,16 @@ def CharSelection(num_players):
 
         for j, item in enumerate(stuff):
             x_offset = (j % 5) * 200
-            y_offset = (j // 5) * 200 + (j // 5) * 50
-            CharButton = Button(image=pygame.image.load("Stuff/Brick.png"), pos=(150 + x_offset, 250 + y_offset),
+            y_offset = (j // 5) * 200 + (j // 5) * 75
+            CharButton = Button(image=pygame.image.load("Stuff/Brick.png"), pos=(520 + x_offset, 300 + y_offset),
                                 text_input=None, font=get_font(50), base_color="#b68f40",
                                 hovering_color="Blue")
             CharButton.update(Screen)
 
         for j, character_image in enumerate(character_images):
             x_offset = (j % 5) * 200
-            y_offset = (j // 5) * 200 + (j // 5) * 50
-            Screen.blit(character_image, (75 + x_offset, 126 + y_offset))
+            y_offset = (j // 5) * 200 + (j // 5) * 75
+            Screen.blit(character_image, (445 + x_offset, 178 + y_offset))
 
         pygame.display.flip()
 
@@ -384,15 +384,15 @@ def CharSelection(num_players):
                 CharMousePos = pygame.mouse.get_pos()  # Update mouse position
                 for j, character_image in enumerate(character_images):
                     x_offset = (j % 5) * 200
-                    y_offset = (j // 5) * 200 + (j // 5) * 50
-                    if pygame.Rect(75 + x_offset, 126 + y_offset, character_image.get_width(),
+                    y_offset = (j // 5) * 200 + (j // 5) * 75
+                    if pygame.Rect(445 + x_offset, 178 + y_offset, character_image.get_width(),
                                    character_image.get_height()).collidepoint(CharMousePos):
                         selected_characters[current_player - 1].append(characters[j].name)
                         if current_player < num_players:
                             current_player += 1
-                            CharText = get_font(25).render(f"Player {current_player} Character Selection", True,
+                            CharText = get_font(75).render(f"Player {current_player} Character Selection", True,
                                                            "#b68f40")
-                            CharRect = CharText.get_rect(center=(640, 100))
+                            CharRect = CharText.get_rect(center=(960, 100))
                         else:
                             # Proceed to game or next step after the last selection
                             return Game()
@@ -408,15 +408,15 @@ def PlayerNum():
         Screen.fill("black")
 
         CharText = get_font(75).render("Player Selection", True, "#b68f40")
-        CharRect = CharText.get_rect(center=(640, 100))
+        CharRect = CharText.get_rect(center=(Screen.get_width() // 2, 200))
 
-        TwoPlayersButton = Button(image=pygame.image.load("Stuff/Rect.png"), pos=(640, 250),
+        TwoPlayersButton = Button(image=pygame.image.load("Stuff/Rect.png"), pos=(Screen.get_width() // 2, 400),
                                   text_input="2 Players", font=get_font(50), base_color="#b68f40",
                                   hovering_color="Blue")
-        ThreePlayersButton = Button(image=pygame.image.load("Stuff/Rect.png"), pos=(640, 400),
+        ThreePlayersButton = Button(image=pygame.image.load("Stuff/Rect.png"), pos=(Screen.get_width() // 2, 600),
                                     text_input="3 Players", font=get_font(50), base_color="#b68f40",
                                     hovering_color="Blue")
-        FourPlayersButton = Button(image=pygame.image.load("Stuff/Rect.png"), pos=(640, 550),
+        FourPlayersButton = Button(image=pygame.image.load("Stuff/Rect.png"), pos=(Screen.get_width() // 2, 800),
                                    text_input="4 Players", font=get_font(50), base_color="#b68f40",
                                    hovering_color="Blue")
 
@@ -452,11 +452,11 @@ def main_menu():
         MenuMousePos = pygame.mouse.get_pos()
 
         MenuText = get_font(100).render("Main Menu", True, "#b68f40")
-        MenuRect = MenuText.get_rect(center=(640, 100))
+        MenuRect = MenuText.get_rect(center=(Screen.get_width() // 2, 200))
 
-        PlayButton = Button(image=pygame.image.load("Stuff/Rect.png"), pos=(640, 250),
+        PlayButton = Button(image=pygame.image.load("Stuff/Rect.png"), pos=(Screen.get_width() // 2, 450),
                             text_input="PLAY", font=get_font(75), base_color="#b68f40", hovering_color="Blue")
-        QuitButton = Button(image=pygame.image.load("Stuff/Rect.png"), pos=(640, 550),
+        QuitButton = Button(image=pygame.image.load("Stuff/Rect.png"), pos=(Screen.get_width() // 2, 750),
                             text_input="QUIT", font=get_font(75), base_color="#b68f40", hovering_color="Blue")
 
         Screen.blit(MenuText, MenuRect)
