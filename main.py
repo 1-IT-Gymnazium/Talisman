@@ -156,30 +156,31 @@ def Game():
     pygame.display.set_caption("Game")
     Screen.fill("black")
 
-    screen_height = 1080
-    screen_width = 1920
-    row = 7
+    screen_width = 1600
+    screen_height = 900
+    rows = 7
     columns = 7
-    board_height = 900
-    board_width = 1600
 
-    cell_width = board_width // columns
-    cell_height = board_height // row
+    #cell_width = board_width // columns
+    #cell_height = board_height // rows
 
-    # screen_width, screen_height = pygame.display.get_surface().get_size()
+    game_board = pygame.image.load("./board.png")
+    # Get the dimensions of the game board
+    board_width, board_height = game_board.get_size()
 
-    image = pygame.image.load("board.png")
-    image1 = pygame.transform.scale(image, (board_width, board_height))
+    # Calculate the scaling factor to fit the game board to the screen size while maintaining aspect ratio
+    scaling_factor = min(screen_width / board_width, screen_height / board_height)
+    new_board_width = int(board_width * scaling_factor)
+    new_board_height = int(board_height * scaling_factor)
 
-    # CardsType = [
-    #     Cards("./ObjectCards", "Object"),
-    #     Cards("./MagicObjects", "MagicObject"),
-    #     Cards("./FollowerCards", "Follower"),
-    #     Cards("./StrangerCards", "Stranger"),
-    #     Cards("./EnemyCards", "Enemy"),
-    #     Cards("./Place", "Place"),
-    #     Cards("./Spell", "Spell")
-    # ]
+    game_board = pygame.transform.scale(game_board, (new_board_width, new_board_height))
+
+    # Calculate offset to center the game board on the screen
+    offset_x = (screen_width - new_board_width) // 2
+    offset_y = (screen_height - new_board_height) // 2
+
+    cell_width = new_board_width // columns
+    cell_height = new_board_height // rows
 
     enemycards = [
         Enemy("Ape", "./EnemyCards/Ape.png", "yep", "0", "3"),
@@ -297,9 +298,15 @@ def Game():
 
     my_die = Dice()
 
-    Screen.blit(image1, (screen_width / 10, screen_height / 10))
+    Screen.blit(game_board, (offset_x, offset_y))
     run = True
     while run:
+        # Draw the grid over the game board
+        for i in range(columns):
+            for j in range(rows):
+                rect = pygame.Rect(offset_x + i * cell_width, offset_y + j * cell_height, cell_width, cell_height)
+                pygame.draw.rect(Screen, (255, 255, 255), rect, 1)  # White color for the grid lines, 1 pixel thick
+
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 run = False
@@ -317,12 +324,6 @@ def Game():
                     ## TODO: VYTVOŘIT ODKLÁDACÍ BALÍČEK
                     ## TODO: HRÁČOVI KARTY
                     ## TODO: VYŘEŠIT PROTIVNÍKOVI KARTY
-        for row in range(row):
-            for col in range(columns):
-                x = col * cell_width
-                y = row * cell_height
-                pygame.draw.rect(Screen, (0, 0, 0),
-                                 (x + screen_width / 10, y + screen_height / 10, cell_width, cell_height), 1)
 
         pygame.display.update()
     pygame.quit()
