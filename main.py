@@ -156,31 +156,19 @@ def Game():
     pygame.display.set_caption("Game")
     Screen.fill("black")
 
-    screen_width = 1600
-    screen_height = 900
     rows = 7
     columns = 7
 
-    #cell_width = board_width // columns
-    #cell_height = board_height // rows
-
     game_board = pygame.image.load("./board.png")
     # Get the dimensions of the game board
-    board_width, board_height = game_board.get_size()
+    board_width = 1600
+    board_height = 900
 
-    # Calculate the scaling factor to fit the game board to the screen size while maintaining aspect ratio
-    scaling_factor = min(screen_width / board_width, screen_height / board_height)
-    new_board_width = int(board_width * scaling_factor)
-    new_board_height = int(board_height * scaling_factor)
+    cell_width = board_width // columns
+    cell_height = board_height // rows
 
-    game_board = pygame.transform.scale(game_board, (new_board_width, new_board_height))
-
-    # Calculate offset to center the game board on the screen
-    offset_x = (screen_width - new_board_width) // 2
-    offset_y = (screen_height - new_board_height) // 2
-
-    cell_width = new_board_width // columns
-    cell_height = new_board_height // rows
+    # Scale the board to fit the new dimensions
+    game_board = pygame.transform.scale(game_board, (board_width, board_height))
 
     enemycards = [
         Enemy("Ape", "./EnemyCards/Ape.png", "yep", "0", "3"),
@@ -298,15 +286,9 @@ def Game():
 
     my_die = Dice()
 
-    Screen.blit(game_board, (offset_x, offset_y))
+    Screen.blit(game_board, (160, 90))
     run = True
     while run:
-        # Draw the grid over the game board
-        for i in range(columns):
-            for j in range(rows):
-                rect = pygame.Rect(offset_x + i * cell_width, offset_y + j * cell_height, cell_width, cell_height)
-                pygame.draw.rect(Screen, (255, 255, 255), rect, 1)  # White color for the grid lines, 1 pixel thick
-
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 run = False
