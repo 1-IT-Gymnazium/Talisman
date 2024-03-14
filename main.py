@@ -28,7 +28,7 @@ class DeckShuffle:
 
 
 class Character:
-    def __init__(self, name, image, strength, craft, life, fate, gold):
+    def __init__(self, name, image, strength, craft, life, fate, gold, start):
         self.name = name
         self.strength = strength
         self.craft = craft
@@ -37,12 +37,17 @@ class Character:
         self.talisman = False
         self.fate = fate
         self.gold = gold
+        self.start = start
         self.image = image
+        self.position = (0, 0)
 
-    def display(self):
-        font = pygame.font.Font(None, 24)
-        text = font.render(self.name, True, (255, 255, 255))
-        # screen.blit(text, (self.x + 10, self.y + 10))
+    def set_position(self, x, y):
+        self.position = (x, y)
+
+    def display(self, screen, font):
+        name_surface = font.render(self.name, True, (255, 0, 0))
+        name_rect = name_surface.get_rect(center=self.position)
+        screen.blit(name_surface, name_rect)
 
 
 class Card:
@@ -118,9 +123,6 @@ class Dice:
         self.width = width
         self.height = height
 
-    # def toggle_visibility(self):
-    #     self.visible = not self.visible
-
     def roll(self):
         self.value = random.randint(1, self.sides)
 
@@ -129,26 +131,32 @@ class Dice:
         screen.blit(pygame.transform.scale(self.images[self.value - 1], (self.width, self.height)), (x, y))
 
 
+class BoardSection:
+    def __init__(self, x, y, section):
+        self.x = x
+        self.y = y
+        self.section = section
+
+
 def get_font(size):
     return pygame.font.Font("Stuff/font.ttf", size)
 
 
 characters = [
-    Character("Warrior", "./Characters/Warrior.png", 4, 2, 5, 1, 1),
-    Character("Assassin", "./Characters/Assassin.png", 3, 3, 4, 3, 1),
-    Character("Druid", "./Characters/Druid.png", 2, 4, 4, 4, 1),
-    Character("Dwarf", "./Characters/Dwarf.png", 3, 3, 5, 5, 1),
-    Character("Elf", "./Characters/Elf.png", 3, 4, 4, 3, 1),
-    Character("Ghoul", "./Characters/Ghoul.png", 2, 4, 4, 4, 1),
-    Character("Minstrel", "./Characters/Minstrel.png", 2, 4, 4, 5, 1),
-    Character("Monk", "./Characters/Monk.png", 2, 3, 4, 5, 1),
-    Character("Priest", "./Characters/Priest.png", 2, 4, 4, 5, 1),
-    Character("Prophetess", "./Characters/Prophetess.png", 2, 4, 4, 2, 1),
-    Character("Sorceress", "./Characters/Sorceress.png", 2, 4, 4, 3, 1),
-    Character("Thief", "./Characters/Thief.png", 3, 3, 4, 2, 1),
-    Character("Troll", "./Characters/Troll.png", 6, 1, 6, 1, 1),
-    Character("Wizard", "./Characters/Wizard.png", 2, 5, 4, 3, 1),
-    Character("Toad", "./Characters/Toad.png", 1, 0, 0, 0, 1)
+    Character("Assassin", "./Characters/Assassin.png", 3, 3, 4, 3, 1, "City"),
+    Character("Druid", "./Characters/Druid.png", 2, 4, 4, 4, 1, "Chapel"),
+    Character("Dwarf", "./Characters/Dwarf.png", 3, 3, 5, 5, 1, "Cracks"),
+    Character("Elf", "./Characters/Elf.png", 3, 4, 4, 3, 1, "ElvForest"),
+    Character("Ghoul", "./Characters/Ghoul.png", 2, 4, 4, 4, 1, "Village"),
+    Character("Minstrel", "./Characters/Minstrel.png", 2, 4, 4, 5, 1, "Tavern"),
+    Character("Monk", "./Characters/Monk.png", 2, 3, 4, 5, 1, "Village"),
+    Character("Priest", "./Characters/Priest.png", 2, 4, 4, 5, 1, "Chapel"),
+    Character("Prophetess", "./Characters/Prophetess.png", 2, 4, 4, 2, 1, "Chapel"),
+    Character("Sorceress", "./Characters/Sorceress.png", 2, 4, 4, 3, 1, "City"),
+    Character("Thief", "./Characters/Thief.png", 3, 3, 4, 2, 1, "City"),
+    Character("Troll", "./Characters/Troll.png", 6, 1, 6, 1, 1, "Cracks"),
+    Character("Wizard", "./Characters/Wizard.png", 2, 5, 4, 3, 1, "Chapel"),
+    Character("Warrior", "./Characters/Warrior.png", 4, 2, 5, 1, 1, "Tavern")
 ]
 
 
@@ -156,19 +164,40 @@ def Game():
     pygame.display.set_caption("Game")
     Screen.fill("black")
 
-    rows = 7
-    columns = 7
-
     game_board = pygame.image.load("./board.png")
     # Get the dimensions of the game board
     board_width = 1600
     board_height = 900
 
-    cell_width = board_width // columns
-    cell_height = board_height // rows
-
     # Scale the board to fit the new dimensions
     game_board = pygame.transform.scale(game_board, (board_width, board_height))
+
+    Board_Section = [
+        BoardSection(235, 77, "Village"),
+        BoardSection(419, 75, "Forest"),
+        BoardSection(610, 73, "Graveyard"),
+        BoardSection(796, 78, "Forest"),
+        BoardSection(998, 72, "Sentinel"),
+        BoardSection(1191, 72, "Forest"),
+        BoardSection(1385, 70, "Chapel"),
+        BoardSection(1385, 189, "Forest"),
+        BoardSection(1393, 317, "Cracks"),
+        BoardSection(1382, 448, "Forest"),
+        BoardSection(1386, 572, "Forest"),
+        BoardSection(1380, 693, "Forest"),
+        BoardSection(1372, 811, "City"),
+        BoardSection(1179, 813, "Forest"),
+        BoardSection(974, 819, "Forest"),
+        BoardSection(764, 815, "Forest"),
+        BoardSection(590, 808, "ElvForest"),
+        BoardSection(419, 804, "Forest"),
+        BoardSection(236, 803, "Tavern"),
+        BoardSection(206, 697, "Forest"),
+        BoardSection(199, 568, "Ruins"),
+        BoardSection(204, 409, "Forest"),
+        BoardSection(201, 297, "Forest"),
+        BoardSection(207, 207, "Forest")
+    ]
 
     enemycards = [
         Enemy("Ape", "./EnemyCards/Ape.png", "yep", "0", "3"),
@@ -286,6 +315,8 @@ def Game():
 
     my_die = Dice()
 
+    font = pygame.font.Font(None, 24)
+
     Screen.blit(game_board, (160, 90))
     run = True
     while run:
@@ -312,7 +343,7 @@ def Game():
 
 
 def CharSelection(num_players):
-    global CharButton, j
+    global selected_characters
     pygame.display.set_caption("Character_Selection")
     selected_characters = [[] for _ in range(num_players)]
 
@@ -328,34 +359,38 @@ def CharSelection(num_players):
         pygame.image.load("Characters/Prophetess.png"),
         pygame.image.load("Characters/Sorceress.png"),
         pygame.image.load("Characters/Thief.png"),
-        pygame.image.load("Characters/Toad.png"),
         pygame.image.load("Characters/Troll.png"),
         pygame.image.load("Characters/Warrior.png"),
         pygame.image.load("Characters/Wizard.png")
     ]
 
-    stuff = [pygame.image.load("Stuff/Brick.png")] * 15
+    stuff = [pygame.image.load("Stuff/Brick.png")] * 14
     current_player = 1  # Initialize the current player index
-
-    CharText = get_font(75).render(f"Player {current_player} Character Selection", True, "#b68f40")
-    CharRect = CharText.get_rect(center=(960, 100))
 
     while current_player <= num_players:
         Screen.fill("black")
+
+        CharText = get_font(75).render(f"Player {current_player} Character Selection", True, "#b68f40")
+        CharRect = CharText.get_rect(center=(960, 100))
         Screen.blit(CharText, CharRect)  # Blit the CharText
 
-        for j, item in enumerate(stuff):
-            x_offset = (j % 5) * 200
-            y_offset = (j // 5) * 200 + (j // 5) * 75
-            CharButton = Button(image=pygame.image.load("Stuff/Brick.png"), pos=(520 + x_offset, 300 + y_offset),
-                                text_input=None, font=get_font(50), base_color="#b68f40",
-                                hovering_color="Blue")
-            CharButton.update(Screen)
+        character_buttons = []
 
-        for j, character_image in enumerate(character_images):
-            x_offset = (j % 5) * 200
-            y_offset = (j // 5) * 200 + (j // 5) * 75
-            Screen.blit(character_image, (445 + x_offset, 178 + y_offset))
+        for i, character in enumerate(characters):
+            x_offset = (i % 5) * 200
+            y_offset = (i // 5) * 200 + (i // 5) * 75
+            button = Button(image=pygame.image.load("Stuff/Brick.png"), pos=(520 + x_offset, 300 + y_offset),
+                            text_input=character.name, font=get_font(25), base_color="#b68f40",
+                            hovering_color="Blue", char_name=character.name)
+            character_buttons.append(button)
+
+        for button in character_buttons:
+            button.update(Screen)
+
+        for i, image in enumerate(character_images):
+            x_offset = (i % 5) * 200
+            y_offset = (i // 5) * 200 + (i // 5) * 75 - 20
+            Screen.blit(image, (445 + x_offset, 200 + y_offset))
 
         pygame.display.flip()
 
@@ -364,27 +399,20 @@ def CharSelection(num_players):
                 pygame.quit()
                 sys.exit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                CharMousePos = pygame.mouse.get_pos()  # Update mouse position
-                for j, character_image in enumerate(character_images):
-                    x_offset = (j % 5) * 200
-                    y_offset = (j // 5) * 200 + (j // 5) * 75
-                    if pygame.Rect(445 + x_offset, 178 + y_offset, character_image.get_width(),
-                                   character_image.get_height()).collidepoint(CharMousePos):
-                        selected_characters[current_player - 1].append(characters[j].name)
-                        if current_player < num_players:
-                            current_player += 1
-                            CharText = get_font(75).render(f"Player {current_player} Character Selection", True,
-                                                           "#b68f40")
-                            CharRect = CharText.get_rect(center=(960, 100))
-                        else:
-                            # Proceed to game or next step after the last selection
-                            return Game()
-    Game()
+                mouse_pos = pygame.mouse.get_pos()
+                for button in character_buttons:
+                    if button.checkForInput(mouse_pos):
+                        selected_characters[current_player - 1].append(button.char_name)
+                        current_player += 1
+        if current_player > num_players:
+            # Proceed to game or next step after the last selection
+            Game()
+
+        pygame.display.update()
 
 
 def PlayerNum():
     pygame.display.set_caption("Player_Selection")
-
     while True:
         CharMousePos = pygame.mouse.get_pos()
 
