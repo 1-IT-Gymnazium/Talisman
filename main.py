@@ -160,7 +160,7 @@ characters = [
 ]
 
 
-def Game():
+def Game(selected_characetrs):
     pygame.display.set_caption("Game")
     Screen.fill("black")
 
@@ -315,9 +315,23 @@ def Game():
 
     my_die = Dice()
 
-    font = pygame.font.Font(None, 24)
-
     Screen.blit(game_board, (160, 90))
+    # Create a mapping of character names to their Character objects
+    character_mapping = {character.name: character for character in characters}
+
+    font = get_font(40)
+
+    # selected_characters is a list of lists, with each sublist containing character names
+    for player_characters in selected_characters:
+        for character_name in player_characters:
+            character = character_mapping.get(character_name)
+            if character:
+                # Find the BoardSection for the character's starting location
+                matching_section = next((section for section in Board_Section if section.section == character.start), None)
+                if matching_section:
+                    character.set_position(matching_section.x, matching_section.y)
+                    character.display(Screen, font)
+
     run = True
     while run:
         for event in pygame.event.get():
@@ -333,11 +347,9 @@ def Game():
                     random_card_type = random.choice(deck)
                     random_card = random.choice(random_card_type)
                     random_card.display(Screen)
-                    ## todo: MÍCHAT BALÍČEK JEN JEDNOU
                     ## TODO: VYTVOŘIT ODKLÁDACÍ BALÍČEK
                     ## TODO: HRÁČOVI KARTY
                     ## TODO: VYŘEŠIT PROTIVNÍKOVI KARTY
-
         pygame.display.update()
     pygame.quit()
 
@@ -404,9 +416,10 @@ def CharSelection(num_players):
                     if button.checkForInput(mouse_pos):
                         selected_characters[current_player - 1].append(button.char_name)
                         current_player += 1
+                        break
         if current_player > num_players:
             # Proceed to game or next step after the last selection
-            Game()
+            Game(selected_characters)
 
         pygame.display.update()
 
