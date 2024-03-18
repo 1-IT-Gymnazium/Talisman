@@ -49,17 +49,15 @@ class Character:
         self.gold = gold
         self.start = start
         self.image = image
-        self.position = (0, 0)
+        self.position = 0
 
     def set_position(self, x, y, scale_x, scale_y):
-        scaled_x = int(x * scale_x)
-        scaled_y = int(y * scale_y)
         self.position = (int(x * scale_x), int(y * scale_y))
 
     def display(self, screen, font):
-        name_surface = font.render(self.name, True, (255, 0, 0))
-        name_rect = name_surface.get_rect(center=(self.position[0], self.position[1]))
-        screen.blit(name_surface, name_rect)
+        name_surface = font.render(self.name, True, (0, 0, 255))
+        text_position = self.position
+        screen.blit(name_surface, text_position)
 
 
 class Card:
@@ -144,14 +142,34 @@ class Dice:
 
 
 class BoardSection:
-    def __init__(self, x, y, section):
+    def __init__(self, x, y, section, up=None, down=None, left=None, right=None):
         self.x = x
         self.y = y
         self.section = section
+        self.up_neighbor_index = up
+        self.down_neighbor_index = down
+        self.left_neighbor_index = left
+        self.right_neighbor_index = right
 
 
 def get_font(size):
     return pygame.font.Font("Stuff/font.ttf", size)
+
+
+def get_available_directions(position_index, board_sections):
+    current_section = board_sections[position_index]
+    available_directions = {'up': False, 'down': False, 'left': False, 'right': False}
+
+    if current_section.up_neighbor_index is not None:
+        available_directions['up'] = True
+    if current_section.down_neighbor_index is not None:
+        available_directions['down'] = True
+    if current_section.left_neighbor_index is not None:
+        available_directions['left'] = True
+    if current_section.right_neighbor_index is not None:
+        available_directions['right'] = True
+
+    return available_directions
 
 
 characters = [
@@ -171,15 +189,15 @@ characters = [
     Character("Warrior", "./Characters/Warrior.png", 4, 2, 5, 1, 1, "Tavern")
 ]
 
+current_player_index = 0
+
 
 def Game(selected_characetrs):
     pygame.display.set_caption("Game")
     Screen.fill("black")
+    global BoardSection
 
     game_board = pygame.image.load("./board.png")
-    # Get the dimensions of the game board
-    board_width = 1600
-    board_height = 900
 
     def load_and_scale_image(image, scale_x, scale_y):
         image = pygame.image.load(image)
@@ -190,38 +208,43 @@ def Game(selected_characetrs):
 
     game_board = load_and_scale_image("./board.png", scale_factor_width, scale_factor_height)
 
-    def scale_positionx(x, scale_x):
-        return int(x * scale_x)
-
-    def scale_positiony(y, scale_y):
-        return int(y * scale_y)
-
     Board_Section = [
-        BoardSection(scale_positionx(235, scale_factor_width), scale_positiony(75, scale_factor_height), "Village"),
-        BoardSection(scale_positionx(419, scale_factor_width), scale_positiony(75, scale_factor_height), "Forest"),
-        BoardSection(scale_positionx(610, scale_factor_width), scale_positiony(75, scale_factor_height), "Graveyard"),
-        BoardSection(scale_positionx(796, scale_factor_width), scale_positiony(75, scale_factor_height), "Forest"),
-        BoardSection(scale_positionx(998, scale_factor_width), scale_positiony(75, scale_factor_height), "Sentinel"),
-        BoardSection(scale_positionx(1191, scale_factor_width), scale_positiony(75, scale_factor_height), "Forest"),
-        BoardSection(scale_positionx(1385, scale_factor_width), scale_positiony(75, scale_factor_height), "Chapel"),
-        BoardSection(scale_positionx(1385, scale_factor_width), scale_positiony(189, scale_factor_height), "Forest"),
-        BoardSection(scale_positionx(1385, scale_factor_width), scale_positiony(317, scale_factor_height), "Cracks"),
-        BoardSection(scale_positionx(1385, scale_factor_width), scale_positiony(448, scale_factor_height), "Forest"),
-        BoardSection(scale_positionx(1385, scale_factor_width), scale_positiony(572, scale_factor_height), "Forest"),
-        BoardSection(scale_positionx(1385, scale_factor_width), scale_positiony(693, scale_factor_height), "Forest"),
-        BoardSection(scale_positionx(1385, scale_factor_width), scale_positiony(815, scale_factor_height), "City"),
-        BoardSection(scale_positionx(1179, scale_factor_width), scale_positiony(815, scale_factor_height), "Forest"),
-        BoardSection(scale_positionx(974, scale_factor_width), scale_positiony(815, scale_factor_height), "Forest"),
-        BoardSection(scale_positionx(764, scale_factor_width), scale_positiony(815, scale_factor_height), "Forest"),
-        BoardSection(scale_positionx(590, scale_factor_width), scale_positiony(815, scale_factor_height), "ElvForest"),
-        BoardSection(scale_positionx(419, scale_factor_width), scale_positiony(815, scale_factor_height), "Forest"),
-        BoardSection(scale_positionx(236, scale_factor_width), scale_positiony(815, scale_factor_height), "Tavern"),
-        BoardSection(scale_positionx(205, scale_factor_width), scale_positiony(697, scale_factor_height), "Forest"),
-        BoardSection(scale_positionx(205, scale_factor_width), scale_positiony(568, scale_factor_height), "Ruins"),
-        BoardSection(scale_positionx(205, scale_factor_width), scale_positiony(409, scale_factor_height), "Forest"),
-        BoardSection(scale_positionx(205, scale_factor_width), scale_positiony(297, scale_factor_height), "Forest"),
-        BoardSection(scale_positionx(205, scale_factor_width), scale_positiony(207, scale_factor_height), "Forest")
+        BoardSection(395, 135, "Village", down=23, right=1),  # 0
+        BoardSection(579, 135, "Forest", left=0, right=2),  # 1
+        BoardSection(770, 135, "Graveyard", left=1, right=3),  # 2
+        BoardSection(956, 135, "Forest", left=2, right=4),  # 3
+        BoardSection(1158, 135, "Sentinel", left=3, right=5),  # 4
+        BoardSection(1351, 135, "Forest", left=4, right=6),  # 5
+        BoardSection(1545, 135, "Chapel", left=5, down=7),  # 6
+        BoardSection(1545, 249, "Forest", down=8, up=6),  # 7
+        BoardSection(1545, 377, "Cracks", down=9, up=7),  # 8
+        BoardSection(1545, 508, "Forest", down=10, up=8),  # 9
+        BoardSection(1545, 632, "Forest", down=11, up=9),  # 10
+        BoardSection(1545, 753, "Forest", down=12, up=10),  # 11
+        BoardSection(1545, 875, "City", left=13, up=11),  # 12
+        BoardSection(1339, 875, "Forest", left=14, right=12),  # 13
+        BoardSection(1134, 75, "Forest", left=15, right=13),  # 14
+        BoardSection(924, 875, "Forest", left=16, right=14),  # 15
+        BoardSection(750, 875, "ElvForest", left=17, right=15),  # 16
+        BoardSection(579, 875, "Forest", left=18, right=16),  # 17
+        BoardSection(396, 875, "Tavern", up=19, left=17),  # 18
+        BoardSection(365, 757, "Forest", up=20, down=18),  # 19
+        BoardSection(365, 628, "Ruins", up=21, down=19),  # 20
+        BoardSection(365, 469, "Forest", up=22, down=20),  # 21
+        BoardSection(365, 357, "Forest", up=23, down=21),  # 22
+        BoardSection(365, 267, "Forest", up=0, down=22)  # 23
     ]
+
+   # for event in pygame.event.get():
+   #     if event.type == pygame.KEYDOWN:
+   #         if event.key == pygame.K_LEFT:
+   #             current_character.move_character('left', Board_Section)
+   #         elif event.key == pygame.K_RIGHT:
+   #             current_character.move_character('right', Board_Section)
+   #         elif event.key == pygame.K_UP:
+   #             current_character.move_character('up', Board_Section)
+   #         elif event.key == pygame.K_DOWN:
+   #             current_character.move_character('down', Board_Section)
 
     enemycards = [
         Enemy("Ape", "./EnemyCards/Ape.png", "yep", "0", "3"),
@@ -339,7 +362,14 @@ def Game(selected_characetrs):
 
     my_die = Dice()
 
-    Screen.blit(game_board, (160, 90))
+    Screen.blit(game_board, (190, 60))
+
+    current_characters = selected_characters[current_player_index]
+
+       #current_player_index += 1 THIS WILL BE ADDED AT THE END OF THE ROUND
+       #if current_player_index >= len(selected_characters):  # Check if we've gone past the last player
+       #    current_player_index = 0
+
     # Create a mapping of character names to their Character objects
     character_mapping = {character.name: character for character in characters}
 
@@ -351,7 +381,8 @@ def Game(selected_characetrs):
             character = character_mapping.get(character_name)
             if character:
                 # Find the BoardSection for the character's starting location
-                matching_section = next((section for section in Board_Section if section.section == character.start), None)
+                matching_section = next((section for section in Board_Section if section.section == character.start),
+                                        None)
                 if matching_section:
                     character.set_position(matching_section.x, matching_section.y, scale_factor_width,
                                            scale_factor_height)
@@ -359,6 +390,11 @@ def Game(selected_characetrs):
 
     run = True
     while run:
+        if current_characters:  # Ensure there's at least one character
+            current_char_name = current_characters[0]
+            player_turn_text = get_font(75).render(f"{current_char_name}'s Turn", True, "#b68f40")
+            player_turn_rect = player_turn_text.get_rect(center=(Screen.get_width() // 2, 30))
+            Screen.blit(player_turn_text, player_turn_rect)
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 run = False
