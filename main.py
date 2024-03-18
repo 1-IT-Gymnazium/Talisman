@@ -195,7 +195,8 @@ current_player_index = 0
 def Game(selected_characetrs):
     pygame.display.set_caption("Game")
     Screen.fill("black")
-    global BoardSection
+    global BoardSection, current_player_index
+    MousePos = pygame.mouse.get_pos()
 
     game_board = pygame.image.load("./board.png")
 
@@ -235,16 +236,16 @@ def Game(selected_characetrs):
         BoardSection(365, 267, "Forest", up=0, down=22)  # 23
     ]
 
-   # for event in pygame.event.get():
-   #     if event.type == pygame.KEYDOWN:
-   #         if event.key == pygame.K_LEFT:
-   #             current_character.move_character('left', Board_Section)
-   #         elif event.key == pygame.K_RIGHT:
-   #             current_character.move_character('right', Board_Section)
-   #         elif event.key == pygame.K_UP:
-   #             current_character.move_character('up', Board_Section)
-   #         elif event.key == pygame.K_DOWN:
-   #             current_character.move_character('down', Board_Section)
+    # for event in pygame.event.get():
+    #     if event.type == pygame.KEYDOWN:
+    #         if event.key == pygame.K_LEFT:
+    #             current_character.move_character('left', Board_Section)
+    #         elif event.key == pygame.K_RIGHT:
+    #             current_character.move_character('right', Board_Section)
+    #         elif event.key == pygame.K_UP:
+    #             current_character.move_character('up', Board_Section)
+    #         elif event.key == pygame.K_DOWN:
+    #             current_character.move_character('down', Board_Section)
 
     enemycards = [
         Enemy("Ape", "./EnemyCards/Ape.png", "yep", "0", "3"),
@@ -366,9 +367,9 @@ def Game(selected_characetrs):
 
     current_characters = selected_characters[current_player_index]
 
-       #current_player_index += 1 THIS WILL BE ADDED AT THE END OF THE ROUND
-       #if current_player_index >= len(selected_characters):  # Check if we've gone past the last player
-       #    current_player_index = 0
+    # current_player_index += 1 THIS WILL BE ADDED AT THE END OF THE ROUND
+    # if current_player_index >= len(selected_characters):  # Check if we've gone past the last player
+    #    current_player_index = 0
 
     # Create a mapping of character names to their Character objects
     character_mapping = {character.name: character for character in characters}
@@ -390,12 +391,24 @@ def Game(selected_characetrs):
 
     run = True
     while run:
+        EndTurnButton = Button(image=pygame.image.load("Stuff/SmallRect.png"), pos=(1500, 100),
+                               text_input="End Turn", font=get_font(40), base_color="#b68f40",
+                               hovering_color="Blue")
+        for button in [EndTurnButton]:
+            button.changeColor(MousePos)
+            button.update(Screen)
+
         if current_characters:  # Ensure there's at least one character
             current_char_name = current_characters[0]
             player_turn_text = get_font(75).render(f"{current_char_name}'s Turn", True, "#b68f40")
             player_turn_rect = player_turn_text.get_rect(center=(Screen.get_width() // 2, 30))
             Screen.blit(player_turn_text, player_turn_rect)
         for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if EndTurnButton.checkForInput(MousePos):
+                    current_player_index += 1
+                    if current_player_index >= len(selected_characters):
+                        current_player_index = 0
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 run = False
             if event.type == pygame.KEYDOWN:
