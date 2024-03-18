@@ -6,7 +6,17 @@ from button import Button
 
 pygame.init()
 
-Screen = pygame.display.set_mode((1920, 1080), pygame.FULLSCREEN)
+default_resolution = pygame.display.Info()
+current_screen_width = default_resolution.current_w
+current_screen_height = default_resolution.current_h
+
+default_resolution_width = 1920
+default_resolution_height = 1080
+
+scale_factor_width = current_screen_width / default_resolution_width
+scale_factor_height = current_screen_height / default_resolution_height
+
+Screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 pygame.display.set_caption("Menu")
 BackGround = pygame.image.load("Background.png")
 
@@ -41,12 +51,14 @@ class Character:
         self.image = image
         self.position = (0, 0)
 
-    def set_position(self, x, y):
-        self.position = (x, y)
+    def set_position(self, x, y, scale_x, scale_y):
+        scaled_x = int(x * scale_x)
+        scaled_y = int(y * scale_y)
+        self.position = (int(x * scale_x), int(y * scale_y))
 
     def display(self, screen, font):
         name_surface = font.render(self.name, True, (255, 0, 0))
-        name_rect = name_surface.get_rect(center=self.position)
+        name_rect = name_surface.get_rect(center=(self.position[0], self.position[1]))
         screen.blit(name_surface, name_rect)
 
 
@@ -169,34 +181,46 @@ def Game(selected_characetrs):
     board_width = 1600
     board_height = 900
 
-    # Scale the board to fit the new dimensions
-    game_board = pygame.transform.scale(game_board, (board_width, board_height))
+    def load_and_scale_image(image, scale_x, scale_y):
+        image = pygame.image.load(image)
+        image_width = image.get_width() * scale_x
+        image_height = image.get_height() * scale_y
+        scaled_image = pygame.transform.scale(image, (int(image_width), int(image_height)))
+        return scaled_image
+
+    game_board = load_and_scale_image("./board.png", scale_factor_width, scale_factor_height)
+
+    def scale_positionx(x, scale_x):
+        return int(x * scale_x)
+
+    def scale_positiony(y, scale_y):
+        return int(y * scale_y)
 
     Board_Section = [
-        BoardSection(235, 77, "Village"),
-        BoardSection(419, 75, "Forest"),
-        BoardSection(610, 73, "Graveyard"),
-        BoardSection(796, 78, "Forest"),
-        BoardSection(998, 72, "Sentinel"),
-        BoardSection(1191, 72, "Forest"),
-        BoardSection(1385, 70, "Chapel"),
-        BoardSection(1385, 189, "Forest"),
-        BoardSection(1393, 317, "Cracks"),
-        BoardSection(1382, 448, "Forest"),
-        BoardSection(1386, 572, "Forest"),
-        BoardSection(1380, 693, "Forest"),
-        BoardSection(1372, 811, "City"),
-        BoardSection(1179, 813, "Forest"),
-        BoardSection(974, 819, "Forest"),
-        BoardSection(764, 815, "Forest"),
-        BoardSection(590, 808, "ElvForest"),
-        BoardSection(419, 804, "Forest"),
-        BoardSection(236, 803, "Tavern"),
-        BoardSection(206, 697, "Forest"),
-        BoardSection(199, 568, "Ruins"),
-        BoardSection(204, 409, "Forest"),
-        BoardSection(201, 297, "Forest"),
-        BoardSection(207, 207, "Forest")
+        BoardSection(scale_positionx(235, scale_factor_width), scale_positiony(75, scale_factor_height), "Village"),
+        BoardSection(scale_positionx(419, scale_factor_width), scale_positiony(75, scale_factor_height), "Forest"),
+        BoardSection(scale_positionx(610, scale_factor_width), scale_positiony(75, scale_factor_height), "Graveyard"),
+        BoardSection(scale_positionx(796, scale_factor_width), scale_positiony(75, scale_factor_height), "Forest"),
+        BoardSection(scale_positionx(998, scale_factor_width), scale_positiony(75, scale_factor_height), "Sentinel"),
+        BoardSection(scale_positionx(1191, scale_factor_width), scale_positiony(75, scale_factor_height), "Forest"),
+        BoardSection(scale_positionx(1385, scale_factor_width), scale_positiony(75, scale_factor_height), "Chapel"),
+        BoardSection(scale_positionx(1385, scale_factor_width), scale_positiony(189, scale_factor_height), "Forest"),
+        BoardSection(scale_positionx(1385, scale_factor_width), scale_positiony(317, scale_factor_height), "Cracks"),
+        BoardSection(scale_positionx(1385, scale_factor_width), scale_positiony(448, scale_factor_height), "Forest"),
+        BoardSection(scale_positionx(1385, scale_factor_width), scale_positiony(572, scale_factor_height), "Forest"),
+        BoardSection(scale_positionx(1385, scale_factor_width), scale_positiony(693, scale_factor_height), "Forest"),
+        BoardSection(scale_positionx(1385, scale_factor_width), scale_positiony(815, scale_factor_height), "City"),
+        BoardSection(scale_positionx(1179, scale_factor_width), scale_positiony(815, scale_factor_height), "Forest"),
+        BoardSection(scale_positionx(974, scale_factor_width), scale_positiony(815, scale_factor_height), "Forest"),
+        BoardSection(scale_positionx(764, scale_factor_width), scale_positiony(815, scale_factor_height), "Forest"),
+        BoardSection(scale_positionx(590, scale_factor_width), scale_positiony(815, scale_factor_height), "ElvForest"),
+        BoardSection(scale_positionx(419, scale_factor_width), scale_positiony(815, scale_factor_height), "Forest"),
+        BoardSection(scale_positionx(236, scale_factor_width), scale_positiony(815, scale_factor_height), "Tavern"),
+        BoardSection(scale_positionx(205, scale_factor_width), scale_positiony(697, scale_factor_height), "Forest"),
+        BoardSection(scale_positionx(205, scale_factor_width), scale_positiony(568, scale_factor_height), "Ruins"),
+        BoardSection(scale_positionx(205, scale_factor_width), scale_positiony(409, scale_factor_height), "Forest"),
+        BoardSection(scale_positionx(205, scale_factor_width), scale_positiony(297, scale_factor_height), "Forest"),
+        BoardSection(scale_positionx(205, scale_factor_width), scale_positiony(207, scale_factor_height), "Forest")
     ]
 
     enemycards = [
@@ -329,7 +353,8 @@ def Game(selected_characetrs):
                 # Find the BoardSection for the character's starting location
                 matching_section = next((section for section in Board_Section if section.section == character.start), None)
                 if matching_section:
-                    character.set_position(matching_section.x, matching_section.y)
+                    character.set_position(matching_section.x, matching_section.y, scale_factor_width,
+                                           scale_factor_height)
                     character.display(Screen, font)
 
     run = True
