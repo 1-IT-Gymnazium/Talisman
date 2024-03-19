@@ -415,6 +415,23 @@ def Game(selected_characetrs):
             if event.type == pygame.QUIT:  # Add this to handle closing the window properly
                 pygame.quit()
                 sys.exit()
+            if event.type == pygame.KEYDOWN:
+                current_character_name = selected_characters[current_player_index][0]
+                current_character = character_mapping[current_character_name]
+                direction = None
+                available_directions = get_available_directions(current_character.position_index, Board_Section)
+                if event.key == pygame.K_LEFT and available_directions['left']:
+                    direction = 'left'
+                elif event.key == pygame.K_RIGHT and available_directions['right']:
+                    direction = 'right'
+                elif event.key == pygame.K_UP and available_directions['up']:
+                    direction = 'up'
+                elif event.key == pygame.K_DOWN and available_directions['down']:
+                    direction = 'down'
+                #if direction:
+                #    current_character.clear_name(Screen, background_color)
+                #    current_character.move(direction, Board_Section)
+
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if EndTurnButton.checkForInput(MousePos):
                     current_player_index += 1
