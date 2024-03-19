@@ -50,6 +50,22 @@ class Character:
         self.start = start
         self.image = image
         self.position = 0
+        self.position_index = 0
+
+    def move(self, direction, board_sections):
+        current_section = board_sections[self.position_index]
+        # Determine the new position based on the direction
+        if direction == 'up' and current_section.up_neighbor_index is not None:
+            self.position_index = current_section.up_neighbor_index
+        elif direction == 'down' and current_section.down_neighbor_index is not None:
+            self.position_index = current_section.down_neighbor_index
+        elif direction == 'left' and current_section.left_neighbor_index is not None:
+            self.position_index = current_section.left_neighbor_index
+        elif direction == 'right' and current_section.right_neighbor_index is not None:
+            self.position_index = current_section.right_neighbor_index
+
+        new_section = board_sections[self.position_index]
+        self.set_position(new_section.x, new_section.y, scale_factor_width, scale_factor_height)
 
     def set_position(self, x, y, scale_x, scale_y):
         self.position = (int(x * scale_x), int(y * scale_y))
@@ -233,17 +249,6 @@ def Game(selected_characetrs):
         BoardSection(365, 267, "Forest", up=0, down=22)  # 23
     ]
 
-    # for event in pygame.event.get():
-    #     if event.type == pygame.KEYDOWN:
-    #         if event.key == pygame.K_LEFT:
-    #             current_character.move_character('left', Board_Section)
-    #         elif event.key == pygame.K_RIGHT:
-    #             current_character.move_character('right', Board_Section)
-    #         elif event.key == pygame.K_UP:
-    #             current_character.move_character('up', Board_Section)
-    #         elif event.key == pygame.K_DOWN:
-    #             current_character.move_character('down', Board_Section)
-
     enemycards = [
         Enemy("Ape", "./EnemyCards/Ape.png", "yep", "0", "3"),
         Enemy("Bandit", "./EnemyCards/Bandit.png", "yep", "0", "4"),
@@ -360,7 +365,7 @@ def Game(selected_characetrs):
 
     my_die = Dice()
 
-    Screen.blit(game_board, (190, 60))
+    Screen.blit(game_board, (190, 80))
 
     # Create a mapping of character names to their Character objects
     character_mapping = {character.name: character for character in characters}
@@ -398,8 +403,12 @@ def Game(selected_characetrs):
 
         current_characters = selected_characters[current_player_index][0]
 
-        player_turn_text = get_font(75).render(f"{current_characters}'s Turn", True, "#b68f40")
-        player_turn_rect = player_turn_text.get_rect(center=(Screen.get_width() // 2, 30))
+        background_color = (0, 0, 0)
+        clear_rect = pygame.Rect(Screen.get_width() // 2 - 200, 20 - 35, 400, 70)  # Adjust the size as needed
+        Screen.fill(background_color, clear_rect)
+
+        player_turn_text = get_font(70).render(f"{current_characters}'s Turn", True, "#b68f40")
+        player_turn_rect = player_turn_text.get_rect(center=(Screen.get_width() // 2, 25))
         Screen.blit(player_turn_text, player_turn_rect)
 
         for event in pygame.event.get():
@@ -413,7 +422,7 @@ def Game(selected_characetrs):
                         current_player_index = 0
                     # Ensure you update the text to reflect the new current player
                     current_characters = selected_characters[current_player_index][0]
-                    player_turn_text = get_font(75).render(f"{current_characters}'s Turn", True, "#b68f40")
+                    Screen.fill(background_color, clear_rect)
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     run = False
