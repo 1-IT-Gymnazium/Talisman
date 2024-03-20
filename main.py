@@ -75,6 +75,9 @@ class Character:
         text_position = self.position
         screen.blit(name_surface, text_position)
 
+    def clear_name(self, screen, b, font):
+        self.display(screen, font)
+
 
 class Card:
     def __init__(self, image, types):
@@ -428,9 +431,12 @@ def Game(selected_characetrs):
                     direction = 'up'
                 elif event.key == pygame.K_DOWN and available_directions['down']:
                     direction = 'down'
-                #if direction:
-                #    current_character.clear_name(Screen, background_color)
-                #    current_character.move(direction, Board_Section)
+                if direction:
+                    Screen.blit(game_board, (190, 80))
+                    for characterers in selected_characetrs:
+                        character = character_mapping[characterers[0]]
+                        character.clear_name(Screen, background_color, get_font(40))
+                    current_character.move(direction, Board_Section)
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if EndTurnButton.checkForInput(MousePos):
