@@ -240,7 +240,7 @@ def Game(selected_characetrs):
         BoardSection(1545, 753, "Forest", down=12, up=10),  # 11
         BoardSection(1545, 875, "City", left=13, up=11),  # 12
         BoardSection(1339, 875, "Forest", left=14, right=12),  # 13
-        BoardSection(1134, 75, "Forest", left=15, right=13),  # 14
+        BoardSection(1134, 875, "Forest", left=15, right=13),  # 14
         BoardSection(924, 875, "Forest", left=16, right=14),  # 15
         BoardSection(750, 875, "ElvForest", left=17, right=15),  # 16
         BoardSection(579, 875, "Forest", left=18, right=16),  # 17
@@ -415,7 +415,7 @@ def Game(selected_characetrs):
         Screen.blit(player_turn_text, player_turn_rect)
 
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:  # Add this to handle closing the window properly
+            if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.KEYDOWN:
