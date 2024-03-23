@@ -75,7 +75,28 @@ class Character:
         text_position = self.position
         screen.blit(name_surface, text_position)
 
-    def clear_name(self, screen, b, font):
+    def display_attribute(self, screen):
+        base_y = (1050 * scale_factor_height) + (current_screen_height - (1080 * scale_factor_height))
+
+        attributes = ["Strength = " + str(self.strength),
+                     "Craft = " + str(self.craft),
+                     "Fate = " + str(self.fate),
+                     "Gold = " + str(self.gold)]
+        x_offset = 10
+        font = get_font(30)
+
+        total_width = sum(font.size(attr)[0] for attr in attributes) + x_offset * (len(attributes) - 1)
+
+        # Calculate the starting x position to center the attributes block
+        base_x = (current_screen_width - total_width) / 2  # Assuming current_screen_width is defined
+
+        current_x = base_x
+        for attribute in attributes:
+            attribute_surface = font.render(attribute, True, (0, 0, 255))
+            screen.blit(attribute_surface, (current_x, base_y))
+            current_x += attribute_surface.get_width() + x_offset
+
+    def clear_name(self, screen, font):
         self.display(screen, font)
 
 
@@ -212,7 +233,7 @@ characters = [
 def Game(selected_characetrs):
     pygame.display.set_caption("Game")
     Screen.fill("black")
-    global BoardSection, current_player_index
+    global BoardSection, current_player_index, event
 
     game_board = pygame.image.load("./board.png")
 
@@ -224,6 +245,30 @@ def Game(selected_characetrs):
         return scaled_image
 
     game_board = load_and_scale_image("./board.png", scale_factor_width, scale_factor_height)
+
+    def handle_movement(event, characters, current_player_index, board_sections, screen, game_board, scale_x, scale_y):
+        current_character = characters[current_player_index]
+        direction = None
+        if event.key == pygame.K_LEFT:
+            direction = 'left'
+        elif event.key == pygame.K_RIGHT:
+            direction = 'right'
+        elif event.key == pygame.K_UP:
+            direction = 'up'
+        elif event.key == pygame.K_DOWN:
+            direction = 'down'
+
+        if direction:
+            current_character.move(direction, board_sections)
+            # Redraw the character at the new position
+            screen.blit(game_board, (190, 80))  # Reset the background
+            for character in characters:
+                character.display(screen, get_font(40))
+
+    def display_current_state(screen, game_board, characters, current_player_index):
+        screen.blit(game_board, (190, 80))
+        for character in characters:
+            character.display(screen, get_font(40))
 
     Board_Section = [
         BoardSection(395, 135, "Village", down=23, right=1),  # 0
@@ -244,7 +289,7 @@ def Game(selected_characetrs):
         BoardSection(924, 875, "Forest", left=16, right=14),  # 15
         BoardSection(750, 875, "ElvForest", left=17, right=15),  # 16
         BoardSection(579, 875, "Forest", left=18, right=16),  # 17
-        BoardSection(396, 875, "Tavern", up=19, left=17),  # 18
+        BoardSection(396, 875, "Tavern", up=19, right=17),  # 18
         BoardSection(365, 757, "Forest", up=20, down=18),  # 19
         BoardSection(365, 628, "Ruins", up=21, down=19),  # 20
         BoardSection(365, 469, "Forest", up=22, down=20),  # 21
@@ -391,6 +436,18 @@ def Game(selected_characetrs):
     scaled_button_pos_x = int(1800 * scale_factor_width)
     scaled_button_pos_y = int(100 * scale_factor_height)
 
+    selected_character_objects = []
+    for player_characters in selected_characters:
+        for character_name in player_characters:
+            character = character_mapping.get(character_name)
+            if character:
+                matching_section = next((section for section in Board_Section if section.section == character.start),
+                                        None)
+                if matching_section:
+                    character.set_position(matching_section.x, matching_section.y, scale_factor_width,
+                                           scale_factor_height)
+                    selected_character_objects.append(character)
+
     run = True
     current_player_index = 0
     current_characters = selected_characters[current_player_index][0]
@@ -414,39 +471,39 @@ def Game(selected_characetrs):
         player_turn_rect = player_turn_text.get_rect(center=(Screen.get_width() // 2, 25))
         Screen.blit(player_turn_text, player_turn_rect)
 
+        rect_height = 50
+        rect_y_start = current_screen_height - rect_height
+        attributes_display_area = pygame.Rect(0, rect_y_start, current_screen_width, rect_height)
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.KEYDOWN:
-                current_character_name = selected_characters[current_player_index][0]
-                current_character = character_mapping[current_character_name]
-                direction = None
-                available_directions = get_available_directions(current_character.position_index, Board_Section)
-                if event.key == pygame.K_LEFT and available_directions['left']:
-                    direction = 'left'
-                elif event.key == pygame.K_RIGHT and available_directions['right']:
-                    direction = 'right'
-                elif event.key == pygame.K_UP and available_directions['up']:
-                    direction = 'up'
-                elif event.key == pygame.K_DOWN and available_directions['down']:
-                    direction = 'down'
-                if direction:
-                    Screen.blit(game_board, (190, 80))
-                    for characterers in selected_characetrs:
-                        character = character_mapping[characterers[0]]
-                        character.clear_name(Screen, background_color, get_font(40))
-                    current_character.move(direction, Board_Section)
+                handle_movement(event, selected_character_objects, current_player_index, Board_Section, Screen,
+                                game_board, scale_factor_width, scale_factor_height)
 
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if EndTurnButton.checkForInput(MousePos):
-                    current_player_index += 1
-                    if current_player_index >= len(selected_characters):
-                        current_player_index = 0
-                    # Ensure you update the text to reflect the new current player
-                    current_characters = selected_characters[current_player_index][0]
-                    Screen.fill(background_color, clear_rect)
-            if event.type == pygame.KEYDOWN:
+                display_current_state(Screen, game_board, selected_character_objects, current_player_index)
+
+                # Event handling, including player turn change
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONDOWN and EndTurnButton.checkForInput(MousePos):
+                current_player_index = (current_player_index + 1) % len(selected_characters)
+
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if EndTurnButton.checkForInput(MousePos):
+                Screen.fill((0, 0, 0), attributes_display_area)
+                current_player_index += 1
+                if current_player_index >= len(selected_characters):
+                    current_player_index = 0
+                # Ensure you update the text to reflect the new current player
+                current_character_name = selected_characters[current_player_index][0]
+                current_char = character_mapping.get(current_character_name)
+                if current_char:
+                    current_char.display_attribute(Screen)
+                Screen.fill(background_color, clear_rect)
+
+        if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     run = False
                 if event.type == pygame.KEYDOWN:
