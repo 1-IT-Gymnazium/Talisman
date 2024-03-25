@@ -196,22 +196,6 @@ def get_font(size):
     return pygame.font.Font("Stuff/font.ttf", size)
 
 
-def get_available_directions(position_index, board_sections):
-    current_section = board_sections[position_index]
-    available_directions = {'up': False, 'down': False, 'left': False, 'right': False}
-
-    if current_section.up_neighbor_index is not None:
-        available_directions['up'] = True
-    if current_section.down_neighbor_index is not None:
-        available_directions['down'] = True
-    if current_section.left_neighbor_index is not None:
-        available_directions['left'] = True
-    if current_section.right_neighbor_index is not None:
-        available_directions['right'] = True
-
-    return available_directions
-
-
 characters = [
     Character("Assassin", "./Characters/Assassin.png", 3, 3, 4, 3, 1, "City"),
     Character("Druid", "./Characters/Druid.png", 2, 4, 4, 4, 1, "Chapel"),
@@ -234,6 +218,8 @@ def Game(selected_characetrs):
     pygame.display.set_caption("Game")
     Screen.fill("black")
     global BoardSection, current_player_index, event
+    last_button_press_time = 0
+    button_cooldown = 500
 
     game_board = pygame.image.load("./board.png")
 
@@ -269,6 +255,15 @@ def Game(selected_characetrs):
         screen.blit(game_board, (190, 80))
         for character in characters:
             character.display(screen, get_font(40))
+
+    def update_player_turn_text(screen, current_player_name):
+        background_color = (0, 0, 0)
+        clear_rect = pygame.Rect(screen.get_width() // 2 - 200, 20 - 35, 400, 70)  # Adjust the size as needed
+        screen.fill(background_color, clear_rect)
+
+        player_turn_text = get_font(70).render(f"{current_player_name}'s Turn", True, "#b68f40")
+        player_turn_rect = player_turn_text.get_rect(center=(screen.get_width() // 2, 25))
+        screen.blit(player_turn_text, player_turn_rect)
 
     Board_Section = [
         BoardSection(395, 135, "Village", down=23, right=1),  # 0
@@ -420,19 +415,6 @@ def Game(selected_characetrs):
 
     font = get_font(40)
 
-    # selected_characters is a list of lists, with each sublist containing character names
-    for player_characters in selected_characters:
-        for character_name in player_characters:
-            character = character_mapping.get(character_name)
-            if character:
-                # Find the BoardSection for the character's starting location
-                matching_section = next((section for section in Board_Section if section.section == character.start),
-                                        None)
-                if matching_section:
-                    character.set_position(matching_section.x, matching_section.y, scale_factor_width,
-                                           scale_factor_height)
-                    character.display(Screen, font)
-
     scaled_button_pos_x = int(1800 * scale_factor_width)
     scaled_button_pos_y = int(100 * scale_factor_height)
 
@@ -447,12 +429,19 @@ def Game(selected_characetrs):
                     character.set_position(matching_section.x, matching_section.y, scale_factor_width,
                                            scale_factor_height)
                     selected_character_objects.append(character)
+                    character.display(Screen, font)
 
     run = True
     current_player_index = 0
     current_characters = selected_characters[current_player_index][0]
+    update_player_turn_text(Screen, current_characters)
+    current_char = character_mapping.get(current_characters)
+    if current_char:
+        current_char.display_attribute(Screen)
+
     while run:
         MousePos = pygame.mouse.get_pos()
+        current_time = pygame.time.get_ticks()
 
         EndTurnButton = Button(image=pygame.image.load("Stuff/SmallRect.png"), pos=(scaled_button_pos_x, scaled_button_pos_y),
                                text_input="End Turn", font=get_font(40), base_color="#b68f40",
@@ -462,14 +451,6 @@ def Game(selected_characetrs):
         EndTurnButton.update(Screen)
 
         current_characters = selected_characters[current_player_index][0]
-
-        background_color = (0, 0, 0)
-        clear_rect = pygame.Rect(Screen.get_width() // 2 - 200, 20 - 35, 400, 70)  # Adjust the size as needed
-        Screen.fill(background_color, clear_rect)
-
-        player_turn_text = get_font(70).render(f"{current_characters}'s Turn", True, "#b68f40")
-        player_turn_rect = player_turn_text.get_rect(center=(Screen.get_width() // 2, 25))
-        Screen.blit(player_turn_text, player_turn_rect)
 
         rect_height = 50
         rect_y_start = current_screen_height - rect_height
@@ -485,40 +466,37 @@ def Game(selected_characetrs):
 
                 display_current_state(Screen, game_board, selected_character_objects, current_player_index)
 
-                # Event handling, including player turn change
-        for event in pygame.event.get():
-            if event.type == pygame.MOUSEBUTTONDOWN and EndTurnButton.checkForInput(MousePos):
-                current_player_index = (current_player_index + 1) % len(selected_characters)
-
         if event.type == pygame.MOUSEBUTTONDOWN:
-            if EndTurnButton.checkForInput(MousePos):
+            if EndTurnButton.checkForInput(MousePos) and (current_time - last_button_press_time > button_cooldown):
+                last_button_press_time = current_time
                 Screen.fill((0, 0, 0), attributes_display_area)
                 current_player_index += 1
                 if current_player_index >= len(selected_characters):
                     current_player_index = 0
                 # Ensure you update the text to reflect the new current player
-                current_character_name = selected_characters[current_player_index][0]
-                current_char = character_mapping.get(current_character_name)
+                current_characters = selected_characters[current_player_index][0]
+                update_player_turn_text(Screen, current_characters)
+                current_char = character_mapping.get(current_characters)
                 if current_char:
                     current_char.display_attribute(Screen)
-                Screen.fill(background_color, clear_rect)
 
         if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    run = False
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_SPACE:
-                        if not my_die.visible:
-                            my_die.roll()
-                            my_die.display(Screen, 0, 0)
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_d:
-                        random_card_type = random.choice(deck)
-                        random_card = random.choice(random_card_type)
-                        random_card.display(Screen)
-                        ## TODO: VYTVOŘIT ODKLÁDACÍ BALÍČEK
-                        ## TODO: HRÁČOVI KARTY
-                        ## TODO: VYŘEŠIT PROTIVNÍKOVI KARTY
+            if event.key == pygame.K_ESCAPE:
+                run = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    if not my_die.visible:
+                        my_die.roll()
+                        my_die.visible = True
+                        my_die.display(Screen, 0, 0)
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_d:
+                    random_card_type = random.choice(deck)
+                    random_card = random.choice(random_card_type)
+                    random_card.display(Screen)
+                    ## TODO: VYTVOŘIT ODKLÁDACÍ BALÍČEK
+                    ## TODO: HRÁČOVI KARTY
+                    ## TODO: VYŘEŠIT PROTIVNÍKOVI KARTY
 
         # It's unclear where `player_turn_rect` is meant to be cleared or updated in your loop,
         # consider handling it here after processing events and before the final screen update.
