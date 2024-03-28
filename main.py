@@ -54,6 +54,8 @@ class Character:
 
     def move(self, direction, board_sections):
         current_section = board_sections[self.position_index]
+        print(f"Current position: {current_section.section}, Index: {self.position_index}, Screen Pos: {self.position}")
+
         # Determine the new position based on the direction
         if direction == 'up' and current_section.up_neighbor_index is not None:
             self.position_index = current_section.up_neighbor_index
@@ -166,19 +168,20 @@ class Spell(Card):
 class Dice:
 
     def __init__(self, sides=6, width=190, height=190):
+        self.screen = None
         self.sides = sides
         self.value = 1
         self.images = [pygame.image.load(f'die{i}.png') for i in range(1, sides + 1)]
-        self.visible = False
         self.width = width
         self.height = height
 
     def roll(self):
         self.value = random.randint(1, self.sides)
 
-    def display(self, screen, x, y):
-        # self.toggle_visibility()
-        screen.blit(pygame.transform.scale(self.images[self.value - 1], (self.width, self.height)), (x, y))
+    def display(self, screen):
+        self.screen = screen
+        image = self.images[self.value - 1]
+        screen.blit(image, (0, 0))
 
 
 class BoardSection:
@@ -423,11 +426,13 @@ def Game(selected_characetrs):
         for character_name in player_characters:
             character = character_mapping.get(character_name)
             if character:
-                matching_section = next((section for section in Board_Section if section.section == character.start),
-                                        None)
-                if matching_section:
-                    character.set_position(matching_section.x, matching_section.y, scale_factor_width,
-                                           scale_factor_height)
+                # Find the matching section for the character's start location
+                matching_section = next((index for index, section in enumerate(Board_Section) if
+                                         section.section.lower() == character.start.lower()), None)
+                if matching_section is not None:
+                    character.position_index = matching_section  # Set the character's position index to the matching section index
+                    character.set_position(Board_Section[matching_section].x, Board_Section[matching_section].y,
+                                           scale_factor_width, scale_factor_height)
                     selected_character_objects.append(character)
                     character.display(Screen, font)
 
@@ -466,6 +471,19 @@ def Game(selected_characetrs):
 
                 display_current_state(Screen, game_board, selected_character_objects, current_player_index)
 
+                if event.key == pygame.K_ESCAPE:
+                    run = False
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE:
+                        my_die.roll()
+                        Screen.fill((0, 0, 0), (0, 0, my_die.width, my_die.height))
+                        my_die.display(Screen)
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_d:
+                        random_card_type = random.choice(deck)
+                        random_card = random.choice(random_card_type)
+                        random_card.display(Screen)
+
         if event.type == pygame.MOUSEBUTTONDOWN:
             if EndTurnButton.checkForInput(MousePos) and (current_time - last_button_press_time > button_cooldown):
                 last_button_press_time = current_time
@@ -479,29 +497,10 @@ def Game(selected_characetrs):
                 current_char = character_mapping.get(current_characters)
                 if current_char:
                     current_char.display_attribute(Screen)
-
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_ESCAPE:
-                run = False
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE:
-                    if not my_die.visible:
-                        my_die.roll()
-                        my_die.visible = True
-                        my_die.display(Screen, 0, 0)
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_d:
-                    random_card_type = random.choice(deck)
-                    random_card = random.choice(random_card_type)
-                    random_card.display(Screen)
                     ## TODO: VYTVOŘIT ODKLÁDACÍ BALÍČEK
                     ## TODO: HRÁČOVI KARTY
                     ## TODO: VYŘEŠIT PROTIVNÍKOVI KARTY
 
-        # It's unclear where `player_turn_rect` is meant to be cleared or updated in your loop,
-        # consider handling it here after processing events and before the final screen update.
-
-        # Update display at the end of each loop iteration
         pygame.display.update()
 
     pygame.quit()
