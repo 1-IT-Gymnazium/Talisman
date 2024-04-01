@@ -3,7 +3,6 @@ import random
 import pygame
 import sys
 from button import Button
-
 pygame.init()
 
 default_resolution = pygame.display.Info()
@@ -51,10 +50,11 @@ class Character:
         self.image = image
         self.position = 0
         self.position_index = 0
+        self.section_name = start
+        self.deck = []
 
     def move(self, direction, board_sections):
         current_section = board_sections[self.position_index]
-        print(f"Current position: {current_section.section}, Index: {self.position_index}, Screen Pos: {self.position}")
 
         # Determine the new position based on the direction
         if direction == 'up' and current_section.up_neighbor_index is not None:
@@ -68,6 +68,9 @@ class Character:
 
         new_section = board_sections[self.position_index]
         self.set_position(new_section.x, new_section.y, scale_factor_width, scale_factor_height)
+
+    def current_section_name(self):
+        return self.section_name
 
     def set_position(self, x, y, scale_x, scale_y):
         self.position = (int(x * scale_x), int(y * scale_y))
@@ -111,7 +114,7 @@ class Card:
 
     def display(self, screen):
         self.screen = screen
-        screen.blit(self.image, (0, 400))
+        screen.blit(self.image, (0, 500))
 
 
 class ObjectCard(Card):
@@ -220,7 +223,7 @@ characters = [
 def Game(selected_characetrs):
     pygame.display.set_caption("Game")
     Screen.fill("black")
-    global BoardSection, current_player_index, event
+    global BoardSection, current_player_index, event, drawn_card, current_character
     last_button_press_time = 0
     button_cooldown = 500
 
@@ -258,6 +261,9 @@ def Game(selected_characetrs):
         screen.blit(game_board, (190, 80))
         for character in characters:
             character.display(screen, get_font(40))
+
+    def get_current_section_name(character, board_sections):
+        return board_sections[character.position_index].section
 
     def update_player_turn_text(screen, current_player_name):
         background_color = (0, 0, 0)
@@ -418,9 +424,6 @@ def Game(selected_characetrs):
 
     font = get_font(40)
 
-    scaled_button_pos_x = int(1800 * scale_factor_width)
-    scaled_button_pos_y = int(100 * scale_factor_height)
-
     selected_character_objects = []
     for player_characters in selected_characters:
         for character_name in player_characters:
@@ -437,6 +440,7 @@ def Game(selected_characetrs):
                     character.display(Screen, font)
 
     run = True
+    show_deck = False
     current_player_index = 0
     current_characters = selected_characters[current_player_index][0]
     update_player_turn_text(Screen, current_characters)
@@ -448,14 +452,24 @@ def Game(selected_characetrs):
         MousePos = pygame.mouse.get_pos()
         current_time = pygame.time.get_ticks()
 
-        EndTurnButton = Button(image=pygame.image.load("Stuff/SmallRect.png"), pos=(scaled_button_pos_x, scaled_button_pos_y),
+        EndTurnButton = Button(image=pygame.image.load("Stuff/SmallRect.png"), pos=(1800 * scale_factor_width,100 * scale_factor_height),
                                text_input="End Turn", font=get_font(40), base_color="#b68f40",
                                hovering_color="Blue")
 
         EndTurnButton.changeColor(MousePos)
         EndTurnButton.update(Screen)
 
-        current_characters = selected_characters[current_player_index][0]
+        TakeCardButton = Button(image=pygame.image.load("Stuff/SmallRect.png"), pos=(110 * scale_factor_width, 1000 * scale_factor_height),
+                               text_input="Take Card", font=get_font(40), base_color="#b68f40",
+                               hovering_color="Blue")
+        TakeCardButton.changeColor(MousePos)
+        TakeCardButton.update(Screen)
+
+        ShowDeckButton = Button(image=pygame.image.load("Stuff/SmallRect.png"), pos=(110 * scale_factor_width, 1050 * scale_factor_height),
+                               text_input="Show Deck", font=get_font(40), base_color="#b68f40",
+                               hovering_color="Blue")
+        ShowDeckButton.changeColor(MousePos)
+        ShowDeckButton.update(Screen)
 
         rect_height = 50
         rect_y_start = current_screen_height - rect_height
@@ -483,6 +497,7 @@ def Game(selected_characetrs):
                         random_card_type = random.choice(deck)
                         random_card = random.choice(random_card_type)
                         random_card.display(Screen)
+                        drawn_card = random_card
 
         if event.type == pygame.MOUSEBUTTONDOWN:
             if EndTurnButton.checkForInput(MousePos) and (current_time - last_button_press_time > button_cooldown):
@@ -497,9 +512,29 @@ def Game(selected_characetrs):
                 current_char = character_mapping.get(current_characters)
                 if current_char:
                     current_char.display_attribute(Screen)
-                    ## TODO: VYTVOŘIT ODKLÁDACÍ BALÍČEK
-                    ## TODO: HRÁČOVI KARTY
-                    ## TODO: VYŘEŠIT PROTIVNÍKOVI KARTY
+            if TakeCardButton.checkForInput(MousePos):
+                if isinstance(drawn_card, (ObjectCard, MagicObject, Spell)):
+                    current_character.deck.append(drawn_card)
+                    drawn_card = None
+            if ShowDeckButton.checkForInput(MousePos):
+                show_deck = not show_deck
+    if show_deck:
+        pass
+
+        current_character = selected_character_objects[current_player_index]
+
+        background_color = (0, 0, 0)
+
+        # Define the area where the text is displayed
+        text_area_rect = pygame.Rect(1200, current_screen_height - 40, 400, 40)
+
+        Screen.fill(background_color, text_area_rect)
+
+        # Now draw the new text as before
+        font = get_font(30)
+        current_section_name = get_current_section_name(current_character, Board_Section)
+        section_text = font.render(f"Current Section: {current_section_name}", True, (255, 255, 255))
+        Screen.blit(section_text, (1200, current_screen_height - 40))
 
         pygame.display.update()
 
