@@ -223,7 +223,7 @@ characters = [
 def Game(selected_characetrs):
     pygame.display.set_caption("Game")
     Screen.fill("black")
-    global BoardSection, current_player_index, event, drawn_card, current_character
+    global BoardSection, current_player_index, event, drawn_card
     last_button_press_time = 0
     button_cooldown = 500
 
@@ -273,6 +273,24 @@ def Game(selected_characetrs):
         player_turn_text = get_font(70).render(f"{current_player_name}'s Turn", True, "#b68f40")
         player_turn_rect = player_turn_text.get_rect(center=(screen.get_width() // 2, 25))
         screen.blit(player_turn_text, player_turn_rect)
+
+    def show_deck_popup(screen, character_deck):
+        popup_active = True
+        while popup_active:
+            popup_bg_rect = pygame.Rect(100, 50, current_screen_width - 200, current_screen_height - 100)
+            pygame.draw.rect(screen, (60, 60, 60), popup_bg_rect)  # Dark grey background
+
+            # Display the character's deck within the popup
+            start_x, start_y = 150, 100
+            for card in character_deck:
+                card_image = pygame.transform.scale(card.image, (100, 150))  # Scale card images
+                screen.blit(card_image, (start_x, start_y))
+                start_x += 110  # Adjust spacing as needed
+                if start_x > popup_bg_rect.width - 150:
+                    start_x = 150  # Reset to left margin
+                    start_y += 160  # Move to the next row
+
+            pygame.display.update(popup_bg_rect)
 
     Board_Section = [
         BoardSection(395, 135, "Village", down=23, right=1),  # 0
@@ -441,6 +459,7 @@ def Game(selected_characetrs):
 
     run = True
     show_deck = False
+
     current_player_index = 0
     current_characters = selected_characters[current_player_index][0]
     update_player_turn_text(Screen, current_characters)
@@ -516,12 +535,14 @@ def Game(selected_characetrs):
                 if isinstance(drawn_card, (ObjectCard, MagicObject, Spell)):
                     current_character.deck.append(drawn_card)
                     drawn_card = None
-            if ShowDeckButton.checkForInput(MousePos):
-                show_deck = not show_deck
-    if show_deck:
-        pass
+        if ShowDeckButton.checkForInput(MousePos):
+            show_deck = not show_deck
+        if show_deck_popup:
+            show_deck_popup(Screen, current_character.deck)
+        else:
+            pass
 
-        current_character = selected_character_objects[current_player_index]
+        current_garacter = selected_character_objects[current_player_index]
 
         background_color = (0, 0, 0)
 
@@ -532,7 +553,7 @@ def Game(selected_characetrs):
 
         # Now draw the new text as before
         font = get_font(30)
-        current_section_name = get_current_section_name(current_character, Board_Section)
+        current_section_name = get_current_section_name(current_garacter, Board_Section)
         section_text = font.render(f"Current Section: {current_section_name}", True, (255, 255, 255))
         Screen.blit(section_text, (1200, current_screen_height - 40))
 
