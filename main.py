@@ -274,23 +274,19 @@ def Game(selected_characetrs):
         player_turn_rect = player_turn_text.get_rect(center=(screen.get_width() // 2, 25))
         screen.blit(player_turn_text, player_turn_rect)
 
-    def show_deck_popup(screen, character_deck):
-        popup_active = True
-        while popup_active:
-            popup_bg_rect = pygame.Rect(100, 50, current_screen_width - 200, current_screen_height - 100)
-            pygame.draw.rect(screen, (60, 60, 60), popup_bg_rect)  # Dark grey background
+    def draw_deck_popup(screen, character_deck):
+        popup_bg_rect = pygame.Rect(100, 50, current_screen_width - 200, current_screen_height - 100)
+        pygame.draw.rect(screen, (60, 60, 60), popup_bg_rect)  # Dark grey background
 
-            # Display the character's deck within the popup
-            start_x, start_y = 150, 100
-            for card in character_deck:
-                card_image = pygame.transform.scale(card.image, (100, 150))  # Scale card images
-                screen.blit(card_image, (start_x, start_y))
-                start_x += 110  # Adjust spacing as needed
-                if start_x > popup_bg_rect.width - 150:
-                    start_x = 150  # Reset to left margin
-                    start_y += 160  # Move to the next row
-
-            pygame.display.update(popup_bg_rect)
+        # Display the character's deck within the popup
+        start_x, start_y = 150, 100
+        for card in character_deck:
+            card_image = pygame.transform.scale(card.image, (100, 150))  # Scale card images
+            screen.blit(card_image, (start_x, start_y))
+            start_x += 110  # Adjust spacing as needed
+            if start_x > popup_bg_rect.width - 150:
+                start_x = 150  # Reset to left margin
+                start_y += 160  # Move to the next row
 
     Board_Section = [
         BoardSection(395, 135, "Village", down=23, right=1),  # 0
@@ -470,8 +466,9 @@ def Game(selected_characetrs):
     while run:
         MousePos = pygame.mouse.get_pos()
         current_time = pygame.time.get_ticks()
+        current_character = selected_character_objects[current_player_index]
 
-        EndTurnButton = Button(image=pygame.image.load("Stuff/SmallRect.png"), pos=(1800 * scale_factor_width,100 * scale_factor_height),
+        EndTurnButton = Button(image=pygame.image.load("Stuff/SmallRect.png"), pos=(1800 * scale_factor_width, 100 * scale_factor_height),
                                text_input="End Turn", font=get_font(40), base_color="#b68f40",
                                hovering_color="Blue")
 
@@ -535,12 +532,12 @@ def Game(selected_characetrs):
                 if isinstance(drawn_card, (ObjectCard, MagicObject, Spell)):
                     current_character.deck.append(drawn_card)
                     drawn_card = None
-        if ShowDeckButton.checkForInput(MousePos):
-            show_deck = not show_deck
-        if show_deck_popup:
-            show_deck_popup(Screen, current_character.deck)
-        else:
-            pass
+            if ShowDeckButton.checkForInput(MousePos):
+                show_deck = not show_deck
+                if not show_deck:
+                    pass
+            if show_deck:
+                draw_deck_popup(Screen, current_character.deck)
 
         current_garacter = selected_character_objects[current_player_index]
 
