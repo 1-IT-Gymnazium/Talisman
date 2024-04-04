@@ -288,6 +288,32 @@ def Game(selected_characetrs):
                 start_x = 150  # Reset to left margin
                 start_y += 160  # Move to the next row
 
+    def fight(player, enemy):
+        fight_surface = pygame.Surface((600, 400))
+        fight_surface.fill((0, 0, 0))
+        fight_rect = fight_surface.get_rect(center=(current_screen_width // 2, current_screen_height // 2))
+        border_color = (255, 255, 255)
+        border_width = 5
+
+        enemy_stat = 'craft' if enemy.craft > enemy.strength else 'strength'
+        enemy_stat_value = enemy.craft if enemy.craft > enemy.strength else enemy.strength
+
+    def display_fight_details(surface, player, enemy, enemy_stat, enemy_total, player_total):
+        player_image = pygame.image.load(player.image)
+        enemy_image = pygame.image.load(enemy.image_path)
+
+        surface.blit(player_image, (50, 100))
+        surface.blit(enemy_image, (450, 100))
+
+        font = get_font(30)
+        enemy_stat_text = font.render(f"{enemy_stat.capitalize()}: {enemy_stat}", True, "#b68f40")
+        enemy_total_stat = font.render(f"{enemy_stat.capitalize()}: {enemy_total}", True, "#b68f40")
+        player_stat_total = font.render(f"Total {enemy_stat.capitalize()}: {player_total}", True, "#b68f40")
+
+        surface.blit(enemy_stat_text, (50, 300))
+        surface.blit(enemy_total_stat, (50, 320))
+        surface.blit(player_stat_total, (450, 300))
+
     Board_Section = [
         BoardSection(395, 135, "Village", down=23, right=1),  # 0
         BoardSection(579, 135, "Forest", left=0, right=2),  # 1
@@ -468,10 +494,9 @@ def Game(selected_characetrs):
         current_time = pygame.time.get_ticks()
         current_character = selected_character_objects[current_player_index]
 
-        EndTurnButton = Button(image=pygame.image.load("Stuff/SmallRect.png"), pos=(1800 * scale_factor_width, 100 * scale_factor_height),
+        EndTurnButton = Button(image=pygame.image.load("Stuff/SmallRect.png"), pos=(1850 * scale_factor_width, 100 * scale_factor_height),
                                text_input="End Turn", font=get_font(40), base_color="#b68f40",
                                hovering_color="Blue")
-
         EndTurnButton.changeColor(MousePos)
         EndTurnButton.update(Screen)
 
@@ -481,7 +506,7 @@ def Game(selected_characetrs):
         TakeCardButton.changeColor(MousePos)
         TakeCardButton.update(Screen)
 
-        ShowDeckButton = Button(image=pygame.image.load("Stuff/SmallRect.png"), pos=(110 * scale_factor_width, 1050 * scale_factor_height),
+        ShowDeckButton = Button(image=pygame.image.load("Stuff/SmallRect.png"), pos=(1850 * scale_factor_width, 150 * scale_factor_height),
                                text_input="Show Deck", font=get_font(40), base_color="#b68f40",
                                hovering_color="Blue")
         ShowDeckButton.changeColor(MousePos)
@@ -514,6 +539,7 @@ def Game(selected_characetrs):
                         random_card = random.choice(random_card_type)
                         random_card.display(Screen)
                         drawn_card = random_card
+                        check_enemy = isinstance(drawn_card, Enemy)
 
         if event.type == pygame.MOUSEBUTTONDOWN:
             if EndTurnButton.checkForInput(MousePos) and (current_time - last_button_press_time > button_cooldown):
