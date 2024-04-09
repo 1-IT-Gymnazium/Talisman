@@ -1,5 +1,7 @@
 # from enum import Enum
 import random
+import time
+
 import pygame
 import sys
 from button import Button
@@ -46,6 +48,7 @@ class Character:
         self.talisman = False
         self.fate = fate
         self.gold = gold
+        self.trophy = 0
         self.start = start
         self.image = image
         self.position = 0
@@ -288,31 +291,86 @@ def Game(selected_characetrs):
                 start_x = 150  # Reset to left margin
                 start_y += 160  # Move to the next row
 
-    def fight(player, enemy):
-        fight_surface = pygame.Surface((600, 400))
+    def fight(player, enemy, dice, screen):
+        fight_surface = pygame.Surface((800, 600))
         fight_surface.fill((0, 0, 0))
         fight_rect = fight_surface.get_rect(center=(current_screen_width // 2, current_screen_height // 2))
         border_color = (255, 255, 255)
         border_width = 5
 
+        fight_stage = "enemy_roll"
         enemy_stat = 'craft' if enemy.craft > enemy.strength else 'strength'
         enemy_stat_value = enemy.craft if enemy.craft > enemy.strength else enemy.strength
+        player_stat_value = player.craft if enemy_stat == 'craft' else player.strength
+        enemy_total, player_total = None, None
 
-    def display_fight_details(surface, player, enemy, enemy_stat, enemy_total, player_total):
+        display_fight_details(fight_surface, player, enemy, enemy_stat, enemy_stat_value, enemy_total, player_total, fight_stage)
+        screen.blit(fight_surface, fight_rect.topleft)
+        pygame.display.flip()
+
+        bg_color = (0, 0, 0)
+        text_area = pygame.Rect(250, 50, 400, 200)
+
+        while fight_stage != "done":
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+                    if fight_stage == "enemy_roll":
+                        dice.roll()
+                        enemy_total = int(enemy_stat_value) + dice.value
+                        fight_stage = "enemy_rolled"
+                    elif fight_stage == "enemy_rolled":
+                        time.sleep(3)
+                        fight_surface.fill(bg_color, text_area)
+                        fight_stage = "player_roll"
+                    elif fight_stage == "player_roll":
+                        dice.roll()
+                        player_total = int(player_stat_value) + dice.value
+                        fight_stage = "player_rolled"
+                    elif fight_stage == "player_rolled":
+                        time.sleep(3)
+                        fight_stage = "result"
+
+                    display_fight_details(fight_surface, player, enemy, enemy_stat, enemy_stat_value, enemy_total, player_total,
+                                          fight_stage)
+                    screen.blit(fight_surface, fight_rect.topleft)
+                    pygame.display.flip()
+
+                    if fight_stage == "result":
+                        if player_total > enemy_total:
+                            winner = get_font(30).render("You Win", True, "#b68f40")
+                        else:
+                            winner = get_font(30).render("You lose", True, "#b68f40")
+                        fight_result(fight_surface, winner)
+                        screen.blit(fight_surface, fight_rect.topleft)
+                        pygame.display.flip()
+                        fight_stage = "done"
+
+    def display_fight_details(surface, player, enemy, enemy_stat, enemy_stat_value, enemy_fin, player_fin, stage):
         player_image = pygame.image.load(player.image)
         enemy_image = pygame.image.load(enemy.image_path)
 
-        surface.blit(player_image, (50, 100))
-        surface.blit(enemy_image, (450, 100))
+        surface.blit(player_image, (450, 100))
+        surface.blit(enemy_image, (50, 100))
 
         font = get_font(30)
-        enemy_stat_text = font.render(f"{enemy_stat.capitalize()}: {enemy_stat}", True, "#b68f40")
-        enemy_total_stat = font.render(f"{enemy_stat.capitalize()}: {enemy_total}", True, "#b68f40")
-        player_stat_total = font.render(f"Total {enemy_stat.capitalize()}: {player_total}", True, "#b68f40")
+        enemy_stat_text = font.render(f"{enemy_stat.capitalize()}: {enemy_stat_value}", True, "#b68f40")
+        surface.blit(enemy_stat_text, (50, 450))
 
-        surface.blit(enemy_stat_text, (50, 300))
-        surface.blit(enemy_total_stat, (50, 320))
-        surface.blit(player_stat_total, (450, 300))
+        if stage == "enemy_roll":
+            message1 = get_font(30).render("Press space to roll for enemy", True, "#b68f40")
+            surface.blit(message1, (250, 50))
+        elif stage == "enemy_rolled":
+            enemy_total_stat = font.render(f"{enemy_stat.capitalize()}: {enemy_fin}", True, "#b68f40")
+            surface.blit(enemy_total_stat, (50, 500))
+        elif stage == "player_roll":
+            message2 = get_font(30).render("Press space to roll for yourself", True, "#b68f40")
+            surface.blit(message2, (250, 50))
+        elif stage == "player_rolled":
+            player_stat_total = font.render(f"Total {enemy_stat.capitalize()}: {player_fin}", True, "#b68f40")
+            surface.blit(player_stat_total, (450, 500))
+
+    def fight_result(surface, winner):
+        surface.blit(winner, (300, 200))
 
     Board_Section = [
         BoardSection(395, 135, "Village", down=23, right=1),  # 0
@@ -540,6 +598,8 @@ def Game(selected_characetrs):
                         random_card.display(Screen)
                         drawn_card = random_card
                         check_enemy = isinstance(drawn_card, Enemy)
+                        if check_enemy:
+                            fight(current_char, drawn_card, my_die, Screen)
 
         if event.type == pygame.MOUSEBUTTONDOWN:
             if EndTurnButton.checkForInput(MousePos) and (current_time - last_button_press_time > button_cooldown):
