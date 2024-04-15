@@ -5,6 +5,7 @@ import time
 import pygame
 import sys
 from button import Button
+
 pygame.init()
 
 default_resolution = pygame.display.Info()
@@ -39,12 +40,13 @@ class DeckShuffle:
 
 
 class Character:
-    def __init__(self, name, image, strength, craft, life, fate, gold, start):
+    def __init__(self, name, image, strength, craft, life, fate, gold, alignment, start):
         self.name = name
         self.strength = strength
         self.craft = craft
         self.life = life
         self.gold = 0
+        self.alignment = alignment
         self.talisman = False
         self.fate = fate
         self.gold = gold
@@ -86,10 +88,11 @@ class Character:
     def display_attribute(self, screen):
         base_y = (1050 * scale_factor_height) + (current_screen_height - (1080 * scale_factor_height))
 
-        attributes = ["Strength = " + str(self.strength),
-                     "Craft = " + str(self.craft),
-                     "Fate = " + str(self.fate),
-                     "Gold = " + str(self.gold)]
+        attributes = ["Life = " + str(self.life),
+                    "Strength = " + str(self.strength),
+                      "Craft = " + str(self.craft),
+                      "Fate = " + str(self.fate),
+                      "Gold = " + str(self.gold)]
         x_offset = 10
         font = get_font(30)
 
@@ -206,27 +209,27 @@ def get_font(size):
 
 
 characters = [
-    Character("Assassin", "./Characters/Assassin.png", 3, 3, 4, 3, 1, "City"),
-    Character("Druid", "./Characters/Druid.png", 2, 4, 4, 4, 1, "Chapel"),
-    Character("Dwarf", "./Characters/Dwarf.png", 3, 3, 5, 5, 1, "Cracks"),
-    Character("Elf", "./Characters/Elf.png", 3, 4, 4, 3, 1, "ElvForest"),
-    Character("Ghoul", "./Characters/Ghoul.png", 2, 4, 4, 4, 1, "Village"),
-    Character("Minstrel", "./Characters/Minstrel.png", 2, 4, 4, 5, 1, "Tavern"),
-    Character("Monk", "./Characters/Monk.png", 2, 3, 4, 5, 1, "Village"),
-    Character("Priest", "./Characters/Priest.png", 2, 4, 4, 5, 1, "Chapel"),
-    Character("Prophetess", "./Characters/Prophetess.png", 2, 4, 4, 2, 1, "Chapel"),
-    Character("Sorceress", "./Characters/Sorceress.png", 2, 4, 4, 3, 1, "City"),
-    Character("Thief", "./Characters/Thief.png", 3, 3, 4, 2, 1, "City"),
-    Character("Troll", "./Characters/Troll.png", 6, 1, 6, 1, 1, "Cracks"),
-    Character("Wizard", "./Characters/Wizard.png", 2, 5, 4, 3, 1, "Chapel"),
-    Character("Warrior", "./Characters/Warrior.png", 4, 2, 5, 1, 1, "Tavern")
+    Character("Assassin", "./Characters/Assassin.png", 3, 3, 4, 3, 1, "Evil", "City"),
+    Character("Druid", "./Characters/Druid.png", 2, 4, 4, 4, 1, "Neutral", "Chapel"),
+    Character("Dwarf", "./Characters/Dwarf.png", 3, 3, 5, 5, 1, "Neutral", "Cracks"),
+    Character("Elf", "./Characters/Elf.png", 3, 4, 4, 3, 1, "Good", "ElvForest"),
+    Character("Ghoul", "./Characters/Ghoul.png", 2, 4, 4, 4, 1, "Evil", "Village"),
+    Character("Minstrel", "./Characters/Minstrel.png", 2, 4, 4, 5, 1, "Good", "Tavern"),
+    Character("Monk", "./Characters/Monk.png", 2, 3, 4, 5, 1, "Good", "Village"),
+    Character("Priest", "./Characters/Priest.png", 2, 4, 4, 5, 1, "Good", "Chapel"),
+    Character("Prophetess", "./Characters/Prophetess.png", 2, 4, 4, 2, 1, "Good", "Chapel"),
+    Character("Sorceress", "./Characters/Sorceress.png", 2, 4, 4, 3, 1, "Evil", "City"),
+    Character("Thief", "./Characters/Thief.png", 3, 3, 4, 2, 1, "Neutral", "City"),
+    Character("Troll", "./Characters/Troll.png", 6, 1, 6, 1, 1, "Neutral", "Cracks"),
+    Character("Wizard", "./Characters/Wizard.png", 2, 5, 4, 3, 1, "Evil", "Chapel"),
+    Character("Warrior", "./Characters/Warrior.png", 4, 2, 5, 1, 1, "Neutral", "Tavern")
 ]
 
 
 def Game(selected_characetrs):
     pygame.display.set_caption("Game")
     Screen.fill("black")
-    global BoardSection, current_player_index, event, drawn_card
+    global BoardSection, current_player_index, event, drawn_card, current_section
     last_button_press_time = 0
     button_cooldown = 500
 
@@ -295,8 +298,6 @@ def Game(selected_characetrs):
         fight_surface = pygame.Surface((800, 600))
         fight_surface.fill((0, 0, 0))
         fight_rect = fight_surface.get_rect(center=(current_screen_width // 2, current_screen_height // 2))
-        border_color = (255, 255, 255)
-        border_width = 5
 
         fight_stage = "enemy_roll"
         enemy_stat = 'craft' if enemy.craft > enemy.strength else 'strength'
@@ -304,7 +305,8 @@ def Game(selected_characetrs):
         player_stat_value = player.craft if enemy_stat == 'craft' else player.strength
         enemy_total, player_total = None, None
 
-        display_fight_details(fight_surface, player, enemy, enemy_stat, enemy_stat_value, enemy_total, player_total, fight_stage)
+        display_fight_details(fight_surface, player, enemy, enemy_stat, enemy_stat_value, enemy_total, player_total,
+                              fight_stage)
         screen.blit(fight_surface, fight_rect.topleft)
         pygame.display.flip()
 
@@ -330,7 +332,8 @@ def Game(selected_characetrs):
                         time.sleep(3)
                         fight_stage = "result"
 
-                    display_fight_details(fight_surface, player, enemy, enemy_stat, enemy_stat_value, enemy_total, player_total,
+                    display_fight_details(fight_surface, player, enemy, enemy_stat, enemy_stat_value, enemy_total,
+                                          player_total,
                                           fight_stage)
                     screen.blit(fight_surface, fight_rect.topleft)
                     pygame.display.flip()
@@ -371,6 +374,104 @@ def Game(selected_characetrs):
 
     def fight_result(surface, winner):
         surface.blit(winner, (300, 200))
+
+    def Tavern_action(dice, character, screen):
+        popup_active = True
+        dice_result_displayed = False
+        while popup_active:
+            popup_bg = pygame.Rect(300, 200, 800, 600)
+            pygame.draw.rect(screen, (0, 0, 0), popup_bg)
+            font = get_font(30)
+            options = font.render("Press space to roll a dice for action", True, "#b68f40")
+            screen.blit(options, (350, 250))  # Adjust position as needed
+
+            roll_options = {
+                1: "Get drunk and lose 1 life",
+                2: "Fight with a Farmer",
+                3: "Gamble and lose 1 gold",
+                4: "Gamble and win 1 gold",
+                5: "A wizard offers teleportation",
+                6: "Steal 3 gold"
+            }
+            y_offset = 350
+            for roll, action in roll_options.items():
+                option_text = get_font(30).render(f"{roll}: {action}", True, "#b68f40")
+                screen.blit(option_text, (350, y_offset))
+                y_offset += 50
+
+            if dice_result_displayed:
+                result_text = get_font(50).render(f"Dice Roll: {dice.value}", True, (255, 0, 0))
+                screen.blit(result_text, (350, 300))
+                pygame.display.update()
+                pygame.time.delay(2000)
+                handle_tavern_dice_roll(dice.value, character, screen)
+                popup_active = False
+
+            pygame.display.update()
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE:
+                        dice.roll()
+                        dice_result_displayed = True
+
+    def handle_tavern_dice_roll(dice_result, character, screen):
+        initial_stats = (character.life, character.gold)
+        rect = pygame.Rect(500, 800, 600, 600)
+
+        if dice_result == 1:
+            character.life -= 1
+        elif dice_result == 2:
+            farmer = Enemy("Farmer", "./EnemyCards/Farmer.png", "Encounter Farmer", 2, 3)
+            fight(character, farmer, my_die, Screen)
+        elif dice_result == 3:
+            character.gold = max(0, character.gold - 1)
+        elif dice_result == 4:
+            character.gold += 1
+        elif dice_result == 5:
+            pass
+        elif dice_result == 6:
+            character.gold += 3
+
+        if (character.life, character.gold) != initial_stats:
+            screen.fill((0, 0, 0), rect)
+            character.display_attribute(screen)
+            pygame.display.update()
+
+    def Chapel_action(character, screen):
+        global result_text
+        rect = pygame.Rect(500, 800, 600, 600)
+        popup_bg = pygame.Rect(300, 200, 800, 600)
+        pygame.draw.rect(screen, (0, 0, 0), popup_bg)
+        font = get_font(30)
+        chapel_text = font.render("You have entered the chapel and you are praying", True, "#b68f40")
+        screen.blit(chapel_text, (350, 250))
+        pygame.display.update()
+
+        pygame.time.delay(5000)
+
+        if character.alignment == "Evil":
+            character.life -= 1
+            result_text = get_font(40).render("You have lost one life", True, "#b68f40")
+        elif character.alignment == "Neutral":
+            result_text = get_font(40).render("Nothing happened", True, "#b68f40")
+        elif character.alignment == "Good":
+            result_text = get_font(40).render("Throw dice again", True, "#b68f40")
+
+        screen.fill((0, 0, 0), popup_bg)
+        screen.blit(result_text, (350, 300))
+        pygame.display.update()
+
+        if character.alignment == "Good":
+            pass
+
+        if character.alignment == "Evil":
+            screen.fill((0, 0, 0), rect)
+            character.display_attribute(screen)
+            pygame.display.update()
 
     Board_Section = [
         BoardSection(395, 135, "Village", down=23, right=1),  # 0
@@ -419,6 +520,7 @@ def Game(selected_characetrs):
         Enemy("WildBoar", "./EnemyCards/WildBoar.png", "yep", "0", "1"),
         Enemy("Wolf", "./EnemyCards/Wolf.png", "yep", "0", "2"),
         Enemy("Wraith", "./EnemyCards/Wraith.png", "yep", "5", "0"),
+        Enemy("Farmer", "./EnemyCards/Farmer.png", "yep", "0", "3")
     ]
 
     objectcards = [
@@ -552,23 +654,31 @@ def Game(selected_characetrs):
         current_time = pygame.time.get_ticks()
         current_character = selected_character_objects[current_player_index]
 
-        EndTurnButton = Button(image=pygame.image.load("Stuff/SmallRect.png"), pos=(1850 * scale_factor_width, 100 * scale_factor_height),
+        EndTurnButton = Button(image=pygame.image.load("Stuff/SmallRect.png"),
+                               pos=(1850 * scale_factor_width, 100 * scale_factor_height),
                                text_input="End Turn", font=get_font(40), base_color="#b68f40",
                                hovering_color="Blue")
         EndTurnButton.changeColor(MousePos)
         EndTurnButton.update(Screen)
 
-        TakeCardButton = Button(image=pygame.image.load("Stuff/SmallRect.png"), pos=(110 * scale_factor_width, 1000 * scale_factor_height),
-                               text_input="Take Card", font=get_font(40), base_color="#b68f40",
-                               hovering_color="Blue")
+        TakeCardButton = Button(image=pygame.image.load("Stuff/SmallRect.png"),
+                                pos=(110 * scale_factor_width, 1000 * scale_factor_height),
+                                text_input="Take Card", font=get_font(40), base_color="#b68f40",
+                                hovering_color="Blue")
         TakeCardButton.changeColor(MousePos)
         TakeCardButton.update(Screen)
 
-        ShowDeckButton = Button(image=pygame.image.load("Stuff/SmallRect.png"), pos=(1850 * scale_factor_width, 150 * scale_factor_height),
-                               text_input="Show Deck", font=get_font(40), base_color="#b68f40",
-                               hovering_color="Blue")
+        ShowDeckButton = Button(image=pygame.image.load("Stuff/SmallRect.png"),
+                                pos=(1850 * scale_factor_width, 150 * scale_factor_height),
+                                text_input="Show Deck", font=get_font(40), base_color="#b68f40",
+                                hovering_color="Blue")
         ShowDeckButton.changeColor(MousePos)
         ShowDeckButton.update(Screen)
+
+        enter_button = Button(image=pygame.image.load("Stuff/SmallRect.png"),
+                              pos=(1600 * scale_factor_width, 900 * scale_factor_height),  # Adjust position as needed
+                              text_input="Enter", font=get_font(40), base_color="#d7fcd4",
+                              hovering_color="Green")
 
         rect_height = 50
         rect_y_start = current_screen_height - rect_height
@@ -602,6 +712,10 @@ def Game(selected_characetrs):
                             fight(current_char, drawn_card, my_die, Screen)
 
         if event.type == pygame.MOUSEBUTTONDOWN:
+            if enter_button.checkForInput(MousePos) and current_section == "Tavern":
+                Tavern_action(my_die, current_char, Screen)
+            elif enter_button.checkForInput(MousePos) and current_section == "Chapel":
+                Chapel_action(current_char, Screen)
             if EndTurnButton.checkForInput(MousePos) and (current_time - last_button_press_time > button_cooldown):
                 last_button_press_time = current_time
                 Screen.fill((0, 0, 0), attributes_display_area)
@@ -615,7 +729,7 @@ def Game(selected_characetrs):
                 if current_char:
                     current_char.display_attribute(Screen)
             if TakeCardButton.checkForInput(MousePos):
-                if isinstance(drawn_card, (ObjectCard, MagicObject, Spell)):
+                if isinstance(drawn_card, (ObjectCard, MagicObject, Spell, Follower)):
                     current_character.deck.append(drawn_card)
                     drawn_card = None
             if ShowDeckButton.checkForInput(MousePos):
@@ -639,6 +753,10 @@ def Game(selected_characetrs):
         current_section_name = get_current_section_name(current_garacter, Board_Section)
         section_text = font.render(f"Current Section: {current_section_name}", True, (255, 255, 255))
         Screen.blit(section_text, (1200, current_screen_height - 40))
+
+        current_section = Board_Section[current_character.position_index].section
+        if current_section in ["Tavern", "Village", "Chapel", "City"]:
+            enter_button.update(Screen)
 
         pygame.display.update()
 
@@ -761,8 +879,12 @@ def PlayerNum():
 
 def main_menu():
     pygame.display.set_caption("Menu")
+    original_wtf_image = pygame.image.load("wtf.png")
+    # Scale the image to match the screen dimensions
+    scaled_wtf_image = pygame.transform.scale(original_wtf_image, (current_screen_width, current_screen_height))
+
     while True:
-        Screen.blit(BackGround, (0, 0))
+        Screen.blit(scaled_wtf_image, (0, 0))
 
         MenuMousePos = pygame.mouse.get_pos()
 
