@@ -92,7 +92,8 @@ class Character:
                       "Strength = " + str(self.strength),
                       "Craft = " + str(self.craft),
                       "Fate = " + str(self.fate),
-                      "Gold = " + str(self.gold)]
+                      "Gold = " + str(self.gold),
+                      "Alignment = " + str(self.alignment)]
         x_offset = 10
         font = get_font(30)
 
@@ -476,14 +477,22 @@ def Game(selected_characetrs):
     def City_action(character, dice, screen):
         popup_active = True
         dice_result_displayed = False
+
         while popup_active:
-            popup_bg = pygame.Rect(300, 200, 800, 600)
+            MousePos = pygame.mouse.get_pos()
+            popup_bg = pygame.Rect(300, 200, 1000, 600)
             pygame.draw.rect(screen, (0, 0, 0), popup_bg)
             font = get_font(30)
             city_text = font.render(
                 "You have entered the city. Visit enchantress(Roll a dice) or visit a doctor(Press button)", True,
                 "#b68f40")
             screen.blit(city_text, (350, 250))
+            doctor_button = Button(image=pygame.image.load("Stuff/SmallRect.png"),
+                                   pos=(967, 402),
+                                   text_input="Enter", font=get_font(40), base_color="#b68f40",
+                                   hovering_color="Green")
+            doctor_button.changeColor(MousePos)
+            doctor_button.update(screen)
 
             roll_options = {
                 1: "Skip a turn",
@@ -517,10 +526,14 @@ def Game(selected_characetrs):
                     if event.key == pygame.K_SPACE:
                         dice.roll()
                         dice_result_displayed = True
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    if doctor_button.checkForInput(MousePos):
+                        doc_interaction(character, screen)
+                        popup_active = False
 
     def City_dice_roll(dice_result, character, screen):
         initial_stats = (character.strength, character.craft)
-        rect = pygame.Rect(700, 1000, 500, 200)
+        rect = pygame.Rect(500, 800, 600, 600)
 
         if dice_result == 1:
             pass
@@ -536,6 +549,87 @@ def Game(selected_characetrs):
             pass
 
         if (character.strength, character.craft) != initial_stats:
+            screen.fill((0, 0, 0), rect)
+            character.display_attribute(screen)
+            pygame.display.update()
+
+    def doc_interaction(character, screen):
+        initial_stats = character.life
+        rect = pygame.Rect(500, 800, 600, 600)
+        doc_text = get_font(50).render("You have healed 1 life", True, "#b68f40")
+        screen.blit(doc_text, (800, 600))
+        character.life += 1
+
+        if character.life != initial_stats:
+            screen.fill((0, 0, 0), rect)
+            character.display_attribute(screen)
+            pygame.display.update()
+
+    def village_action(character, dice, screen):
+        popup_active = True
+        dice_result_displayed = False
+
+        while popup_active:
+            popup_bg = pygame.Rect(300, 200, 1000, 600)
+            pygame.draw.rect(screen, (0, 0, 0), popup_bg)
+            font = get_font(30)
+            village_text = font.render(
+                "You have entered the city. Visit Mystic(Roll a dice)", True,
+                "#b68f40")
+            screen.blit(village_text, (350, 250))
+
+
+            roll_options = {
+                1: "Become evil.",
+                2: "Nothing",
+                3: "Nothing",
+                4: "Become good",
+                5: "Gain 2 craft",
+                6: "Gain 2 strength"
+            }
+            y_offset = 350
+            for roll, action in roll_options.items():
+                option_text = get_font(30).render(f"{roll}: {action}", True, "#b68f40")
+                screen.blit(option_text, (350, y_offset))
+                y_offset += 50
+
+            if dice_result_displayed:
+                result_text = get_font(50).render(f"Dice Roll: {dice.value}", True, (255, 0, 0))
+                screen.blit(result_text, (350, 300))
+                pygame.display.update()
+                pygame.time.delay(2000)
+                Village_dice_roll(dice.value, character, screen)
+                popup_active = False
+
+            pygame.display.update()
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE:
+                        dice.roll()
+                        dice_result_displayed = True
+
+    def Village_dice_roll(dice_result, character, screen):
+        initial_stats = (character.strength, character.craft)
+        rect = pygame.Rect(500, 800, 800, 600)
+
+        if dice_result == 1:
+            character.alignment = "Evil"
+        elif dice_result == 2:
+            pass
+        elif dice_result == 3:
+            pass
+        elif dice_result == 4:
+            character.alignment = "Good"
+        elif dice_result == 5:
+            character.craft += 2
+        elif dice_result == 6:
+            character.strength += 2
+
+        if (character.strength, character.craft, character.alignment) != initial_stats:
             screen.fill((0, 0, 0), rect)
             character.display_attribute(screen)
             pygame.display.update()
@@ -587,7 +681,7 @@ def Game(selected_characetrs):
         Enemy("WildBoar", "./EnemyCards/WildBoar.png", "yep", "0", "1"),
         Enemy("Wolf", "./EnemyCards/Wolf.png", "yep", "0", "2"),
         Enemy("Wraith", "./EnemyCards/Wraith.png", "yep", "5", "0"),
-        Enemy("Farmer", "./EnemyCards/Farmer.png", "yep", "0", "3")
+        Enemy("Farmer", "./EnemyCards/Farmer.png", "yep", "0", "3"),
     ]
 
     objectcards = [
@@ -708,6 +802,7 @@ def Game(selected_characetrs):
 
     run = True
     show_deck = False
+    Sentinel = Enemy("Sentinel", "./EnemyCards/Sentinel.png", "yep", "0", "15")
 
     current_player_index = 0
     current_characters = selected_characters[current_player_index][0]
@@ -743,9 +838,14 @@ def Game(selected_characetrs):
         ShowDeckButton.update(Screen)
 
         enter_button = Button(image=pygame.image.load("Stuff/SmallRect.png"),
-                              pos=(1600 * scale_factor_width, 900 * scale_factor_height),  # Adjust position as needed
-                              text_input="Enter", font=get_font(40), base_color="#d7fcd4",
-                              hovering_color="Green")
+                              pos=(1700 * scale_factor_width, 900 * scale_factor_height),
+                              text_input="Enter", font=get_font(40), base_color="#b68f40",
+                              hovering_color="Blue")
+
+        Fight_button = Button(image=pygame.image.load("Stuff/SmallRect.png"),
+                              pos=(1700 * scale_factor_width, 950 * scale_factor_height),
+                              text_input="Enter", font=get_font(40), base_color="#b68f40",
+                              hovering_color="Blue")
 
         rect_height = 50
         rect_y_start = current_screen_height - rect_height
@@ -785,6 +885,10 @@ def Game(selected_characetrs):
                 Chapel_action(current_char, Screen)
             elif enter_button.checkForInput(MousePos) and current_section == "City":
                 City_action(current_char, my_die, Screen)
+            elif enter_button.checkForInput(MousePos) and current_section == "Village":
+                village_action(current_char, my_die, Screen)
+            if Fight_button.checkForInput(MousePos) and current_section == "Sentinel":
+                fight(current_char, Sentinel, my_die, Screen)
             if EndTurnButton.checkForInput(MousePos) and (current_time - last_button_press_time > button_cooldown):
                 last_button_press_time = current_time
                 Screen.fill((0, 0, 0), attributes_display_area)
@@ -826,7 +930,8 @@ def Game(selected_characetrs):
         current_section = Board_Section[current_character.position_index].section
         if current_section in ["Tavern", "Village", "Chapel", "City"]:
             enter_button.update(Screen)
-
+        elif current_section in "Sentinel":
+            Fight_button.update(Screen)
         pygame.display.update()
 
     pygame.quit()
