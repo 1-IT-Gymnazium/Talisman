@@ -89,7 +89,7 @@ class Character:
         base_y = (1050 * scale_factor_height) + (current_screen_height - (1080 * scale_factor_height))
 
         attributes = ["Life = " + str(self.life),
-                    "Strength = " + str(self.strength),
+                      "Strength = " + str(self.strength),
                       "Craft = " + str(self.craft),
                       "Fate = " + str(self.fate),
                       "Gold = " + str(self.gold)]
@@ -390,7 +390,7 @@ def Game(selected_characetrs):
                 2: "Fight with a Farmer",
                 3: "Gamble and lose 1 gold",
                 4: "Gamble and win 1 gold",
-                5: "A wizard offers teleportation",
+                5: "A wizard offers teleportation(Move anywhere next round)",
                 6: "Steal 3 gold"
             }
             y_offset = 350
@@ -469,6 +469,73 @@ def Game(selected_characetrs):
             pass
 
         if character.alignment == "Evil":
+            screen.fill((0, 0, 0), rect)
+            character.display_attribute(screen)
+            pygame.display.update()
+
+    def City_action(character, dice, screen):
+        popup_active = True
+        dice_result_displayed = False
+        while popup_active:
+            popup_bg = pygame.Rect(300, 200, 800, 600)
+            pygame.draw.rect(screen, (0, 0, 0), popup_bg)
+            font = get_font(30)
+            city_text = font.render(
+                "You have entered the city. Visit enchantress(Roll a dice) or visit a doctor(Press button)", True,
+                "#b68f40")
+            screen.blit(city_text, (350, 250))
+
+            roll_options = {
+                1: "Skip a turn",
+                2: "Lose 1 strength",
+                3: "Lose 1 craft",
+                4: "Gain 2 craft",
+                5: "Gain 2 strength",
+                6: "Throw dice again"
+            }
+            y_offset = 350
+            for roll, action in roll_options.items():
+                option_text = get_font(30).render(f"{roll}: {action}", True, "#b68f40")
+                screen.blit(option_text, (350, y_offset))
+                y_offset += 50
+
+            if dice_result_displayed:
+                result_text = get_font(50).render(f"Dice Roll: {dice.value}", True, (255, 0, 0))
+                screen.blit(result_text, (350, 300))
+                pygame.display.update()
+                pygame.time.delay(2000)
+                City_dice_roll(dice.value, character, screen)
+                popup_active = False
+
+            pygame.display.update()
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE:
+                        dice.roll()
+                        dice_result_displayed = True
+
+    def City_dice_roll(dice_result, character, screen):
+        initial_stats = (character.strength, character.craft)
+        rect = pygame.Rect(700, 1000, 500, 200)
+
+        if dice_result == 1:
+            pass
+        elif dice_result == 2:
+            character.strength -= max(0, character.strength - 1)
+        elif dice_result == 3:
+            character.craft = max(0, character.craft - 1)
+        elif dice_result == 4:
+            character.craft += 2
+        elif dice_result == 5:
+            character.strength += 2
+        elif dice_result == 6:
+            pass
+
+        if (character.strength, character.craft) != initial_stats:
             screen.fill((0, 0, 0), rect)
             character.display_attribute(screen)
             pygame.display.update()
@@ -716,6 +783,8 @@ def Game(selected_characetrs):
                 Tavern_action(my_die, current_char, Screen)
             elif enter_button.checkForInput(MousePos) and current_section == "Chapel":
                 Chapel_action(current_char, Screen)
+            elif enter_button.checkForInput(MousePos) and current_section == "City":
+                City_action(current_char, my_die, Screen)
             if EndTurnButton.checkForInput(MousePos) and (current_time - last_button_press_time > button_cooldown):
                 last_button_press_time = current_time
                 Screen.fill((0, 0, 0), attributes_display_area)
