@@ -125,10 +125,26 @@ class Card:
 
 
 class ObjectCard(Card):
-    def __init__(self, name, image, effect):
+    def __init__(self, name, image, effect, effect_value=None):
         super().__init__(image, "Object")
         self.name = name
         self.effect = effect
+        self.effect_value = effect_value
+
+    def apply_effect(self, character, screen):
+        if self.effect == "add_strength":
+            character.strength += self.effect_value
+        elif self.effect == "give_gold":
+            character.gold += self.effect_value
+            character.deck.remove(self)
+
+        initial_stats = (character.strength, character.gold)
+        rect = pygame.Rect(500, 800, 800, 600)
+
+        if (character.strength, character.gold) != initial_stats:
+            screen.fill((0, 0, 0), rect)
+            character.display_attribute(screen)
+            pygame.display.update()
 
 
 class MagicObject(Card):
@@ -210,12 +226,12 @@ def get_font(size):
 
 
 characters = [
-    Character("Assassin", "./Characters/Assassin.png", 3, 3, 4, 3, 1, "Evil", "City"),
+    Character("Assassin", "./Characters/Assassin.png", 3, 3, 4, 3, 1, "Evil",  "City"),
     Character("Druid", "./Characters/Druid.png", 2, 4, 4, 4, 1, "Neutral", "Chapel"),
     Character("Dwarf", "./Characters/Dwarf.png", 3, 3, 5, 5, 1, "Neutral", "Cracks"),
     Character("Elf", "./Characters/Elf.png", 3, 4, 4, 3, 1, "Good", "ElvForest"),
     Character("Ghoul", "./Characters/Ghoul.png", 2, 4, 4, 4, 1, "Evil", "Village"),
-    Character("Minstrel", "./Characters/Minstrel.png", 2, 4, 4, 5, 1, "Good", "Tavern"),
+    Character("Minstrel", "./Characters/Minstrel.png", 2, 4, 4, 5, 1, "Good",  "Tavern"),
     Character("Monk", "./Characters/Monk.png", 2, 3, 4, 5, 1, "Good", "Village"),
     Character("Priest", "./Characters/Priest.png", 2, 4, 4, 5, 1, "Good", "Chapel"),
     Character("Prophetess", "./Characters/Prophetess.png", 2, 4, 4, 2, 1, "Good", "Chapel"),
@@ -344,10 +360,18 @@ def Game(selected_characetrs):
                             winner = get_font(30).render("You Win", True, "#b68f40")
                         else:
                             winner = get_font(30).render("You lose", True, "#b68f40")
+                            player.life -= 1
                         fight_result(fight_surface, winner)
                         screen.blit(fight_surface, fight_rect.topleft)
                         pygame.display.flip()
                         fight_stage = "done"
+
+        initial_stats = player.life
+        rect = pygame.Rect(500, 800, 800, 600)
+        if player.life != initial_stats:
+            screen.fill((0, 0, 0), rect)
+            player.display_attribute(screen)
+            pygame.display.update()
 
     def display_fight_details(surface, player, enemy, enemy_stat, enemy_stat_value, enemy_fin, player_fin, stage):
         player_image = pygame.image.load(player.image)
@@ -574,10 +598,9 @@ def Game(selected_characetrs):
             pygame.draw.rect(screen, (0, 0, 0), popup_bg)
             font = get_font(30)
             village_text = font.render(
-                "You have entered the city. Visit Mystic(Roll a dice)", True,
+                "You have entered the village. Visit Mystic(Roll a dice)", True,
                 "#b68f40")
             screen.blit(village_text, (350, 250))
-
 
             roll_options = {
                 1: "Become evil.",
@@ -686,12 +709,12 @@ def Game(selected_characetrs):
 
     objectcards = [
         ObjectCard("Armour", "./ObjectCards/Armour.png", "yep"),
-        ObjectCard("Axe", "./ObjectCards/Axe.png", "yep"),
-        ObjectCard("BagOfGold", "./ObjectCards/BagOfGold.png", "yep"),
+        ObjectCard("Axe", "./ObjectCards/Axe.png", "add_strength", 1),
+        ObjectCard("BagOfGold", "./ObjectCards/BagOfGold.png", "give_gold", 1),
         ObjectCard("Helmet", "./ObjectCards/Helmet.png", "yep"),
         ObjectCard("Shield", "./ObjectCards/Shield.png", "yep"),
-        ObjectCard("Sword", "./ObjectCards/Sword.png", "yep"),
-        ObjectCard("TwoBagsOfGold", "./ObjectCards/TwoBagsOfGold.png", "yep"),
+        ObjectCard("Sword", "./ObjectCards/Sword.png", "add_strength", 1),
+        ObjectCard("TwoBagsOfGold", "./ObjectCards/TwoBagsOfGold.png", "give_gold", 2),
         ObjectCard("WaterBottle", "./ObjectCards/WaterBottle.png", "yep"),
     ]
 
@@ -904,6 +927,8 @@ def Game(selected_characetrs):
             if TakeCardButton.checkForInput(MousePos):
                 if isinstance(drawn_card, (ObjectCard, MagicObject, Spell, Follower)):
                     current_character.deck.append(drawn_card)
+                    if isinstance(drawn_card, ObjectCard):
+                        drawn_card.apply_effect(current_character, Screen)
                     drawn_card = None
             if ShowDeckButton.checkForInput(MousePos):
                 show_deck = not show_deck
