@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Classes module &mdash; Talisman 00.00.01 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=d7bb8d4d"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="button module" href="button.html" />
+    <link rel="prev" title="Cards module" href="Cards.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Talisman
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">code</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Cards.html">Cards module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Classes module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Classes.BoardSection"><code class="docutils literal notranslate"><span class="pre">BoardSection</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.BoardSection.x"><code class="docutils literal notranslate"><span class="pre">BoardSection.x</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.BoardSection.y"><code class="docutils literal notranslate"><span class="pre">BoardSection.y</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.BoardSection.section"><code class="docutils literal notranslate"><span class="pre">BoardSection.section</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.BoardSection.up_neighbor_index"><code class="docutils literal notranslate"><span class="pre">BoardSection.up_neighbor_index</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.BoardSection.down_neighbor_index"><code class="docutils literal notranslate"><span class="pre">BoardSection.down_neighbor_index</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.BoardSection.left_neighbor_index"><code class="docutils literal notranslate"><span class="pre">BoardSection.left_neighbor_index</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.BoardSection.right_neighbor_index"><code class="docutils literal notranslate"><span class="pre">BoardSection.right_neighbor_index</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Classes.Card"><code class="docutils literal notranslate"><span class="pre">Card</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.Card.screen"><code class="docutils literal notranslate"><span class="pre">Card.screen</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.Card.image_path"><code class="docutils literal notranslate"><span class="pre">Card.image_path</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.Card.types"><code class="docutils literal notranslate"><span class="pre">Card.types</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.Card.image"><code class="docutils literal notranslate"><span class="pre">Card.image</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.Card.display"><code class="docutils literal notranslate"><span class="pre">Card.display()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Classes.Character"><code class="docutils literal notranslate"><span class="pre">Character</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.Character.name"><code class="docutils literal notranslate"><span class="pre">Character.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.Character.image"><code class="docutils literal notranslate"><span class="pre">Character.image</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.Character.strength"><code class="docutils literal notranslate"><span class="pre">Character.strength</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.Character.craft"><code class="docutils literal notranslate"><span class="pre">Character.craft</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.Character.life"><code class="docutils literal notranslate"><span class="pre">Character.life</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.Character.gold"><code class="docutils literal notranslate"><span class="pre">Character.gold</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.Character.alignment"><code class="docutils literal notranslate"><span class="pre">Character.alignment</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.Character.talisman"><code class="docutils literal notranslate"><span class="pre">Character.talisman</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.Character.fate"><code class="docutils literal notranslate"><span class="pre">Character.fate</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.Character.trophy"><code class="docutils literal notranslate"><span class="pre">Character.trophy</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.Character.start"><code class="docutils literal notranslate"><span class="pre">Character.start</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.Character.position"><code class="docutils literal notranslate"><span class="pre">Character.position</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.Character.position_index"><code class="docutils literal notranslate"><span class="pre">Character.position_index</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.Character.section_name"><code class="docutils literal notranslate"><span class="pre">Character.section_name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.Character.deck"><code class="docutils literal notranslate"><span class="pre">Character.deck</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.Character.clear_name"><code class="docutils literal notranslate"><span class="pre">Character.clear_name()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.Character.current_section_name"><code class="docutils literal notranslate"><span class="pre">Character.current_section_name()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.Character.display"><code class="docutils literal notranslate"><span class="pre">Character.display()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.Character.display_attribute"><code class="docutils literal notranslate"><span class="pre">Character.display_attribute()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.Character.move"><code class="docutils literal notranslate"><span class="pre">Character.move()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.Character.set_position"><code class="docutils literal notranslate"><span class="pre">Character.set_position()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.Character.update_and_display_stats"><code class="docutils literal notranslate"><span class="pre">Character.update_and_display_stats()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Classes.DeckShuffle"><code class="docutils literal notranslate"><span class="pre">DeckShuffle</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.DeckShuffle.deck"><code class="docutils literal notranslate"><span class="pre">DeckShuffle.deck</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.DeckShuffle.cards"><code class="docutils literal notranslate"><span class="pre">DeckShuffle.cards</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.DeckShuffle.screen"><code class="docutils literal notranslate"><span class="pre">DeckShuffle.screen</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.DeckShuffle.image"><code class="docutils literal notranslate"><span class="pre">DeckShuffle.image</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.DeckShuffle.display"><code class="docutils literal notranslate"><span class="pre">DeckShuffle.display()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.DeckShuffle.shuffle"><code class="docutils literal notranslate"><span class="pre">DeckShuffle.shuffle()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Classes.Dice"><code class="docutils literal notranslate"><span class="pre">Dice</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.Dice.sides"><code class="docutils literal notranslate"><span class="pre">Dice.sides</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.Dice.width"><code class="docutils literal notranslate"><span class="pre">Dice.width</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.Dice.height"><code class="docutils literal notranslate"><span class="pre">Dice.height</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.Dice.images"><code class="docutils literal notranslate"><span class="pre">Dice.images</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.Dice.display"><code class="docutils literal notranslate"><span class="pre">Dice.display()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.Dice.roll"><code class="docutils literal notranslate"><span class="pre">Dice.roll()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Classes.Enemy"><code class="docutils literal notranslate"><span class="pre">Enemy</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.Enemy.name"><code class="docutils literal notranslate"><span class="pre">Enemy.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.Enemy.effect"><code class="docutils literal notranslate"><span class="pre">Enemy.effect</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.Enemy.craft"><code class="docutils literal notranslate"><span class="pre">Enemy.craft</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.Enemy.strength"><code class="docutils literal notranslate"><span class="pre">Enemy.strength</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Classes.Follower"><code class="docutils literal notranslate"><span class="pre">Follower</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.Follower.name"><code class="docutils literal notranslate"><span class="pre">Follower.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.Follower.effect"><code class="docutils literal notranslate"><span class="pre">Follower.effect</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.Follower.effect_value"><code class="docutils literal notranslate"><span class="pre">Follower.effect_value</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.Follower.apply_effect"><code class="docutils literal notranslate"><span class="pre">Follower.apply_effect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Classes.MagicObject"><code class="docutils literal notranslate"><span class="pre">MagicObject</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.MagicObject.name"><code class="docutils literal notranslate"><span class="pre">MagicObject.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.MagicObject.effect"><code class="docutils literal notranslate"><span class="pre">MagicObject.effect</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.MagicObject.effect_value"><code class="docutils literal notranslate"><span class="pre">MagicObject.effect_value</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.MagicObject.apply_effect"><code class="docutils literal notranslate"><span class="pre">MagicObject.apply_effect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Classes.ObjectCard"><code class="docutils literal notranslate"><span class="pre">ObjectCard</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.ObjectCard.name"><code class="docutils literal notranslate"><span class="pre">ObjectCard.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.ObjectCard.effect"><code class="docutils literal notranslate"><span class="pre">ObjectCard.effect</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.ObjectCard.effect_value"><code class="docutils literal notranslate"><span class="pre">ObjectCard.effect_value</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.ObjectCard.apply_effect"><code class="docutils literal notranslate"><span class="pre">ObjectCard.apply_effect()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Classes.Place"><code class="docutils literal notranslate"><span class="pre">Place</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.Place.name"><code class="docutils literal notranslate"><span class="pre">Place.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.Place.effect"><code class="docutils literal notranslate"><span class="pre">Place.effect</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Classes.Spell"><code class="docutils literal notranslate"><span class="pre">Spell</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.Spell.name"><code class="docutils literal notranslate"><span class="pre">Spell.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.Spell.effect"><code class="docutils literal notranslate"><span class="pre">Spell.effect</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Classes.Stranger"><code class="docutils literal notranslate"><span class="pre">Stranger</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.Stranger.name"><code class="docutils literal notranslate"><span class="pre">Stranger.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Classes.Stranger.effect"><code class="docutils literal notranslate"><span class="pre">Stranger.effect</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="button.html">button module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="game_events.html">game_events module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html">main module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testing.html">testing module</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Talisman</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">code</a></li>
+      <li class="breadcrumb-item active">Classes module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/Classes.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-Classes">
+<span id="classes-module"></span><h1>Classes module<a class="headerlink" href="#module-Classes" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="Classes.BoardSection">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Classes.</span></span><span class="sig-name descname"><span class="pre">BoardSection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">section</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">up</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">down</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">left</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">right</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes.html#BoardSection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Classes.BoardSection" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Represents a section of the game board with specific coordinates and potential connections to other sections.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Classes.BoardSection.x">
+<span class="sig-name descname"><span class="pre">x</span></span><a class="headerlink" href="#Classes.BoardSection.x" title="Link to this definition"></a></dt>
+<dd><p>The x-coordinate of the board section.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Classes.BoardSection.y">
+<span class="sig-name descname"><span class="pre">y</span></span><a class="headerlink" href="#Classes.BoardSection.y" title="Link to this definition"></a></dt>
+<dd><p>The y-coordinate of the board section.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Classes.BoardSection.section">
+<span class="sig-name descname"><span class="pre">section</span></span><a class="headerlink" href="#Classes.BoardSection.section" title="Link to this definition"></a></dt>
+<dd><p>The name of the board section.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Classes.BoardSection.up_neighbor_index">
+<span class="sig-name descname"><span class="pre">up_neighbor_index</span></span><a class="headerlink" href="#Classes.BoardSection.up_neighbor_index" title="Link to this definition"></a></dt>
+<dd><p>Index of the neighboring section above this one.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Classes.BoardSection.down_neighbor_index">
+<span class="sig-name descname"><span class="pre">down_neighbor_index</span></span><a class="headerlink" href="#Classes.BoardSection.down_neighbor_index" title="Link to this definition"></a></dt>
+<dd><p>Index of the neighboring section below this one.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Classes.BoardSection.left_neighbor_index">
+<span class="sig-name descname"><span class="pre">left_neighbor_index</span></span><a class="headerlink" href="#Classes.BoardSection.left_neighbor_index" title="Link to this definition"></a></dt>
+<dd><p>Index of the neighboring section to the left of this one.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Classes.BoardSection.right_neighbor_index">
+<span class="sig-name descname"><span class="pre">right_neighbor_index</span></span><a class="headerlink" href="#Classes.BoardSection.right_neighbor_index" title="Link to this definition"></a></dt>
+<dd><p>Index of the neighboring section to the right of this one.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Classes.Card">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Classes.</span></span><span class="sig-name descname"><span class="pre">Card</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">types</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes.html#Card"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Classes.Card" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Represents a basic card in the game with an image and type.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Classes.Card.screen">
+<span class="sig-name descname"><span class="pre">screen</span></span><a class="headerlink" href="#Classes.Card.screen" title="Link to this definition"></a></dt>
+<dd><p>The screen where the card will be displayed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pygame.Surface</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Classes.Card.image_path">
+<span class="sig-name descname"><span class="pre">image_path</span></span><a class="headerlink" href="#Classes.Card.image_path" title="Link to this definition"></a></dt>
+<dd><p>The file path of the card’s image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Classes.Card.types">
+<span class="sig-name descname"><span class="pre">types</span></span><a class="headerlink" href="#Classes.Card.types" title="Link to this definition"></a></dt>
+<dd><p>The type of card, e.g., ‘Object’, ‘MagicObject’, etc.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Classes.Card.image">
+<span class="sig-name descname"><span class="pre">image</span></span><a class="headerlink" href="#Classes.Card.image" title="Link to this definition"></a></dt>
+<dd><p>The loaded image of the card.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pygame.Surface</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Classes.Card.display">
+<span class="sig-name descname"><span class="pre">display</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">screen</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes.html#Card.display"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Classes.Card.display" title="Link to this definition"></a></dt>
+<dd><p>Displays the card on the provided screen.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>screen</strong> (<em>pygame.Surface</em>) – The screen where the card will be displayed.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Classes.Character">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Classes.</span></span><span class="sig-name descname"><span class="pre">Character</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strength</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">craft</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">life</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gold</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alignment</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes.html#Character"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Classes.Character" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Represents a character in the game with various attributes and the ability to move on the game board.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Classes.Character.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#Classes.Character.name" title="Link to this definition"></a></dt>
+<dd><p>The name of the character.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Classes.Character.image">
+<span class="sig-name descname"><span class="pre">image</span></span><a class="headerlink" href="#Classes.Character.image" title="Link to this definition"></a></dt>
+<dd><p>Path to the character’s image file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Classes.Character.strength">
+<span class="sig-name descname"><span class="pre">strength</span></span><a class="headerlink" href="#Classes.Character.strength" title="Link to this definition"></a></dt>
+<dd><p>The character’s strength attribute.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Classes.Character.craft">
+<span class="sig-name descname"><span class="pre">craft</span></span><a class="headerlink" href="#Classes.Character.craft" title="Link to this definition"></a></dt>
+<dd><p>The character’s craft attribute.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Classes.Character.life">
+<span class="sig-name descname"><span class="pre">life</span></span><a class="headerlink" href="#Classes.Character.life" title="Link to this definition"></a></dt>
+<dd><p>The character’s life points.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Classes.Character.gold">
+<span class="sig-name descname"><span class="pre">gold</span></span><a class="headerlink" href="#Classes.Character.gold" title="Link to this definition"></a></dt>
+<dd><p>The amount of gold the character possesses.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Classes.Character.alignment">
+<span class="sig-name descname"><span class="pre">alignment</span></span><a class="headerlink" href="#Classes.Character.alignment" title="Link to this definition"></a></dt>
+<dd><p>The character’s alignment (e.g., good, evil, neutral).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Classes.Character.talisman">
+<span class="sig-name descname"><span class="pre">talisman</span></span><a class="headerlink" href="#Classes.Character.talisman" title="Link to this definition"></a></dt>
+<dd><p>Flag to indicate if the character has a talisman.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Classes.Character.fate">
+<span class="sig-name descname"><span class="pre">fate</span></span><a class="headerlink" href="#Classes.Character.fate" title="Link to this definition"></a></dt>
+<dd><p>The character’s fate points.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Classes.Character.trophy">
+<span class="sig-name descname"><span class="pre">trophy</span></span><a class="headerlink" href="#Classes.Character.trophy" title="Link to this definition"></a></dt>
+<dd><p>The character’s trophy points.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Classes.Character.start">
+<span class="sig-name descname"><span class="pre">start</span></span><a class="headerlink" href="#Classes.Character.start" title="Link to this definition"></a></dt>
+<dd><p>The starting section name on the board for the character.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Classes.Character.position">
+<span class="sig-name descname"><span class="pre">position</span></span><a class="headerlink" href="#Classes.Character.position" title="Link to this definition"></a></dt>
+<dd><p>The current position (x, y) on the screen.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Classes.Character.position_index">
+<span class="sig-name descname"><span class="pre">position_index</span></span><a class="headerlink" href="#Classes.Character.position_index" title="Link to this definition"></a></dt>
+<dd><p>The current index of the board section where the character is.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Classes.Character.section_name">
+<span class="sig-name descname"><span class="pre">section_name</span></span><a class="headerlink" href="#Classes.Character.section_name" title="Link to this definition"></a></dt>
+<dd><p>The name of the current board section.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Classes.Character.deck">
+<span class="sig-name descname"><span class="pre">deck</span></span><a class="headerlink" href="#Classes.Character.deck" title="Link to this definition"></a></dt>
+<dd><p>A list of cards the character holds.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Classes.Character.clear_name">
+<span class="sig-name descname"><span class="pre">clear_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">screen</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">font</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes.html#Character.clear_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Classes.Character.clear_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Classes.Character.current_section_name">
+<span class="sig-name descname"><span class="pre">current_section_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes.html#Character.current_section_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Classes.Character.current_section_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Classes.Character.display">
+<span class="sig-name descname"><span class="pre">display</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">screen</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">font</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes.html#Character.display"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Classes.Character.display" title="Link to this definition"></a></dt>
+<dd><p>Displays the character’s name at their current position on the screen.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>screen</strong> (<em>pygame.Surface</em>) – The screen to draw on.</p></li>
+<li><p><strong>font</strong> (<em>pygame.font.Font</em>) – The font used to render the character’s name.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Classes.Character.display_attribute">
+<span class="sig-name descname"><span class="pre">display_attribute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">screen</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes.html#Character.display_attribute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Classes.Character.display_attribute" title="Link to this definition"></a></dt>
+<dd><p>Displays the character’s attributes (life, strength, etc.) on the screen.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>screen</strong> (<em>pygame.Surface</em>) – The screen to display attributes on.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Classes.Character.move">
+<span class="sig-name descname"><span class="pre">move</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">direction</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">board_sections</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes.html#Character.move"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Classes.Character.move" title="Link to this definition"></a></dt>
+<dd><p>Moves the character in a specified direction on the board.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>direction</strong> (<em>str</em>) – The direction to move (‘up’, ‘down’, ‘left’, ‘right’).</p></li>
+<li><p><strong>board_sections</strong> (<em>list</em>) – A list of BoardSection objects representing the game board.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Classes.Character.set_position">
+<span class="sig-name descname"><span class="pre">set_position</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale_x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale_y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes.html#Character.set_position"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Classes.Character.set_position" title="Link to this definition"></a></dt>
+<dd><p>Sets the character’s position on the screen, scaled by the given factors.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>int</em>) – The x-coordinate of the character’s position.</p></li>
+<li><p><strong>y</strong> (<em>int</em>) – The y-coordinate of the character’s position.</p></li>
+<li><p><strong>scale_x</strong> (<em>float</em>) – Horizontal scaling factor.</p></li>
+<li><p><strong>scale_y</strong> (<em>float</em>) – Vertical scaling factor.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Classes.Character.update_and_display_stats">
+<span class="sig-name descname"><span class="pre">update_and_display_stats</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">screen</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes.html#Character.update_and_display_stats"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Classes.Character.update_and_display_stats" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Classes.DeckShuffle">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Classes.</span></span><span class="sig-name descname"><span class="pre">DeckShuffle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">deck</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes.html#DeckShuffle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Classes.DeckShuffle" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Manages a deck of cards, allowing shuffling and display of the deck’s backside image on a specified screen.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Classes.DeckShuffle.deck">
+<span class="sig-name descname"><span class="pre">deck</span></span><a class="headerlink" href="#Classes.DeckShuffle.deck" title="Link to this definition"></a></dt>
+<dd><p>A list of card objects to be shuffled and managed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Classes.DeckShuffle.cards">
+<span class="sig-name descname"><span class="pre">cards</span></span><a class="headerlink" href="#Classes.DeckShuffle.cards" title="Link to this definition"></a></dt>
+<dd><p>A duplicate list for operations, currently unused.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Classes.DeckShuffle.screen">
+<span class="sig-name descname"><span class="pre">screen</span></span><a class="headerlink" href="#Classes.DeckShuffle.screen" title="Link to this definition"></a></dt>
+<dd><p>The screen where the deck image will be displayed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pygame.Surface</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Classes.DeckShuffle.image">
+<span class="sig-name descname"><span class="pre">image</span></span><a class="headerlink" href="#Classes.DeckShuffle.image" title="Link to this definition"></a></dt>
+<dd><p>The image of the deck’s backside, loaded during display.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pygame.Surface</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Classes.DeckShuffle.display">
+<span class="sig-name descname"><span class="pre">display</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">screen</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes.html#DeckShuffle.display"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Classes.DeckShuffle.display" title="Link to this definition"></a></dt>
+<dd><p>Displays the backside of the deck on the provided screen.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>screen</strong> (<em>pygame.Surface</em>) – The screen where the deck image will be displayed.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Classes.DeckShuffle.shuffle">
+<span class="sig-name descname"><span class="pre">shuffle</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes.html#DeckShuffle.shuffle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Classes.DeckShuffle.shuffle" title="Link to this definition"></a></dt>
+<dd><p>Shuffles the deck randomly.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Classes.Dice">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Classes.</span></span><span class="sig-name descname"><span class="pre">Dice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sides</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">6</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">190</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">190</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes.html#Dice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Classes.Dice" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Represents a die used in the game to determine random outcomes, equipped with multiple sides and images for each side.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Classes.Dice.sides">
+<span class="sig-name descname"><span class="pre">sides</span></span><a class="headerlink" href="#Classes.Dice.sides" title="Link to this definition"></a></dt>
+<dd><p>Number of sides on the dice.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Classes.Dice.width">
+<span class="sig-name descname"><span class="pre">width</span></span><a class="headerlink" href="#Classes.Dice.width" title="Link to this definition"></a></dt>
+<dd><p>The width of the dice image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Classes.Dice.height">
+<span class="sig-name descname"><span class="pre">height</span></span><a class="headerlink" href="#Classes.Dice.height" title="Link to this definition"></a></dt>
+<dd><p>The height of the dice image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Classes.Dice.images">
+<span class="sig-name descname"><span class="pre">images</span></span><a class="headerlink" href="#Classes.Dice.images" title="Link to this definition"></a></dt>
+<dd><p>List of images, one for each side of the dice.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Classes.Dice.display">
+<span class="sig-name descname"><span class="pre">display</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">screen</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes.html#Dice.display"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Classes.Dice.display" title="Link to this definition"></a></dt>
+<dd><p>Displays the current side of the dice based on the last roll.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>screen</strong> (<em>pygame.Surface</em>) – The screen where the dice will be displayed.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Classes.Dice.roll">
+<span class="sig-name descname"><span class="pre">roll</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes.html#Dice.roll"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Classes.Dice.roll" title="Link to this definition"></a></dt>
+<dd><p>Rolls the dice to generate a random value between 1 and the number of sides.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Classes.Enemy">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Classes.</span></span><span class="sig-name descname"><span class="pre">Enemy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">effect</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">craft</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strength</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes.html#Enemy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Classes.Enemy" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#Classes.Card" title="Classes.Card"><code class="xref py py-class docutils literal notranslate"><span class="pre">Card</span></code></a></p>
+<p>Represents an Enemy card that characters can encounter and must overcome using strength or craft.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Classes.Enemy.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#Classes.Enemy.name" title="Link to this definition"></a></dt>
+<dd><p>The name of the enemy.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Classes.Enemy.effect">
+<span class="sig-name descname"><span class="pre">effect</span></span><a class="headerlink" href="#Classes.Enemy.effect" title="Link to this definition"></a></dt>
+<dd><p>The specific effect or interaction this enemy has.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Classes.Enemy.craft">
+<span class="sig-name descname"><span class="pre">craft</span></span><a class="headerlink" href="#Classes.Enemy.craft" title="Link to this definition"></a></dt>
+<dd><p>The craft value of the enemy, used in challenges.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Classes.Enemy.strength">
+<span class="sig-name descname"><span class="pre">strength</span></span><a class="headerlink" href="#Classes.Enemy.strength" title="Link to this definition"></a></dt>
+<dd><p>The strength value of the enemy, used in battles.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Classes.Follower">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Classes.</span></span><span class="sig-name descname"><span class="pre">Follower</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">effect</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">effect_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes.html#Follower"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Classes.Follower" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#Classes.Card" title="Classes.Card"><code class="xref py py-class docutils literal notranslate"><span class="pre">Card</span></code></a></p>
+<p>Represents a Follower card that can attach to a character and modify their attributes.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Classes.Follower.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#Classes.Follower.name" title="Link to this definition"></a></dt>
+<dd><p>The name of the follower.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Classes.Follower.effect">
+<span class="sig-name descname"><span class="pre">effect</span></span><a class="headerlink" href="#Classes.Follower.effect" title="Link to this definition"></a></dt>
+<dd><p>A description of what the follower does, e.g., ‘add_strength’.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Classes.Follower.effect_value">
+<span class="sig-name descname"><span class="pre">effect_value</span></span><a class="headerlink" href="#Classes.Follower.effect_value" title="Link to this definition"></a></dt>
+<dd><p>The numerical value associated with the effect.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Classes.Follower.apply_effect">
+<span class="sig-name descname"><span class="pre">apply_effect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">character</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">screen</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes.html#Follower.apply_effect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Classes.Follower.apply_effect" title="Link to this definition"></a></dt>
+<dd><p>Applies the effect of the follower to the character.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>character</strong> (<a class="reference internal" href="#Classes.Character" title="Classes.Character"><em>Character</em></a>) – The character to apply the effect to.</p></li>
+<li><p><strong>screen</strong> (<em>pygame.Surface</em>) – The screen where updates are displayed.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Classes.MagicObject">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Classes.</span></span><span class="sig-name descname"><span class="pre">MagicObject</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">effect</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">effect_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes.html#MagicObject"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Classes.MagicObject" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#Classes.Card" title="Classes.Card"><code class="xref py py-class docutils literal notranslate"><span class="pre">Card</span></code></a></p>
+<p>Represents a Magic Object card with special effects that can influence a character’s attributes.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Classes.MagicObject.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#Classes.MagicObject.name" title="Link to this definition"></a></dt>
+<dd><p>The name of the magic object card.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Classes.MagicObject.effect">
+<span class="sig-name descname"><span class="pre">effect</span></span><a class="headerlink" href="#Classes.MagicObject.effect" title="Link to this definition"></a></dt>
+<dd><p>A description of the effect, e.g., ‘give_craft’.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Classes.MagicObject.effect_value">
+<span class="sig-name descname"><span class="pre">effect_value</span></span><a class="headerlink" href="#Classes.MagicObject.effect_value" title="Link to this definition"></a></dt>
+<dd><p>The amount by which the effect modifies the character’s attributes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Classes.MagicObject.apply_effect">
+<span class="sig-name descname"><span class="pre">apply_effect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">character</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">screen</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes.html#MagicObject.apply_effect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Classes.MagicObject.apply_effect" title="Link to this definition"></a></dt>
+<dd><p>Applies the effect of the magic object to a character.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>character</strong> (<a class="reference internal" href="#Classes.Character" title="Classes.Character"><em>Character</em></a>) – The character affected by the magic object.</p></li>
+<li><p><strong>screen</strong> (<em>pygame.Surface</em>) – The screen for displaying updates.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Classes.ObjectCard">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Classes.</span></span><span class="sig-name descname"><span class="pre">ObjectCard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">effect</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">effect_value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes.html#ObjectCard"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Classes.ObjectCard" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#Classes.Card" title="Classes.Card"><code class="xref py py-class docutils literal notranslate"><span class="pre">Card</span></code></a></p>
+<p>Represents an Object card, a specific type of card with an effect that can be applied to characters.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Classes.ObjectCard.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#Classes.ObjectCard.name" title="Link to this definition"></a></dt>
+<dd><p>The name of the card.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Classes.ObjectCard.effect">
+<span class="sig-name descname"><span class="pre">effect</span></span><a class="headerlink" href="#Classes.ObjectCard.effect" title="Link to this definition"></a></dt>
+<dd><p>The effect description, e.g., ‘add_strength’.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Classes.ObjectCard.effect_value">
+<span class="sig-name descname"><span class="pre">effect_value</span></span><a class="headerlink" href="#Classes.ObjectCard.effect_value" title="Link to this definition"></a></dt>
+<dd><p>The value by which the effect alters the character’s attribute.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="Classes.ObjectCard.apply_effect">
+<span class="sig-name descname"><span class="pre">apply_effect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">character</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">screen</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes.html#ObjectCard.apply_effect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Classes.ObjectCard.apply_effect" title="Link to this definition"></a></dt>
+<dd><p>Applies the card’s effect to a character.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>character</strong> (<a class="reference internal" href="#Classes.Character" title="Classes.Character"><em>Character</em></a>) – The character to which the effect is applied.</p></li>
+<li><p><strong>screen</strong> (<em>pygame.Surface</em>) – The screen where updates are to be displayed.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Classes.Place">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Classes.</span></span><span class="sig-name descname"><span class="pre">Place</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">effect</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes.html#Place"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Classes.Place" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#Classes.Card" title="Classes.Card"><code class="xref py py-class docutils literal notranslate"><span class="pre">Card</span></code></a></p>
+<p>Represents a Place card, which provides a location-based effect or interaction in the game.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Classes.Place.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#Classes.Place.name" title="Link to this definition"></a></dt>
+<dd><p>The name of the place.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Classes.Place.effect">
+<span class="sig-name descname"><span class="pre">effect</span></span><a class="headerlink" href="#Classes.Place.effect" title="Link to this definition"></a></dt>
+<dd><p>A description of the interaction or effect provided by this place.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Classes.Spell">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Classes.</span></span><span class="sig-name descname"><span class="pre">Spell</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">effect</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes.html#Spell"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Classes.Spell" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#Classes.Card" title="Classes.Card"><code class="xref py py-class docutils literal notranslate"><span class="pre">Card</span></code></a></p>
+<p>Represents a Spell card that can be used by characters for various effects, typically during their turn or in response to events.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Classes.Spell.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#Classes.Spell.name" title="Link to this definition"></a></dt>
+<dd><p>The name of the spell.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Classes.Spell.effect">
+<span class="sig-name descname"><span class="pre">effect</span></span><a class="headerlink" href="#Classes.Spell.effect" title="Link to this definition"></a></dt>
+<dd><p>A description of what the spell does when cast.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="Classes.Stranger">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">Classes.</span></span><span class="sig-name descname"><span class="pre">Stranger</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">effect</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Classes.html#Stranger"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#Classes.Stranger" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#Classes.Card" title="Classes.Card"><code class="xref py py-class docutils literal notranslate"><span class="pre">Card</span></code></a></p>
+<p>Represents a Stranger card, which typically triggers a one-time or unique effect when encountered.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Classes.Stranger.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#Classes.Stranger.name" title="Link to this definition"></a></dt>
+<dd><p>The name of the stranger.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="Classes.Stranger.effect">
+<span class="sig-name descname"><span class="pre">effect</span></span><a class="headerlink" href="#Classes.Stranger.effect" title="Link to this definition"></a></dt>
+<dd><p>A description of the effect this stranger has in the game.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Cards.html" class="btn btn-neutral float-left" title="Cards module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="button.html" class="btn btn-neutral float-right" title="button module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Viliam Misař.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

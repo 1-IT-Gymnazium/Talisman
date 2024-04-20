@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Modules Description — Talisman Documentation</title>
+  <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+  <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+  <script src="_static/jquery.js?v=5d32c60e"></script>
+  <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+  <script src="_static/documentation_options.js?v=5929fcd5"></script>
+  <script src="_static/doctools.js?v=888ff710"></script>
+  <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+  <script src="_static/js/theme.js"></script>
+  <link rel="index" title="Index" href="genindex.html" />
+  <link rel="search" title="Search" href="search.html" />
+  <link rel="prev" title="System Architecture" href="System_Architecture.html" />
+  <link rel="next" title="How Pygame works" href="How_pygame_works.html" />
+</head>
+<body class="wy-body-for-nav">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          <a href="index.html" class="icon icon-home">AstroJump</a>
+          <div role="search">
+            <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+              <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+            </form>
+          </div>
+        </div>
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+          <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+          <ul>
+            <li class="toctree-l1"><a class="reference internal" href="modules.html">code</a></li>
+            <li class="toctree-l1"><a class="reference internal" href="Introduction.html">Introduction</a></li>
+            <li class="toctree-l1"><a class="reference internal" href="system_architecture.html">System Architecture</a></li>
+            <li class="toctree-l1"><a class="reference internal" href="Modules_Description.html">Modules description</a></li>
+            <li class="toctree-l1"><a class="reference internal" href="How_to_pygame.html">How to pygame</a></li>
+            <li class="toctree-l1 current"><a class="reference internal" href="List_of_sources.html">List of sources</a></li>
+            <li class="toctree-l1"><a class="reference internal" href="Game_mechanics.html">Description of game mechanics</a></li>
+            <li class="toctree-l1"><a class="reference internal" href="Source_Code.html">Source code</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" aria-label="Mobile navigation menu">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Talisman</a>
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+            <ul class="wy-breadcrumbs">
+              <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+              <li class="breadcrumb-item active">Modules Description</li>
+              <li class="wy-breadcrumbs-aside">
+                <a href="_sources/Modules_Description.rst.txt" rel="nofollow">View page source</a>
+              </li>
+            </ul>
+            <hr/>
+          </div>
+          <div role="main" class="document" itemscope itemtype="http://schema.org/Article">
+            <div itemprop="articleBody">
+              <section id="modules-description">
+                <h1>Modules Description<a class="headerlink" href="#modules-description" title="Link to this heading"></a></h1>
+                <p>Here is a detailed description of each module within the AstroJump game, outlining their functionalities and interactions:</p>
+                <ul>
+                  <li><strong>Main Module (main.py):</strong> This Python module implements a complete game environment using Pygame, focused on a character-driven, board-style game. The module is structured into several key components and functions, each designed to handle specific aspects of the game such as initialization, player management, game mechanics, and UI interactions.he module starts with imports of necessary libraries and custom components, including Pygame for rendering and interaction, and various game elements such as Cards, Characters, and Game Events.This module is structured to provide a comprehensive gaming experience using Pygame, demonstrating an effective use of the library's capabilities for game development.</li>
+                  <li><strong>Game Events Module (game_events.py):</strong>This Python module is a utility-centric implementation utilizing Pygame for rendering and managing various aspects of a character-driven, board-style game. It primarily focuses on auxiliary functions that handle different game interactions, from character actions in specific game locations to combat mechanics. This module is an essential part of game systemThe module starts with importing necessary libraries and custom components, including Pygame for graphical rendering and interactions, and Classes for handling specific game objects and logic.</li>
+                  <li><strong>Cards Module (Cards.py):</strong>This Python module populates the game with essential objects needed for gameplay, such as characters, enemies, and cards, by creating instances of these objects with specific attributes and behaviors.  It initializes multiple lists that contain instances of different game objects such as characters, enemies, and various types of cards (object, follower, magic object, stranger, place, and spell cards).</li>
+                  <li><strong>Classes Module (Classes.py):</strong>This Python module ncludes definitions and implementations for a wide range of game entities such as characters, cards, and game board sections, alongside utilities for managing game actions like shuffling decks and character movements. The module uses Pygame for rendering and interaction, supplemented by random for shuffling and game_events for additional game-related functionalities.  It defines several classes that represent different entities and functionalities within the game, including characters, different types of cards, dice, and board sections.</li>
+                  <li><strong>Button Module (button.py):</strong>This Python module defines a versatile and reusable Button class specifically tailored for use in PyGame applications. The class is designed to create interactive button elements that support dynamic visual feedback and user interaction detection, making it suitable for a variety of interactive applications such as games or GUI-based tools. The class includes capabilities for rendering text, changing colors on hover, and detecting clicks within the button's area.</li>
+
+                </ul>
+              </section>
+            </div>
+          </div>
+          <footer>
+            <div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+              <a href="System_Architecture.html" class="btn btn-neutral float-left" title="System Architecture" rel="prev">
+                <span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous
+              </a>
+              <a href="How_pygame_works.html" class="btn btn-neutral float-right" title="How Pygame works" rel="next">
+                Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span>
+              </a>
+            </div>
+            <hr/>
+            <div role="contentinfo">
+              <p>© Copyright 2024, Viliam Misař.</p>
+            </div>
+            <p>Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a theme provided by <a href="https://readthedocs.org">Read the Docs</a>.</p>
+          </footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+    jQuery(function () {
+        SphinxRtdTheme.Navigation.enable(true);
+    });
+  </script>
+</body>
+</html>

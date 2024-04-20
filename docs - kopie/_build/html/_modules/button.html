@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>button &mdash; Talisman 00.00.01 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=d7bb8d4d"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Talisman
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">code</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Talisman</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">button</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for button</h1><div class="highlight"><pre>
+<div class="viewcode-block" id="Button">
+<a class="viewcode-back" href="../button.html#button.Button">[docs]</a>
+<span></span><span class="k">class</span> <span class="nc">Button</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A class to create interactive button elements for a PyGame application, supporting text rendering,</span>
+<span class="sd">        dynamic color changes based on hover state, and interaction detection.</span>
+
+<span class="sd">        Attributes:</span>
+<span class="sd">            image (pygame.Surface): The graphical image of the button. Can be None if the button only uses text.</span>
+<span class="sd">            x_pos (int): The x-coordinate of the button&#39;s position.</span>
+<span class="sd">            y_pos (int): The y-coordinate of the button&#39;s position.</span>
+<span class="sd">            font (pygame.font.Font): The font used for rendering the button&#39;s text.</span>
+<span class="sd">            base_color (tuple): The color of the text when the button is not being hovered over.</span>
+<span class="sd">            hovering_color (tuple): The color of the text when the button is being hovered over by the mouse.</span>
+<span class="sd">            text_input (str): The text displayed on the button.</span>
+<span class="sd">            char_name (str, optional): An additional attribute to store character names or other identifiers associated with the button.</span>
+<span class="sd">            text (pygame.Surface): The rendered text surface.</span>
+<span class="sd">            rect (pygame.Rect): The rectangular area of the button used for interaction detection.</span>
+<span class="sd">            text_rect (pygame.Rect): The rectangular area used for positioning the text on the button.</span>
+
+<span class="sd">        Methods:</span>
+<span class="sd">            update(screen): Renders the button&#39;s image and text to the specified display surface.</span>
+<span class="sd">            checkForInput(mouse_pos): Checks if the mouse position intersects with the button&#39;s rectangular area.</span>
+<span class="sd">            changeColor(position): Changes the text color based on whether the mouse is over the button.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">text_input</span><span class="p">,</span> <span class="n">font</span><span class="p">,</span> <span class="n">base_color</span><span class="p">,</span> <span class="n">hovering_color</span><span class="p">,</span> <span class="n">char_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">           Initializes a new Button object with specified graphical properties, text, and interaction settings.</span>
+
+<span class="sd">           Args:</span>
+<span class="sd">               image (pygame.Surface or None): The graphical image to display as the button&#39;s background.</span>
+<span class="sd">                                              If None, the button will use the rendered text as the background.</span>
+<span class="sd">               pos (tuple): The (x, y) position tuple representing the center of the button on the screen.</span>
+<span class="sd">               text_input (str): The text to be displayed on the button.</span>
+<span class="sd">               font (pygame.font.Font): The font object used to render the button&#39;s text.</span>
+<span class="sd">               base_color (str): The RGB color tuple used for the text when the button is not being hovered over.</span>
+<span class="sd">               hovering_color (str): The RGB color tuple used for the text when the button is hovered over by the mouse.</span>
+<span class="sd">               char_name (str, optional): An optional name or identifier associated with the button, useful for linking the button</span>
+<span class="sd">                                          to specific character actions or choices.</span>
+
+<span class="sd">           This constructor sets up the button with an optional image or text background, configures its positioning,</span>
+<span class="sd">           and prepares text rendering based on mouse interaction states. It also defines hitboxes for interaction detection.</span>
+<span class="sd">           &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">image</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x_pos</span> <span class="o">=</span> <span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y_pos</span> <span class="o">=</span> <span class="n">pos</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">font</span> <span class="o">=</span> <span class="n">font</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_color</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">hovering_color</span> <span class="o">=</span> <span class="n">base_color</span><span class="p">,</span> <span class="n">hovering_color</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">text_input</span> <span class="o">=</span> <span class="n">text_input</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">text_input</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_color</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">char_name</span> <span class="o">=</span> <span class="n">char_name</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">image</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rect</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">get_rect</span><span class="p">(</span><span class="n">center</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_pos</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_pos</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">text_rect</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">get_rect</span><span class="p">(</span><span class="n">center</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_pos</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_pos</span><span class="p">))</span>
+
+<div class="viewcode-block" id="Button.update">
+<a class="viewcode-back" href="../button.html#button.Button.update">[docs]</a>
+    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">screen</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Draws the button onto the specified PyGame display surface (screen). This includes both the background image</span>
+<span class="sd">            and the text of the button.</span>
+
+<span class="sd">            Args:</span>
+<span class="sd">                screen (pygame.Surface): The PyGame display surface onto which the button will be drawn.</span>
+
+<span class="sd">            This method is responsible for rendering the button&#39;s graphical components onto the game&#39;s display.</span>
+<span class="sd">            It checks if there is a specific image set for the background of the button and draws it, followed by</span>
+<span class="sd">            overlaying the button&#39;s text. If no specific image is set, it assumes the background is handled by the text rendering.</span>
+
+<span class="sd">            The button&#39;s text and image are positioned according to the pre-set rectangle attributes (`self.rect` for the image</span>
+<span class="sd">            and `self.text_rect` for the text), ensuring proper alignment and placement on the screen.</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">image</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">image</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rect</span><span class="p">)</span>
+        <span class="n">screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">text_rect</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Button.checkForInput">
+<a class="viewcode-back" href="../button.html#button.Button.checkForInput">[docs]</a>
+    <span class="k">def</span> <span class="nf">checkForInput</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mouse_pos</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Checks if the mouse cursor is over the button&#39;s area, which is necessary for determining whether the button</span>
+<span class="sd">            has been hovered over or clicked.</span>
+
+<span class="sd">            Args:</span>
+<span class="sd">                mouse_pos (tuple): The current mouse cursor position, typically obtained from pygame.mouse.get_pos(),</span>
+<span class="sd">                                   containing coordinates (x, y).</span>
+
+<span class="sd">            Returns:</span>
+<span class="sd">                bool: Returns True if the mouse cursor is over the button, False otherwise.</span>
+
+<span class="sd">            This method utilizes the `collidepoint` method of the pygame.Rect object associated with the button (`self.rect`).</span>
+<span class="sd">            It evaluates whether the provided mouse position intersects with the rectangle that defines the button&#39;s area.</span>
+<span class="sd">            This functionality is crucial for interactive GUI elements in PyGame, allowing for responsive feedback and actions</span>
+<span class="sd">            based on user input.</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">collidepoint</span><span class="p">(</span><span class="n">mouse_pos</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="Button.changeColor">
+<a class="viewcode-back" href="../button.html#button.Button.changeColor">[docs]</a>
+    <span class="k">def</span> <span class="nf">changeColor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">position</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Updates the text color of the button depending on whether the mouse cursor is hovering over it.</span>
+<span class="sd">            This dynamic visual feedback helps users identify interactive elements on the screen.</span>
+
+<span class="sd">            Args:</span>
+<span class="sd">                position (tuple): The current position of the mouse cursor, given as (x, y) coordinates.</span>
+
+<span class="sd">            The method checks if the mouse position is within the rectangular bounds of the button. If the cursor</span>
+<span class="sd">            is within the button&#39;s area, it changes the text color to the hovering color to indicate interactivity.</span>
+<span class="sd">            If the cursor is outside the button&#39;s area, it reverts the text color to the base color.</span>
+
+<span class="sd">            This functionality enhances user experience by providing immediate visual feedback about button interactivity,</span>
+<span class="sd">            aiding in navigation and usability within the application.</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">left</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">right</span><span class="p">)</span> <span class="ow">and</span> <span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">top</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rect</span><span class="o">.</span><span class="n">bottom</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">text_input</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">hovering_color</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">text_input</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_color</span><span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Viliam Misař.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

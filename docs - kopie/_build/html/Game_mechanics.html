@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Description of Game Mechanics — Talisman Documentation</title>
+  <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+  <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+  <script src="_static/jquery.js?v=5d32c60e"></script>
+  <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+  <script src="_static/documentation_options.js?v=5929fcd5"></script>
+  <script src="_static/doctools.js?v=888ff710"></script>
+  <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+  <script src="_static/js/theme.js"></script>
+  <link rel="index" title="Index" href="genindex.html" />
+  <link rel="search" title="Search" href="search.html" />
+  <link rel="prev" title="List of Used Sources" href="LIST_OF_SOURCES.html" />
+  <link rel="next" title="Source Code" href="Source_Code.html" />
+</head>
+<body class="wy-body-for-nav">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          <a href="index.html" class="icon icon-home">Talisman</a>
+          <div role="search">
+            <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+              <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+            </form>
+          </div>
+        </div>
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+          <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+          <ul>
+            <li class="toctree-l1"><a class="reference internal" href="modules.html">code</a></li>
+            <li class="toctree-l1"><a class="reference internal" href="Introduction.html">Introduction</a></li>
+            <li class="toctree-l1"><a class="reference internal" href="system_architecture.html">System Architecture</a></li>
+            <li class="toctree-l1"><a class="reference internal" href="Modules_Description.html">Modules description</a></li>
+            <li class="toctree-l1"><a class="reference internal" href="How_to_pygame.html">How to pygame</a></li>
+            <li class="toctree-l1 current"><a class="reference internal" href="List_of_sources.html">List of sources</a></li>
+            <li class="toctree-l1"><a class="reference internal" href="Game_mechanics.html">Description of game mechanics</a></li>
+            <li class="toctree-l1"><a class="reference internal" href="Source_Code.html">Source code</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" aria-label="Mobile navigation menu">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Talisman</a>
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+            <ul class="wy-breadcrumbs">
+              <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+              <li class="breadcrumb-item active">Description of Game Mechanics</li>
+              <li class="wy-breadcrumbs-aside">
+                <a href="_sources/Description_of_game_mechanics.rst.txt" rel="nofollow">View page source</a>
+              </li>
+            </ul>
+            <hr/>
+          </div>
+          <div role="main" class="document" itemscope itemtype="http://schema.org/Article">
+            <div itemprop="articleBody">
+              <section id="description-of-game-mechanics">
+                <h1>Description of Game Mechanics<a class="headerlink" href="#description-of-game-mechanics" title="Link to this heading"></a></h1>
+                <p>Talisman has some game mechanics easy to understand:</p>
+                <ul>
+                  <li><strong>Objective:</strong>The goal is to get to the top of the game board trough stages of the game with talisman in their inventory. To get to higher stage player must defeat Sentinel on sentinel section.</li>
+                  <li><strong>Movement:</strong> Movement is determined with dice throw. To throw a dice player must press spacebar. Players can move whatever direction they can with arrows on keyboard. For example rolling 3 on dice means player can move 3 spaces to direction they can.</li>
+                  <li><strong>Sections:</strong>The game board has few sections. On sections like "Forest", "Graveyard", "Cracks", "ElvForest", and "Ruins" player draws a card by pressing button D on keyboard. On sections like "Village", "City", "Tavern" and "Chapel" player can choose to enter and make desired action on popup window. And seciton "Sentinel" player can choose to fight sentinel to enter next section.</li>
+                  <li><strong>Drawing card:</strong>Card can be drawn by pressing D on keyboard. If it is and enemy fight will occure. If it is "Object Card", "Magic Object" or "Follower" player can take the card to their deck, giving them various stat boosts</li>
+                  <li><strong>Fight:</strong>If fight occures player rolls dice for enemy, then rolls for himself and then presses space again to show fight result. If player looses they loose life.</li>
+                  <li><strong>Popup windows:</strong>When player performs various action listed above it shows popup window. To close a popup window player needs to perform action like throw a dice or move on the game board. They can press End turn and leave the game to the next player.</li>
+                  <li><strong>Stats:</strong>Each character has different stats that can be enhanced in game. Stats are used in fights or in some board sections.</li>
+                </ul>
+                <p>Each character has various stats:</p>
+                <ul>
+                  <li><strong>Character stats:</strong>Name: Assassin Strength: 3 Craft: 3 Life: 4 Gold: 1 Allignment: Evil Starting Location: City</li>
+                  <li><strong>Character stats:</strong>Name: Druid Strength: 2 Craft: 4 Life: 4 Gold: 1 Allignment: Neutral Starting Location: Chapel</li>
+                  <li><strong>Character stats:</strong>Name: Dwarf Strength: 3 Craft: 3 Life: 5 Gold: 1 Allignment: Neutral Starting Location: Cracks</li>
+                  <li><strong>Character stats:</strong>Name: Elf Strength: 3 Craft: 4 Life: 4 Gold: 1 Allignment: Good Starting Location: ElvForest</li>
+                  <li><strong>Character stats:</strong>Name: Ghoul Strength: 2 Craft: 4 Life: 4 Gold: 1 Allignment: Evil Starting Location: Village</li>
+                  <li><strong>Character stats:</strong>Name: Minstrel Strength: 2 Craft: 4 Life: 4 Gold: 1 Allignment: Good Starting Location: Tavern</li>
+                  <li><strong>Character stats:</strong>Name: Monk Strength: 2 Craft: 3 Life: 4 Gold: 1 Allignment: Good Starting Location: Village</li>
+                  <li><strong>Character stats:</strong>Name: Priest Strength: 2 Craft: 4 Life: 4 Gold: 1 Allignment: Good Starting Location: Chapel</li>
+                  <li><strong>Character stats:</strong>Name: Prophetess Strength: 2 Craft: 4 Life: 4 Gold: 1 Allignment: Good Starting Location: Chapel</li>
+                  <li><strong>Character stats:</strong>Name: Thief Strength: 3 Craft: 3 Life: 4 Gold: 1 Allignment: Neutral Starting Location: City</li>
+                  <li><strong>Character stats:</strong>Name: Troll Strength: 6 Craft: 1 Life: 6 Gold: 1 Allignment: Neutral Starting Location: Cracks</li>
+                  <li><strong>Character stats:</strong>Name: Wizzard Strength: 2 Craft: 5 Life: 4 Gold: 1 Allignment: Evil Starting Location: Chapel</li>
+                  <li><strong>Character stats:</strong>Name: Warrior Strength: 4 Craft: 2 Life: 5 Gold: 1 Allignment: Neutral Starting Location: Tavern</li>
+                  <li><strong>Character stats:</strong>Name: Sorceress Strength: 2 Craft: 4 Life: 4 Gold: 1 Allignment: Evil Starting Location: City</li>
+                </ul>
+              </section>
+            </div>
+          </div>
+          <footer>
+            <div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+              <a href="LIST_OF_SOURCES.html" class="btn btn-neutral float-left" title="List of Sources" rel="prev">
+                <span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous
+              </a>
+              <a href="Source_Code.html" class="btn btn-neutral float-right" title="Source Code" rel="next">
+                Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span>
+              </a>
+            </div>
+            <hr/>
+            <div role="contentinfo">
+              <p>© Copyright 2024, Viliam Misař.</p>
+            </div>
+            <p>Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a theme provided by <a href="https://readthedocs.org">Read the Docs</a>.</p>
+          </footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+    jQuery(function () {
+        SphinxRtdTheme.Navigation.enable(true);
+    });
+  </script>
+</body>
+</html>

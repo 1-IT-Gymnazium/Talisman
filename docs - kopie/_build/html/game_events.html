@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>game_events module &mdash; Talisman</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=d7bb8d4d"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="main module" href="main.html" />
+    <link rel="prev" title="button module" href="button.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Talisman
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">code</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Cards.html">Cards module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Classes.html">Classes module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="button.html">button module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">game_events module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#game_events.Chapel_action"><code class="docutils literal notranslate"><span class="pre">Chapel_action()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#game_events.City_action"><code class="docutils literal notranslate"><span class="pre">City_action()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#game_events.City_dice_roll"><code class="docutils literal notranslate"><span class="pre">City_dice_roll()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#game_events.Tavern_action"><code class="docutils literal notranslate"><span class="pre">Tavern_action()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#game_events.Village_dice_roll"><code class="docutils literal notranslate"><span class="pre">Village_dice_roll()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#game_events.display_fight_details"><code class="docutils literal notranslate"><span class="pre">display_fight_details()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#game_events.doc_interaction"><code class="docutils literal notranslate"><span class="pre">doc_interaction()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#game_events.draw_deck_popup"><code class="docutils literal notranslate"><span class="pre">draw_deck_popup()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#game_events.fight"><code class="docutils literal notranslate"><span class="pre">fight()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#game_events.fight_result"><code class="docutils literal notranslate"><span class="pre">fight_result()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#game_events.get_font"><code class="docutils literal notranslate"><span class="pre">get_font()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#game_events.handle_tavern_dice_roll"><code class="docutils literal notranslate"><span class="pre">handle_tavern_dice_roll()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#game_events.village_action"><code class="docutils literal notranslate"><span class="pre">village_action()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="main.html">main module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testing.html">testing module</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Talisman</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">code</a></li>
+      <li class="breadcrumb-item active">game_events module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/game_events.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-game_events">
+<span id="game-events-module"></span><h1>game_events module<a class="headerlink" href="#module-game_events" title="Link to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="game_events.Chapel_action">
+<span class="sig-prename descclassname"><span class="pre">game_events.</span></span><span class="sig-name descname"><span class="pre">Chapel_action</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">character</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">screen</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/game_events.html#Chapel_action"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#game_events.Chapel_action" title="Link to this definition"></a></dt>
+<dd><p>Manages interactions at the Chapel location within the game, applying different effects based on the character’s
+alignment. This function simulates a character praying at the chapel and receiving various consequences.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>character</strong> (<a class="reference internal" href="Classes.html#Classes.Character" title="Classes.Character"><em>Character</em></a>) – The player’s character who is interacting at the Chapel location.</p></li>
+<li><p><strong>screen</strong> (<em>pygame.Surface</em>) – The display surface on which the Chapel interactions and their outcomes are visually presented.</p></li>
+</ul>
+</dd>
+</dl>
+<p>The function first displays a message indicating the character is praying, then waits and processes the result of this
+action based on the character’s moral alignment:
+- Evil characters lose life.
+- Neutral characters experience no change.
+- Good characters have an opportunity to perform another action (not implemented in this function).</p>
+<p>All outcomes are visually updated on the screen, and any changes to the character’s stats are displayed.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="game_events.City_action">
+<span class="sig-prename descclassname"><span class="pre">game_events.</span></span><span class="sig-name descname"><span class="pre">City_action</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">character</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dice</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">screen</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/game_events.html#City_action"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#game_events.City_action" title="Link to this definition"></a></dt>
+<dd><p>Manages interactions in the City location, allowing the character to either visit the enchantress by rolling a dice
+or visiting a doctor by clicking a button. Each choice leads to different outcomes that affect the character’s game state.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>character</strong> (<a class="reference internal" href="Classes.html#Classes.Character" title="Classes.Character"><em>Character</em></a>) – The player’s character interacting in the City.</p></li>
+<li><p><strong>dice</strong> (<a class="reference internal" href="Classes.html#Classes.Dice" title="Classes.Dice"><em>Dice</em></a>) – The dice object used to determine outcomes when visiting the enchantress.</p></li>
+<li><p><strong>screen</strong> (<em>pygame.Surface</em>) – The screen where city interactions are rendered.</p></li>
+</ul>
+</dd>
+</dl>
+<p>This function maintains a loop that waits for user input, either a dice roll for random enchantress outcomes or
+a button press for a doctor’s visit, each affecting the character’s attributes or game progress differently.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="game_events.City_dice_roll">
+<span class="sig-prename descclassname"><span class="pre">game_events.</span></span><span class="sig-name descname"><span class="pre">City_dice_roll</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dice_result</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">character</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">screen</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/game_events.html#City_dice_roll"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#game_events.City_dice_roll" title="Link to this definition"></a></dt>
+<dd><p>Processes and applies the results of a dice roll when a character is in the City location. This function modifies the
+character’s attributes based on the dice result, reflecting gains or losses in strength or craft.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dice_result</strong> (<em>int</em>) – The result of the dice roll, determining the specific outcome or action to be applied.</p></li>
+<li><p><strong>character</strong> (<a class="reference internal" href="Classes.html#Classes.Character" title="Classes.Character"><em>Character</em></a>) – The character experiencing the effects of the dice roll.</p></li>
+<li><p><strong>screen</strong> (<em>pygame.Surface</em>) – The display surface used for visually updating the character’s attributes.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Each possible dice outcome is associated with different changes to the character’s attributes:
+- Dice result 1 and 6: No change occurs.
+- Dice result 2: Decreases strength by 1, not allowing it to go below zero.
+- Dice result 3: Decreases craft by 1, not allowing it to go below zero.
+- Dice result 4: Increases craft by 2.
+- Dice result 5: Increases strength by 2.</p>
+<p>The function updates the screen only if there is a change in the character’s strength or craft.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="game_events.Tavern_action">
+<span class="sig-prename descclassname"><span class="pre">game_events.</span></span><span class="sig-name descname"><span class="pre">Tavern_action</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dice</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">character</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">screen</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/game_events.html#Tavern_action"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#game_events.Tavern_action" title="Link to this definition"></a></dt>
+<dd><p>Handles interactions within the Tavern game location, where the player can roll a dice to trigger various random events.
+This function dynamically updates the game state based on dice roll outcomes and displays results on the screen.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dice</strong> (<a class="reference internal" href="Classes.html#Classes.Dice" title="Classes.Dice"><em>Dice</em></a>) – The dice object used for determining the outcome of the Tavern interaction.</p></li>
+<li><p><strong>character</strong> (<a class="reference internal" href="Classes.html#Classes.Character" title="Classes.Character"><em>Character</em></a>) – The player’s character that is experiencing the Tavern actions.</p></li>
+<li><p><strong>screen</strong> (<em>pygame.Surface</em>) – The display surface where Tavern actions and outcomes are visualized.</p></li>
+</ul>
+</dd>
+</dl>
+<p>The function maintains a loop that awaits player input to roll the dice. Based on the roll, different effects
+may impact the player’s character such as losing life, engaging in a fight, gaining or losing gold, teleportation,
+or other thematic actions specific to the Tavern location.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="game_events.Village_dice_roll">
+<span class="sig-prename descclassname"><span class="pre">game_events.</span></span><span class="sig-name descname"><span class="pre">Village_dice_roll</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dice_result</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">character</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">screen</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/game_events.html#Village_dice_roll"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#game_events.Village_dice_roll" title="Link to this definition"></a></dt>
+<dd><p>Processes and applies the effects of a die roll when a character is in the village. Effects vary depending
+on the dice result, affecting the character’s alignment, strength, or craft.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dice_result</strong> (<em>int</em>) – The result of the dice roll, determining the effect to apply.</p></li>
+<li><p><strong>character</strong> (<a class="reference internal" href="Classes.html#Classes.Character" title="Classes.Character"><em>Character</em></a>) – The character to whom the dice roll effects will be applied.</p></li>
+<li><p><strong>screen</strong> (<em>pygame.Surface</em>) – The display surface used for updating the character’s attributes visually.</p></li>
+</ul>
+</dd>
+</dl>
+<p>This function modifies the character’s attributes based on the dice roll. Possible outcomes include:
+- Becoming evil or good (alignment change).
+- Increment in craft or strength attributes.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="game_events.display_fight_details">
+<span class="sig-prename descclassname"><span class="pre">game_events.</span></span><span class="sig-name descname"><span class="pre">display_fight_details</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">surface</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">player</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enemy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enemy_stat</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enemy_stat_value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enemy_fin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">player_fin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stage</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/game_events.html#display_fight_details"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#game_events.display_fight_details" title="Link to this definition"></a></dt>
+<dd><p>Updates the fight surface with the current details of the fight sequence. This function visualizes
+both the player’s and enemy’s stats and states at various stages of the fight.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>surface</strong> (<em>pygame.Surface</em>) – The surface on which to draw the fight details, typically a subsurface for the fight area.</p></li>
+<li><p><strong>player</strong> (<a class="reference internal" href="Classes.html#Classes.Character" title="Classes.Character"><em>Character</em></a>) – The player’s character involved in the fight.</p></li>
+<li><p><strong>enemy</strong> (<a class="reference internal" href="Classes.html#Classes.Enemy" title="Classes.Enemy"><em>Enemy</em></a>) – The enemy character involved in the fight.</p></li>
+<li><p><strong>enemy_stat</strong> (<em>str</em>) – The primary stat being contested in the fight (either ‘craft’ or ‘strength’).</p></li>
+<li><p><strong>enemy_stat_value</strong> (<em>int</em>) – The base value of the enemy’s contested stat before the dice roll.</p></li>
+<li><p><strong>enemy_fin</strong> (<em>int</em>) – The final value of the enemy’s contested stat after adding the dice roll.</p></li>
+<li><p><strong>player_fin</strong> (<em>int</em>) – The final value of the player’s contested stat after adding the dice roll.</p></li>
+<li><p><strong>stage</strong> (<em>str</em>) – The current stage of the fight, controlling what information is displayed (‘enemy_roll’, ‘enemy_rolled’, ‘player_rolled’).</p></li>
+</ul>
+</dd>
+</dl>
+<p>This function dynamically updates depending on the fight stage to provide feedback such as:
+- Prompts for rolling dice.
+- Showing the results of dice rolls.
+- Displaying final attack values.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="game_events.doc_interaction">
+<span class="sig-prename descclassname"><span class="pre">game_events.</span></span><span class="sig-name descname"><span class="pre">doc_interaction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">character</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">screen</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/game_events.html#doc_interaction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#game_events.doc_interaction" title="Link to this definition"></a></dt>
+<dd><p>Manages the interaction with a doctor in the City location, which results in the character gaining additional life.
+This function displays a notification of the healing event and updates the character’s life attribute.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>character</strong> (<a class="reference internal" href="Classes.html#Classes.Character" title="Classes.Character"><em>Character</em></a>) – The character receiving medical attention and healing.</p></li>
+<li><p><strong>screen</strong> (<em>pygame.Surface</em>) – The display surface used for updating and showing the healing effect.</p></li>
+</ul>
+</dd>
+</dl>
+<p>This function increases the character’s life by one and visually updates this change on the screen. If the
+character’s life is increased, the function will update the display to reflect the new life total.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="game_events.draw_deck_popup">
+<span class="sig-prename descclassname"><span class="pre">game_events.</span></span><span class="sig-name descname"><span class="pre">draw_deck_popup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">screen</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">character_deck</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/game_events.html#draw_deck_popup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#game_events.draw_deck_popup" title="Link to this definition"></a></dt>
+<dd><p>Displays a popup window that lists all cards in a character’s deck on the screen.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>screen</strong> (<em>pygame.Surface</em>) – The display surface to draw the popup on.</p></li>
+<li><p><strong>character_deck</strong> (<em>list</em>) – A list of Card objects that the character currently holds.</p></li>
+</ul>
+</dd>
+</dl>
+<p>The function calculates the placement of each card image within a defined area of the screen,
+ensuring that all cards are visible and neatly arranged.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="game_events.fight">
+<span class="sig-prename descclassname"><span class="pre">game_events.</span></span><span class="sig-name descname"><span class="pre">fight</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">character</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enemy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dice</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">screen</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/game_events.html#fight"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#game_events.fight" title="Link to this definition"></a></dt>
+<dd><p>Conducts a combat sequence between a player’s character and an enemy, using dice rolls to determine the outcome.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>character</strong> (<a class="reference internal" href="Classes.html#Classes.Character" title="Classes.Character"><em>Character</em></a>) – The player’s character involved in the fight.</p></li>
+<li><p><strong>enemy</strong> (<a class="reference internal" href="Classes.html#Classes.Enemy" title="Classes.Enemy"><em>Enemy</em></a>) – The enemy that the character is fighting.</p></li>
+<li><p><strong>dice</strong> (<a class="reference internal" href="Classes.html#Classes.Dice" title="Classes.Dice"><em>Dice</em></a>) – A dice object used for rolling during the fight to determine attack strength.</p></li>
+<li><p><strong>screen</strong> (<em>pygame.Surface</em>) – The display surface on which the fight visuals are rendered.</p></li>
+</ul>
+</dd>
+</dl>
+<p>The function handles the sequence of combat, including rolling for enemy and player attacks, and determines
+the winner based on the total attack values.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="game_events.fight_result">
+<span class="sig-prename descclassname"><span class="pre">game_events.</span></span><span class="sig-name descname"><span class="pre">fight_result</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">surface</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">winner</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/game_events.html#fight_result"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#game_events.fight_result" title="Link to this definition"></a></dt>
+<dd><p>Displays the result of a fight on the given surface.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>surface</strong> (<em>pygame.Surface</em>) – The surface where the fight result is to be displayed.</p></li>
+<li><p><strong>winner</strong> (<em>pygame.Surface</em>) – The rendered text indicating the fight’s outcome.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="game_events.get_font">
+<span class="sig-prename descclassname"><span class="pre">game_events.</span></span><span class="sig-name descname"><span class="pre">get_font</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/game_events.html#get_font"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#game_events.get_font" title="Link to this definition"></a></dt>
+<dd><p>Loads and returns a pygame font object at a specified size.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>size</strong> (<em>int</em>) – The font size to load.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The loaded font object at the specified size.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pygame.font.Font</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="game_events.handle_tavern_dice_roll">
+<span class="sig-prename descclassname"><span class="pre">game_events.</span></span><span class="sig-name descname"><span class="pre">handle_tavern_dice_roll</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dice_result</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">character</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">screen</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/game_events.html#handle_tavern_dice_roll"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#game_events.handle_tavern_dice_roll" title="Link to this definition"></a></dt>
+<dd><p>Processes the result of a dice roll when a character is in the Tavern location, applying the corresponding
+effects directly to the character’s attributes or triggering specific game actions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dice_result</strong> (<em>int</em>) – The result of the dice roll, which determines the specific outcome or action to be applied.</p></li>
+<li><p><strong>character</strong> (<a class="reference internal" href="Classes.html#Classes.Character" title="Classes.Character"><em>Character</em></a>) – The player’s character that experiences the outcome of the dice roll.</p></li>
+<li><p><strong>screen</strong> (<em>pygame.Surface</em>) – The display surface where any resulting changes or effects are visually updated.</p></li>
+</ul>
+</dd>
+</dl>
+<p>The function interprets the dice roll result and applies various effects such as modifying the character’s
+life or gold, or initiating a fight scenario. Each outcome is also visually updated on the provided screen.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="game_events.village_action">
+<span class="sig-prename descclassname"><span class="pre">game_events.</span></span><span class="sig-name descname"><span class="pre">village_action</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">character</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dice</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">screen</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/game_events.html#village_action"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#game_events.village_action" title="Link to this definition"></a></dt>
+<dd><p>Facilitates interactive gameplay in the Village location, allowing the character to roll a dice and experience
+various mystical outcomes based on the roll. This function creates a dynamic, interactive environment where
+the character’s moral alignment or attributes can be altered.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>character</strong> (<a class="reference internal" href="Classes.html#Classes.Character" title="Classes.Character"><em>Character</em></a>) – The character visiting the village, potentially facing significant changes.</p></li>
+<li><p><strong>dice</strong> (<a class="reference internal" href="Classes.html#Classes.Dice" title="Classes.Dice"><em>Dice</em></a>) – The dice object used to determine the outcome of the visit.</p></li>
+<li><p><strong>screen</strong> (<em>pygame.Surface</em>) – The display surface on which the village interactions and their outcomes are shown.</p></li>
+</ul>
+</dd>
+</dl>
+<p>The function runs a loop that displays a menu with possible outcomes and waits for the player to roll the dice.
+Depending on the dice result, the character’s alignment may change or their attributes such as strength or craft
+may increase. The function updates the display to show the dice result and applies the corresponding effects.</p>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="button.html" class="btn btn-neutral float-left" title="button module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="main.html" class="btn btn-neutral float-right" title="main module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Viliam Misař.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>game_events &mdash; Talisman 00.00.01 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=d7bb8d4d"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Talisman
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">code</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Talisman</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">game_events</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for game_events</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pygame</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">Classes</span>
+<span class="kn">import</span> <span class="nn">button</span>
+
+<span class="n">pygame</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+
+<span class="n">default_resolution</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">Info</span><span class="p">()</span>
+
+<span class="n">current_screen_width</span> <span class="o">=</span> <span class="n">default_resolution</span><span class="o">.</span><span class="n">current_w</span>
+<span class="n">current_screen_height</span> <span class="o">=</span> <span class="n">default_resolution</span><span class="o">.</span><span class="n">current_h</span>
+
+<span class="n">default_resolution_width</span> <span class="o">=</span> <span class="mi">1920</span>
+<span class="n">default_resolution_height</span> <span class="o">=</span> <span class="mi">1080</span>
+
+<span class="n">scale_factor_width</span> <span class="o">=</span> <span class="n">current_screen_width</span> <span class="o">/</span> <span class="n">default_resolution_width</span>
+<span class="n">scale_factor_height</span> <span class="o">=</span> <span class="n">current_screen_height</span> <span class="o">/</span> <span class="n">default_resolution_height</span>
+
+<span class="n">Screen</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_mode</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">pygame</span><span class="o">.</span><span class="n">FULLSCREEN</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="get_font">
+<a class="viewcode-back" href="../game_events.html#game_events.get_font">[docs]</a>
+<span class="k">def</span> <span class="nf">get_font</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Loads and returns a pygame font object at a specified size.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            size (int): The font size to load.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            pygame.font.Font: The loaded font object at the specified size.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">pygame</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">Font</span><span class="p">(</span><span class="s2">&quot;Stuff/font.ttf&quot;</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="draw_deck_popup">
+<a class="viewcode-back" href="../game_events.html#game_events.draw_deck_popup">[docs]</a>
+<span class="k">def</span> <span class="nf">draw_deck_popup</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="n">character_deck</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Displays a popup window that lists all cards in a character&#39;s deck on the screen.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        screen (pygame.Surface): The display surface to draw the popup on.</span>
+<span class="sd">        character_deck (list): A list of Card objects that the character currently holds.</span>
+
+<span class="sd">    The function calculates the placement of each card image within a defined area of the screen,</span>
+<span class="sd">    ensuring that all cards are visible and neatly arranged.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">popup_bg_rect</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">Rect</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">current_screen_width</span> <span class="o">-</span> <span class="mi">200</span><span class="p">,</span> <span class="n">current_screen_height</span> <span class="o">-</span> <span class="mi">100</span><span class="p">)</span>
+    <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">popup_bg_rect</span><span class="p">)</span>
+
+    <span class="n">start_x</span><span class="p">,</span> <span class="n">start_y</span> <span class="o">=</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">100</span>
+    <span class="k">for</span> <span class="n">card</span> <span class="ow">in</span> <span class="n">character_deck</span><span class="p">:</span>
+        <span class="n">card_image</span> <span class="o">=</span> <span class="n">card</span><span class="o">.</span><span class="n">image</span>
+        <span class="n">screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">card_image</span><span class="p">,</span> <span class="p">(</span><span class="n">start_x</span><span class="p">,</span> <span class="n">start_y</span><span class="p">))</span>
+        <span class="n">start_x</span> <span class="o">+=</span> <span class="mi">200</span>
+        <span class="k">if</span> <span class="n">start_x</span> <span class="o">&gt;</span> <span class="n">popup_bg_rect</span><span class="o">.</span><span class="n">width</span> <span class="o">-</span> <span class="mi">150</span><span class="p">:</span>
+            <span class="n">start_x</span> <span class="o">=</span> <span class="mi">150</span>
+            <span class="n">start_y</span> <span class="o">+=</span> <span class="mi">160</span></div>
+
+
+
+<div class="viewcode-block" id="fight">
+<a class="viewcode-back" href="../game_events.html#game_events.fight">[docs]</a>
+<span class="k">def</span> <span class="nf">fight</span><span class="p">(</span><span class="n">character</span><span class="p">,</span> <span class="n">enemy</span><span class="p">,</span> <span class="n">dice</span><span class="p">,</span> <span class="n">screen</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Conducts a combat sequence between a player&#39;s character and an enemy, using dice rolls to determine the outcome.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        character (Character): The player&#39;s character involved in the fight.</span>
+<span class="sd">        enemy (Enemy): The enemy that the character is fighting.</span>
+<span class="sd">        dice (Dice): A dice object used for rolling during the fight to determine attack strength.</span>
+<span class="sd">        screen (pygame.Surface): The display surface on which the fight visuals are rendered.</span>
+
+<span class="sd">    The function handles the sequence of combat, including rolling for enemy and player attacks, and determines</span>
+<span class="sd">    the winner based on the total attack values.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">fight_surface</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">Surface</span><span class="p">((</span><span class="mi">800</span><span class="p">,</span> <span class="mi">600</span><span class="p">))</span>
+    <span class="n">fight_surface</span><span class="o">.</span><span class="n">fill</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+    <span class="n">fight_rect</span> <span class="o">=</span> <span class="n">fight_surface</span><span class="o">.</span><span class="n">get_rect</span><span class="p">(</span><span class="n">center</span><span class="o">=</span><span class="p">(</span><span class="n">current_screen_width</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="n">current_screen_height</span> <span class="o">//</span> <span class="mi">2</span><span class="p">))</span>
+
+    <span class="n">fight_stage</span> <span class="o">=</span> <span class="s2">&quot;enemy_roll&quot;</span>
+    <span class="n">enemy_stat</span> <span class="o">=</span> <span class="s1">&#39;craft&#39;</span> <span class="k">if</span> <span class="n">enemy</span><span class="o">.</span><span class="n">craft</span> <span class="o">&gt;</span> <span class="n">enemy</span><span class="o">.</span><span class="n">strength</span> <span class="k">else</span> <span class="s1">&#39;strength&#39;</span>
+    <span class="n">enemy_stat_value</span> <span class="o">=</span> <span class="n">enemy</span><span class="o">.</span><span class="n">craft</span> <span class="k">if</span> <span class="n">enemy</span><span class="o">.</span><span class="n">craft</span> <span class="o">&gt;</span> <span class="n">enemy</span><span class="o">.</span><span class="n">strength</span> <span class="k">else</span> <span class="n">enemy</span><span class="o">.</span><span class="n">strength</span>
+    <span class="n">player_stat_value</span> <span class="o">=</span> <span class="n">character</span><span class="o">.</span><span class="n">craft</span> <span class="k">if</span> <span class="n">enemy_stat</span> <span class="o">==</span> <span class="s1">&#39;craft&#39;</span> <span class="k">else</span> <span class="n">character</span><span class="o">.</span><span class="n">strength</span>
+    <span class="n">enemy_total</span><span class="p">,</span> <span class="n">player_total</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+
+    <span class="n">display_fight_details</span><span class="p">(</span><span class="n">fight_surface</span><span class="p">,</span> <span class="n">character</span><span class="p">,</span> <span class="n">enemy</span><span class="p">,</span> <span class="n">enemy_stat</span><span class="p">,</span> <span class="n">enemy_stat_value</span><span class="p">,</span> <span class="n">enemy_total</span><span class="p">,</span> <span class="n">player_total</span><span class="p">,</span>
+                          <span class="n">fight_stage</span><span class="p">)</span>
+    <span class="n">screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">fight_surface</span><span class="p">,</span> <span class="n">fight_rect</span><span class="o">.</span><span class="n">topleft</span><span class="p">)</span>
+    <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">flip</span><span class="p">()</span>
+
+    <span class="n">bg_color</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">text_area</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">Rect</span><span class="p">(</span><span class="mi">250</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+
+    <span class="k">while</span> <span class="n">fight_stage</span> <span class="o">!=</span> <span class="s2">&quot;done&quot;</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">pygame</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">KEYDOWN</span> <span class="ow">and</span> <span class="n">event</span><span class="o">.</span><span class="n">key</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">K_SPACE</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">fight_stage</span> <span class="o">==</span> <span class="s2">&quot;enemy_roll&quot;</span><span class="p">:</span>
+                    <span class="n">dice</span><span class="o">.</span><span class="n">roll</span><span class="p">()</span>
+                    <span class="n">enemy_total</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">enemy_stat_value</span><span class="p">)</span> <span class="o">+</span> <span class="n">dice</span><span class="o">.</span><span class="n">value</span>
+                    <span class="n">fight_stage</span> <span class="o">=</span> <span class="s2">&quot;enemy_rolled&quot;</span>
+                    <span class="n">fight_surface</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">bg_color</span><span class="p">,</span> <span class="n">text_area</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">fight_stage</span> <span class="o">==</span> <span class="s2">&quot;enemy_rolled&quot;</span><span class="p">:</span>
+                    <span class="n">dice</span><span class="o">.</span><span class="n">roll</span><span class="p">()</span>
+                    <span class="n">player_total</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">player_stat_value</span><span class="p">)</span> <span class="o">+</span> <span class="n">dice</span><span class="o">.</span><span class="n">value</span>
+                    <span class="n">fight_stage</span> <span class="o">=</span> <span class="s2">&quot;player_rolled&quot;</span>
+                <span class="k">elif</span> <span class="n">fight_stage</span> <span class="o">==</span> <span class="s2">&quot;player_rolled&quot;</span><span class="p">:</span>
+                    <span class="n">fight_stage</span> <span class="o">=</span> <span class="s2">&quot;result&quot;</span>
+
+                <span class="n">display_fight_details</span><span class="p">(</span><span class="n">fight_surface</span><span class="p">,</span> <span class="n">character</span><span class="p">,</span> <span class="n">enemy</span><span class="p">,</span> <span class="n">enemy_stat</span><span class="p">,</span> <span class="n">enemy_stat_value</span><span class="p">,</span> <span class="n">enemy_total</span><span class="p">,</span>
+                                      <span class="n">player_total</span><span class="p">,</span>
+                                      <span class="n">fight_stage</span><span class="p">)</span>
+                <span class="n">screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">fight_surface</span><span class="p">,</span> <span class="n">fight_rect</span><span class="o">.</span><span class="n">topleft</span><span class="p">)</span>
+                <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">flip</span><span class="p">()</span>
+
+                <span class="k">if</span> <span class="n">fight_stage</span> <span class="o">==</span> <span class="s2">&quot;result&quot;</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">player_total</span> <span class="o">&gt;</span> <span class="n">enemy_total</span><span class="p">:</span>
+                        <span class="n">winner</span> <span class="o">=</span> <span class="n">get_font</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="s2">&quot;You Win&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;#b68f40&quot;</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">winner</span> <span class="o">=</span> <span class="n">get_font</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="s2">&quot;You lose&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;#b68f40&quot;</span><span class="p">)</span>
+                        <span class="n">character</span><span class="o">.</span><span class="n">life</span> <span class="o">-=</span> <span class="mi">1</span>
+                        <span class="n">character</span><span class="o">.</span><span class="n">update_and_display_stats</span><span class="p">(</span><span class="n">screen</span><span class="p">)</span>
+                    <span class="n">fight_result</span><span class="p">(</span><span class="n">fight_surface</span><span class="p">,</span> <span class="n">winner</span><span class="p">)</span>
+                    <span class="n">screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">fight_surface</span><span class="p">,</span> <span class="n">fight_rect</span><span class="o">.</span><span class="n">topleft</span><span class="p">)</span>
+                    <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">flip</span><span class="p">()</span>
+                    <span class="n">fight_stage</span> <span class="o">=</span> <span class="s2">&quot;done&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="display_fight_details">
+<a class="viewcode-back" href="../game_events.html#game_events.display_fight_details">[docs]</a>
+<span class="k">def</span> <span class="nf">display_fight_details</span><span class="p">(</span><span class="n">surface</span><span class="p">,</span> <span class="n">player</span><span class="p">,</span> <span class="n">enemy</span><span class="p">,</span> <span class="n">enemy_stat</span><span class="p">,</span> <span class="n">enemy_stat_value</span><span class="p">,</span> <span class="n">enemy_fin</span><span class="p">,</span> <span class="n">player_fin</span><span class="p">,</span> <span class="n">stage</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Updates the fight surface with the current details of the fight sequence. This function visualizes</span>
+<span class="sd">    both the player&#39;s and enemy&#39;s stats and states at various stages of the fight.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        surface (pygame.Surface): The surface on which to draw the fight details, typically a subsurface for the fight area.</span>
+<span class="sd">        player (Character): The player&#39;s character involved in the fight.</span>
+<span class="sd">        enemy (Enemy): The enemy character involved in the fight.</span>
+<span class="sd">        enemy_stat (str): The primary stat being contested in the fight (either &#39;craft&#39; or &#39;strength&#39;).</span>
+<span class="sd">        enemy_stat_value (int): The base value of the enemy&#39;s contested stat before the dice roll.</span>
+<span class="sd">        enemy_fin (int): The final value of the enemy&#39;s contested stat after adding the dice roll.</span>
+<span class="sd">        player_fin (int): The final value of the player&#39;s contested stat after adding the dice roll.</span>
+<span class="sd">        stage (str): The current stage of the fight, controlling what information is displayed (&#39;enemy_roll&#39;, &#39;enemy_rolled&#39;, &#39;player_rolled&#39;).</span>
+
+<span class="sd">    This function dynamically updates depending on the fight stage to provide feedback such as:</span>
+<span class="sd">    - Prompts for rolling dice.</span>
+<span class="sd">    - Showing the results of dice rolls.</span>
+<span class="sd">    - Displaying final attack values.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">player_image</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">player</span><span class="o">.</span><span class="n">image</span><span class="p">)</span>
+    <span class="n">enemy_image</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">enemy</span><span class="o">.</span><span class="n">image_path</span><span class="p">)</span>
+
+    <span class="n">surface</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">player_image</span><span class="p">,</span> <span class="p">(</span><span class="mi">450</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
+    <span class="n">surface</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">enemy_image</span><span class="p">,</span> <span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
+
+    <span class="n">font</span> <span class="o">=</span> <span class="n">get_font</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>
+    <span class="n">enemy_stat_text</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">enemy_stat</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">enemy_stat_value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;#b68f40&quot;</span><span class="p">)</span>
+    <span class="n">surface</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">enemy_stat_text</span><span class="p">,</span> <span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">450</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">stage</span> <span class="o">==</span> <span class="s2">&quot;enemy_roll&quot;</span><span class="p">:</span>
+        <span class="n">message1</span> <span class="o">=</span> <span class="n">get_font</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="s2">&quot;Press space to roll for enemy&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;#b68f40&quot;</span><span class="p">)</span>
+        <span class="n">surface</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">message1</span><span class="p">,</span> <span class="p">(</span><span class="mi">250</span><span class="p">,</span> <span class="mi">50</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="n">stage</span> <span class="o">==</span> <span class="s2">&quot;enemy_rolled&quot;</span><span class="p">:</span>
+        <span class="n">enemy_total_stat</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">enemy_stat</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">enemy_fin</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;#b68f40&quot;</span><span class="p">)</span>
+        <span class="n">surface</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">enemy_total_stat</span><span class="p">,</span> <span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">500</span><span class="p">))</span>
+        <span class="n">message2</span> <span class="o">=</span> <span class="n">get_font</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="s2">&quot;Press space to roll for yourself&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;#b68f40&quot;</span><span class="p">)</span>
+        <span class="n">surface</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">message2</span><span class="p">,</span> <span class="p">(</span><span class="mi">250</span><span class="p">,</span> <span class="mi">50</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="n">stage</span> <span class="o">==</span> <span class="s2">&quot;player_rolled&quot;</span><span class="p">:</span>
+        <span class="n">player_stat_total</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total </span><span class="si">{</span><span class="n">enemy_stat</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">player_fin</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;#b68f40&quot;</span><span class="p">)</span>
+        <span class="n">surface</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">player_stat_total</span><span class="p">,</span> <span class="p">(</span><span class="mi">450</span><span class="p">,</span> <span class="mi">500</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="fight_result">
+<a class="viewcode-back" href="../game_events.html#game_events.fight_result">[docs]</a>
+<span class="k">def</span> <span class="nf">fight_result</span><span class="p">(</span><span class="n">surface</span><span class="p">,</span> <span class="n">winner</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Displays the result of a fight on the given surface.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            surface (pygame.Surface): The surface where the fight result is to be displayed.</span>
+<span class="sd">            winner (pygame.Surface): The rendered text indicating the fight&#39;s outcome.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="n">surface</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">winner</span><span class="p">,</span> <span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="mi">200</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="Tavern_action">
+<a class="viewcode-back" href="../game_events.html#game_events.Tavern_action">[docs]</a>
+<span class="k">def</span> <span class="nf">Tavern_action</span><span class="p">(</span><span class="n">dice</span><span class="p">,</span> <span class="n">character</span><span class="p">,</span> <span class="n">screen</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Handles interactions within the Tavern game location, where the player can roll a dice to trigger various random events.</span>
+<span class="sd">    This function dynamically updates the game state based on dice roll outcomes and displays results on the screen.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        dice (Dice): The dice object used for determining the outcome of the Tavern interaction.</span>
+<span class="sd">        character (Character): The player&#39;s character that is experiencing the Tavern actions.</span>
+<span class="sd">        screen (pygame.Surface): The display surface where Tavern actions and outcomes are visualized.</span>
+
+<span class="sd">    The function maintains a loop that awaits player input to roll the dice. Based on the roll, different effects</span>
+<span class="sd">    may impact the player&#39;s character such as losing life, engaging in a fight, gaining or losing gold, teleportation,</span>
+<span class="sd">    or other thematic actions specific to the Tavern location.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">popup_active</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">dice_result_displayed</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">while</span> <span class="n">popup_active</span><span class="p">:</span>
+        <span class="n">popup_bg</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">Rect</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">800</span><span class="p">,</span> <span class="mi">600</span><span class="p">)</span>
+        <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">popup_bg</span><span class="p">)</span>
+        <span class="n">font</span> <span class="o">=</span> <span class="n">get_font</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>
+        <span class="n">options</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="s2">&quot;Press space to roll a dice for action&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;#b68f40&quot;</span><span class="p">)</span>
+        <span class="n">screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="p">(</span><span class="mi">350</span><span class="p">,</span> <span class="mi">250</span><span class="p">))</span>  <span class="c1"># Adjust position as needed</span>
+
+        <span class="n">roll_options</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;Get drunk and lose 1 life&quot;</span><span class="p">,</span>
+            <span class="mi">2</span><span class="p">:</span> <span class="s2">&quot;Fight with a Farmer&quot;</span><span class="p">,</span>
+            <span class="mi">3</span><span class="p">:</span> <span class="s2">&quot;Gamble and lose 1 gold&quot;</span><span class="p">,</span>
+            <span class="mi">4</span><span class="p">:</span> <span class="s2">&quot;Gamble and win 1 gold&quot;</span><span class="p">,</span>
+            <span class="mi">5</span><span class="p">:</span> <span class="s2">&quot;A wizard offers teleportation(Move anywhere next round)&quot;</span><span class="p">,</span>
+            <span class="mi">6</span><span class="p">:</span> <span class="s2">&quot;Steal 3 gold&quot;</span>
+        <span class="p">}</span>
+        <span class="n">y_offset</span> <span class="o">=</span> <span class="mi">350</span>
+        <span class="k">for</span> <span class="n">roll</span><span class="p">,</span> <span class="n">action</span> <span class="ow">in</span> <span class="n">roll_options</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">option_text</span> <span class="o">=</span> <span class="n">get_font</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">roll</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">action</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;#b68f40&quot;</span><span class="p">)</span>
+            <span class="n">screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">option_text</span><span class="p">,</span> <span class="p">(</span><span class="mi">350</span><span class="p">,</span> <span class="n">y_offset</span><span class="p">))</span>
+            <span class="n">y_offset</span> <span class="o">+=</span> <span class="mi">50</span>
+
+        <span class="k">if</span> <span class="n">dice_result_displayed</span><span class="p">:</span>
+            <span class="n">result_text</span> <span class="o">=</span> <span class="n">get_font</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dice Roll: </span><span class="si">{</span><span class="n">dice</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+            <span class="n">screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">result_text</span><span class="p">,</span> <span class="p">(</span><span class="mi">350</span><span class="p">,</span> <span class="mi">300</span><span class="p">))</span>
+            <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+            <span class="n">pygame</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">delay</span><span class="p">(</span><span class="mi">2000</span><span class="p">)</span>
+            <span class="n">handle_tavern_dice_roll</span><span class="p">(</span><span class="n">dice</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">character</span><span class="p">,</span> <span class="n">screen</span><span class="p">)</span>
+            <span class="n">popup_active</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">pygame</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">QUIT</span><span class="p">:</span>
+                <span class="n">pygame</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">KEYDOWN</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">key</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">K_SPACE</span><span class="p">:</span>
+                    <span class="n">dice</span><span class="o">.</span><span class="n">roll</span><span class="p">()</span>
+                    <span class="n">dice_result_displayed</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+
+
+<div class="viewcode-block" id="handle_tavern_dice_roll">
+<a class="viewcode-back" href="../game_events.html#game_events.handle_tavern_dice_roll">[docs]</a>
+<span class="k">def</span> <span class="nf">handle_tavern_dice_roll</span><span class="p">(</span><span class="n">dice_result</span><span class="p">,</span> <span class="n">character</span><span class="p">,</span> <span class="n">screen</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Processes the result of a dice roll when a character is in the Tavern location, applying the corresponding</span>
+<span class="sd">    effects directly to the character&#39;s attributes or triggering specific game actions.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        dice_result (int): The result of the dice roll, which determines the specific outcome or action to be applied.</span>
+<span class="sd">        character (Character): The player&#39;s character that experiences the outcome of the dice roll.</span>
+<span class="sd">        screen (pygame.Surface): The display surface where any resulting changes or effects are visually updated.</span>
+
+<span class="sd">    The function interprets the dice roll result and applies various effects such as modifying the character&#39;s</span>
+<span class="sd">    life or gold, or initiating a fight scenario. Each outcome is also visually updated on the provided screen.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">initial_stats</span> <span class="o">=</span> <span class="p">(</span><span class="n">character</span><span class="o">.</span><span class="n">life</span><span class="p">,</span> <span class="n">character</span><span class="o">.</span><span class="n">gold</span><span class="p">)</span>
+    <span class="n">rect</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">Rect</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">800</span><span class="p">,</span> <span class="mi">600</span><span class="p">,</span> <span class="mi">600</span><span class="p">)</span>
+    <span class="n">my_die</span> <span class="o">=</span> <span class="n">Classes</span><span class="o">.</span><span class="n">Dice</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">dice_result</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">character</span><span class="o">.</span><span class="n">life</span> <span class="o">-=</span> <span class="mi">1</span>
+    <span class="k">elif</span> <span class="n">dice_result</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">farmer</span> <span class="o">=</span> <span class="n">Classes</span><span class="o">.</span><span class="n">Enemy</span><span class="p">(</span><span class="s2">&quot;Farmer&quot;</span><span class="p">,</span> <span class="s2">&quot;./EnemyCards/Farmer.png&quot;</span><span class="p">,</span> <span class="s2">&quot;Encounter Farmer&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="n">fight</span><span class="p">(</span><span class="n">character</span><span class="p">,</span> <span class="n">farmer</span><span class="p">,</span> <span class="n">my_die</span><span class="p">,</span> <span class="n">Screen</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">dice_result</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="n">character</span><span class="o">.</span><span class="n">gold</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">character</span><span class="o">.</span><span class="n">gold</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">dice_result</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+        <span class="n">character</span><span class="o">.</span><span class="n">gold</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">elif</span> <span class="n">dice_result</span> <span class="o">==</span> <span class="mi">5</span><span class="p">:</span>
+        <span class="k">pass</span>
+    <span class="k">elif</span> <span class="n">dice_result</span> <span class="o">==</span> <span class="mi">6</span><span class="p">:</span>
+        <span class="n">character</span><span class="o">.</span><span class="n">gold</span> <span class="o">+=</span> <span class="mi">3</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">character</span><span class="o">.</span><span class="n">life</span><span class="p">,</span> <span class="n">character</span><span class="o">.</span><span class="n">gold</span><span class="p">)</span> <span class="o">!=</span> <span class="n">initial_stats</span><span class="p">:</span>
+        <span class="n">screen</span><span class="o">.</span><span class="n">fill</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">rect</span><span class="p">)</span>
+        <span class="n">character</span><span class="o">.</span><span class="n">display_attribute</span><span class="p">(</span><span class="n">screen</span><span class="p">)</span>
+        <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">update</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="Chapel_action">
+<a class="viewcode-back" href="../game_events.html#game_events.Chapel_action">[docs]</a>
+<span class="k">def</span> <span class="nf">Chapel_action</span><span class="p">(</span><span class="n">character</span><span class="p">,</span> <span class="n">screen</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Manages interactions at the Chapel location within the game, applying different effects based on the character&#39;s</span>
+<span class="sd">    alignment. This function simulates a character praying at the chapel and receiving various consequences.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        character (Character): The player&#39;s character who is interacting at the Chapel location.</span>
+<span class="sd">        screen (pygame.Surface): The display surface on which the Chapel interactions and their outcomes are visually presented.</span>
+
+<span class="sd">    The function first displays a message indicating the character is praying, then waits and processes the result of this</span>
+<span class="sd">    action based on the character&#39;s moral alignment:</span>
+<span class="sd">    - Evil characters lose life.</span>
+<span class="sd">    - Neutral characters experience no change.</span>
+<span class="sd">    - Good characters have an opportunity to perform another action (not implemented in this function).</span>
+
+<span class="sd">    All outcomes are visually updated on the screen, and any changes to the character&#39;s stats are displayed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">result_text</span>
+    <span class="n">rect</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">Rect</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">800</span><span class="p">,</span> <span class="mi">600</span><span class="p">,</span> <span class="mi">600</span><span class="p">)</span>
+    <span class="n">popup_bg</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">Rect</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">800</span><span class="p">,</span> <span class="mi">600</span><span class="p">)</span>
+    <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">popup_bg</span><span class="p">)</span>
+    <span class="n">font</span> <span class="o">=</span> <span class="n">get_font</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>
+    <span class="n">chapel_text</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="s2">&quot;You have entered the chapel and you are praying&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;#b68f40&quot;</span><span class="p">)</span>
+    <span class="n">screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">chapel_text</span><span class="p">,</span> <span class="p">(</span><span class="mi">350</span><span class="p">,</span> <span class="mi">250</span><span class="p">))</span>
+    <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+
+    <span class="n">pygame</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">delay</span><span class="p">(</span><span class="mi">5000</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">character</span><span class="o">.</span><span class="n">alignment</span> <span class="o">==</span> <span class="s2">&quot;Evil&quot;</span><span class="p">:</span>
+        <span class="n">character</span><span class="o">.</span><span class="n">life</span> <span class="o">-=</span> <span class="mi">1</span>
+        <span class="n">result_text</span> <span class="o">=</span> <span class="n">get_font</span><span class="p">(</span><span class="mi">40</span><span class="p">)</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="s2">&quot;You have lost one life&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;#b68f40&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">character</span><span class="o">.</span><span class="n">alignment</span> <span class="o">==</span> <span class="s2">&quot;Neutral&quot;</span><span class="p">:</span>
+        <span class="n">result_text</span> <span class="o">=</span> <span class="n">get_font</span><span class="p">(</span><span class="mi">40</span><span class="p">)</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="s2">&quot;Nothing happened&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;#b68f40&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">character</span><span class="o">.</span><span class="n">alignment</span> <span class="o">==</span> <span class="s2">&quot;Good&quot;</span><span class="p">:</span>
+        <span class="n">result_text</span> <span class="o">=</span> <span class="n">get_font</span><span class="p">(</span><span class="mi">40</span><span class="p">)</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="s2">&quot;Throw dice again&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;#b68f40&quot;</span><span class="p">)</span>
+
+    <span class="n">screen</span><span class="o">.</span><span class="n">fill</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">popup_bg</span><span class="p">)</span>
+    <span class="n">screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">result_text</span><span class="p">,</span> <span class="p">(</span><span class="mi">350</span><span class="p">,</span> <span class="mi">300</span><span class="p">))</span>
+    <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">character</span><span class="o">.</span><span class="n">alignment</span> <span class="o">==</span> <span class="s2">&quot;Good&quot;</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+    <span class="k">if</span> <span class="n">character</span><span class="o">.</span><span class="n">alignment</span> <span class="o">==</span> <span class="s2">&quot;Evil&quot;</span><span class="p">:</span>
+        <span class="n">screen</span><span class="o">.</span><span class="n">fill</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">rect</span><span class="p">)</span>
+        <span class="n">character</span><span class="o">.</span><span class="n">display_attribute</span><span class="p">(</span><span class="n">screen</span><span class="p">)</span>
+        <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">update</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="City_action">
+<a class="viewcode-back" href="../game_events.html#game_events.City_action">[docs]</a>
+<span class="k">def</span> <span class="nf">City_action</span><span class="p">(</span><span class="n">character</span><span class="p">,</span> <span class="n">dice</span><span class="p">,</span> <span class="n">screen</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Manages interactions in the City location, allowing the character to either visit the enchantress by rolling a dice</span>
+<span class="sd">    or visiting a doctor by clicking a button. Each choice leads to different outcomes that affect the character&#39;s game state.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        character (Character): The player&#39;s character interacting in the City.</span>
+<span class="sd">        dice (Dice): The dice object used to determine outcomes when visiting the enchantress.</span>
+<span class="sd">        screen (pygame.Surface): The screen where city interactions are rendered.</span>
+
+<span class="sd">    This function maintains a loop that waits for user input, either a dice roll for random enchantress outcomes or</span>
+<span class="sd">    a button press for a doctor&#39;s visit, each affecting the character&#39;s attributes or game progress differently.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">popup_active</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">dice_result_displayed</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">while</span> <span class="n">popup_active</span><span class="p">:</span>
+        <span class="n">MousePos</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">mouse</span><span class="o">.</span><span class="n">get_pos</span><span class="p">()</span>
+        <span class="n">popup_bg</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">Rect</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">600</span><span class="p">)</span>
+        <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">popup_bg</span><span class="p">)</span>
+        <span class="n">font</span> <span class="o">=</span> <span class="n">get_font</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>
+        <span class="n">city_text</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">render</span><span class="p">(</span>
+            <span class="s2">&quot;You have entered the city. Visit enchantress(Roll a dice) or visit a doctor(Press button)&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="s2">&quot;#b68f40&quot;</span><span class="p">)</span>
+        <span class="n">screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">city_text</span><span class="p">,</span> <span class="p">(</span><span class="mi">350</span><span class="p">,</span> <span class="mi">250</span><span class="p">))</span>
+        <span class="n">doctor_button</span> <span class="o">=</span> <span class="n">button</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="n">image</span><span class="o">=</span><span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;Stuff/SmallRect.png&quot;</span><span class="p">),</span>
+                                      <span class="n">pos</span><span class="o">=</span><span class="p">(</span><span class="mi">967</span><span class="p">,</span> <span class="mi">402</span><span class="p">),</span>
+                                      <span class="n">text_input</span><span class="o">=</span><span class="s2">&quot;Enter&quot;</span><span class="p">,</span> <span class="n">font</span><span class="o">=</span><span class="n">get_font</span><span class="p">(</span><span class="mi">40</span><span class="p">),</span> <span class="n">base_color</span><span class="o">=</span><span class="s2">&quot;#b68f40&quot;</span><span class="p">,</span>
+                                      <span class="n">hovering_color</span><span class="o">=</span><span class="s2">&quot;Green&quot;</span><span class="p">)</span>
+        <span class="n">doctor_button</span><span class="o">.</span><span class="n">changeColor</span><span class="p">(</span><span class="n">MousePos</span><span class="p">)</span>
+        <span class="n">doctor_button</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">screen</span><span class="p">)</span>
+
+        <span class="n">roll_options</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;Skip a turn&quot;</span><span class="p">,</span>
+            <span class="mi">2</span><span class="p">:</span> <span class="s2">&quot;Lose 1 strength&quot;</span><span class="p">,</span>
+            <span class="mi">3</span><span class="p">:</span> <span class="s2">&quot;Lose 1 craft&quot;</span><span class="p">,</span>
+            <span class="mi">4</span><span class="p">:</span> <span class="s2">&quot;Gain 2 craft&quot;</span><span class="p">,</span>
+            <span class="mi">5</span><span class="p">:</span> <span class="s2">&quot;Gain 2 strength&quot;</span><span class="p">,</span>
+            <span class="mi">6</span><span class="p">:</span> <span class="s2">&quot;Throw dice again&quot;</span>
+        <span class="p">}</span>
+        <span class="n">y_offset</span> <span class="o">=</span> <span class="mi">350</span>
+        <span class="k">for</span> <span class="n">roll</span><span class="p">,</span> <span class="n">action</span> <span class="ow">in</span> <span class="n">roll_options</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">option_text</span> <span class="o">=</span> <span class="n">get_font</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">roll</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">action</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;#b68f40&quot;</span><span class="p">)</span>
+            <span class="n">screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">option_text</span><span class="p">,</span> <span class="p">(</span><span class="mi">350</span><span class="p">,</span> <span class="n">y_offset</span><span class="p">))</span>
+            <span class="n">y_offset</span> <span class="o">+=</span> <span class="mi">50</span>
+
+        <span class="k">if</span> <span class="n">dice_result_displayed</span><span class="p">:</span>
+            <span class="n">result_text</span> <span class="o">=</span> <span class="n">get_font</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dice Roll: </span><span class="si">{</span><span class="n">dice</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+            <span class="n">screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">result_text</span><span class="p">,</span> <span class="p">(</span><span class="mi">350</span><span class="p">,</span> <span class="mi">300</span><span class="p">))</span>
+            <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+            <span class="n">pygame</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">delay</span><span class="p">(</span><span class="mi">2000</span><span class="p">)</span>
+            <span class="n">City_dice_roll</span><span class="p">(</span><span class="n">dice</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">character</span><span class="p">,</span> <span class="n">screen</span><span class="p">)</span>
+            <span class="n">popup_active</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">pygame</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">QUIT</span><span class="p">:</span>
+                <span class="n">pygame</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">KEYDOWN</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">key</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">K_SPACE</span><span class="p">:</span>
+                    <span class="n">dice</span><span class="o">.</span><span class="n">roll</span><span class="p">()</span>
+                    <span class="n">dice_result_displayed</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">elif</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">MOUSEBUTTONDOWN</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">doctor_button</span><span class="o">.</span><span class="n">checkForInput</span><span class="p">(</span><span class="n">MousePos</span><span class="p">):</span>
+                    <span class="n">doc_interaction</span><span class="p">(</span><span class="n">character</span><span class="p">,</span> <span class="n">screen</span><span class="p">)</span>
+                    <span class="n">popup_active</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+
+
+<div class="viewcode-block" id="City_dice_roll">
+<a class="viewcode-back" href="../game_events.html#game_events.City_dice_roll">[docs]</a>
+<span class="k">def</span> <span class="nf">City_dice_roll</span><span class="p">(</span><span class="n">dice_result</span><span class="p">,</span> <span class="n">character</span><span class="p">,</span> <span class="n">screen</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Processes and applies the results of a dice roll when a character is in the City location. This function modifies the</span>
+<span class="sd">    character&#39;s attributes based on the dice result, reflecting gains or losses in strength or craft.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        dice_result (int): The result of the dice roll, determining the specific outcome or action to be applied.</span>
+<span class="sd">        character (Character): The character experiencing the effects of the dice roll.</span>
+<span class="sd">        screen (pygame.Surface): The display surface used for visually updating the character&#39;s attributes.</span>
+
+<span class="sd">    Each possible dice outcome is associated with different changes to the character&#39;s attributes:</span>
+<span class="sd">    - Dice result 1 and 6: No change occurs.</span>
+<span class="sd">    - Dice result 2: Decreases strength by 1, not allowing it to go below zero.</span>
+<span class="sd">    - Dice result 3: Decreases craft by 1, not allowing it to go below zero.</span>
+<span class="sd">    - Dice result 4: Increases craft by 2.</span>
+<span class="sd">    - Dice result 5: Increases strength by 2.</span>
+
+<span class="sd">    The function updates the screen only if there is a change in the character&#39;s strength or craft.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">initial_stats</span> <span class="o">=</span> <span class="p">(</span><span class="n">character</span><span class="o">.</span><span class="n">strength</span><span class="p">,</span> <span class="n">character</span><span class="o">.</span><span class="n">craft</span><span class="p">)</span>
+    <span class="n">rect</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">Rect</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">800</span><span class="p">,</span> <span class="mi">600</span><span class="p">,</span> <span class="mi">600</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">dice_result</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">pass</span>
+    <span class="k">elif</span> <span class="n">dice_result</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">character</span><span class="o">.</span><span class="n">strength</span> <span class="o">-=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">character</span><span class="o">.</span><span class="n">strength</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">dice_result</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="n">character</span><span class="o">.</span><span class="n">craft</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">character</span><span class="o">.</span><span class="n">craft</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">dice_result</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+        <span class="n">character</span><span class="o">.</span><span class="n">craft</span> <span class="o">+=</span> <span class="mi">2</span>
+    <span class="k">elif</span> <span class="n">dice_result</span> <span class="o">==</span> <span class="mi">5</span><span class="p">:</span>
+        <span class="n">character</span><span class="o">.</span><span class="n">strength</span> <span class="o">+=</span> <span class="mi">2</span>
+    <span class="k">elif</span> <span class="n">dice_result</span> <span class="o">==</span> <span class="mi">6</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">character</span><span class="o">.</span><span class="n">strength</span><span class="p">,</span> <span class="n">character</span><span class="o">.</span><span class="n">craft</span><span class="p">)</span> <span class="o">!=</span> <span class="n">initial_stats</span><span class="p">:</span>
+        <span class="n">screen</span><span class="o">.</span><span class="n">fill</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">rect</span><span class="p">)</span>
+        <span class="n">character</span><span class="o">.</span><span class="n">display_attribute</span><span class="p">(</span><span class="n">screen</span><span class="p">)</span>
+        <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">update</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="doc_interaction">
+<a class="viewcode-back" href="../game_events.html#game_events.doc_interaction">[docs]</a>
+<span class="k">def</span> <span class="nf">doc_interaction</span><span class="p">(</span><span class="n">character</span><span class="p">,</span> <span class="n">screen</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Manages the interaction with a doctor in the City location, which results in the character gaining additional life.</span>
+<span class="sd">    This function displays a notification of the healing event and updates the character&#39;s life attribute.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        character (Character): The character receiving medical attention and healing.</span>
+<span class="sd">        screen (pygame.Surface): The display surface used for updating and showing the healing effect.</span>
+
+<span class="sd">    This function increases the character&#39;s life by one and visually updates this change on the screen. If the</span>
+<span class="sd">    character&#39;s life is increased, the function will update the display to reflect the new life total.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">initial_stats</span> <span class="o">=</span> <span class="n">character</span><span class="o">.</span><span class="n">life</span>
+    <span class="n">rect</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">Rect</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">800</span><span class="p">,</span> <span class="mi">600</span><span class="p">,</span> <span class="mi">600</span><span class="p">)</span>
+    <span class="n">doc_text</span> <span class="o">=</span> <span class="n">get_font</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="s2">&quot;You have healed 1 life&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;#b68f40&quot;</span><span class="p">)</span>
+    <span class="n">screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">doc_text</span><span class="p">,</span> <span class="p">(</span><span class="mi">800</span><span class="p">,</span> <span class="mi">600</span><span class="p">))</span>
+    <span class="n">character</span><span class="o">.</span><span class="n">life</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">if</span> <span class="n">character</span><span class="o">.</span><span class="n">life</span> <span class="o">!=</span> <span class="n">initial_stats</span><span class="p">:</span>
+        <span class="n">screen</span><span class="o">.</span><span class="n">fill</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">rect</span><span class="p">)</span>
+        <span class="n">character</span><span class="o">.</span><span class="n">display_attribute</span><span class="p">(</span><span class="n">screen</span><span class="p">)</span>
+        <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">update</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="village_action">
+<a class="viewcode-back" href="../game_events.html#game_events.village_action">[docs]</a>
+<span class="k">def</span> <span class="nf">village_action</span><span class="p">(</span><span class="n">character</span><span class="p">,</span> <span class="n">dice</span><span class="p">,</span> <span class="n">screen</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Facilitates interactive gameplay in the Village location, allowing the character to roll a dice and experience</span>
+<span class="sd">    various mystical outcomes based on the roll. This function creates a dynamic, interactive environment where</span>
+<span class="sd">    the character&#39;s moral alignment or attributes can be altered.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        character (Character): The character visiting the village, potentially facing significant changes.</span>
+<span class="sd">        dice (Dice): The dice object used to determine the outcome of the visit.</span>
+<span class="sd">        screen (pygame.Surface): The display surface on which the village interactions and their outcomes are shown.</span>
+
+<span class="sd">    The function runs a loop that displays a menu with possible outcomes and waits for the player to roll the dice.</span>
+<span class="sd">    Depending on the dice result, the character&#39;s alignment may change or their attributes such as strength or craft</span>
+<span class="sd">    may increase. The function updates the display to show the dice result and applies the corresponding effects.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">popup_active</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">dice_result_displayed</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">while</span> <span class="n">popup_active</span><span class="p">:</span>
+        <span class="n">popup_bg</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">Rect</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">600</span><span class="p">)</span>
+        <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">popup_bg</span><span class="p">)</span>
+        <span class="n">font</span> <span class="o">=</span> <span class="n">get_font</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>
+        <span class="n">village_text</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">render</span><span class="p">(</span>
+            <span class="s2">&quot;You have entered the village. Visit Mystic(Roll a dice)&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="s2">&quot;#b68f40&quot;</span><span class="p">)</span>
+        <span class="n">screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">village_text</span><span class="p">,</span> <span class="p">(</span><span class="mi">350</span><span class="p">,</span> <span class="mi">250</span><span class="p">))</span>
+
+        <span class="n">roll_options</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;Become evil.&quot;</span><span class="p">,</span>
+            <span class="mi">2</span><span class="p">:</span> <span class="s2">&quot;Nothing&quot;</span><span class="p">,</span>
+            <span class="mi">3</span><span class="p">:</span> <span class="s2">&quot;Nothing&quot;</span><span class="p">,</span>
+            <span class="mi">4</span><span class="p">:</span> <span class="s2">&quot;Become good&quot;</span><span class="p">,</span>
+            <span class="mi">5</span><span class="p">:</span> <span class="s2">&quot;Gain 2 craft&quot;</span><span class="p">,</span>
+            <span class="mi">6</span><span class="p">:</span> <span class="s2">&quot;Gain 2 strength&quot;</span>
+        <span class="p">}</span>
+        <span class="n">y_offset</span> <span class="o">=</span> <span class="mi">350</span>
+        <span class="k">for</span> <span class="n">roll</span><span class="p">,</span> <span class="n">action</span> <span class="ow">in</span> <span class="n">roll_options</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">option_text</span> <span class="o">=</span> <span class="n">get_font</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">roll</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">action</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;#b68f40&quot;</span><span class="p">)</span>
+            <span class="n">screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">option_text</span><span class="p">,</span> <span class="p">(</span><span class="mi">350</span><span class="p">,</span> <span class="n">y_offset</span><span class="p">))</span>
+            <span class="n">y_offset</span> <span class="o">+=</span> <span class="mi">50</span>
+
+        <span class="k">if</span> <span class="n">dice_result_displayed</span><span class="p">:</span>
+            <span class="n">result_text</span> <span class="o">=</span> <span class="n">get_font</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dice Roll: </span><span class="si">{</span><span class="n">dice</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+            <span class="n">screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">result_text</span><span class="p">,</span> <span class="p">(</span><span class="mi">350</span><span class="p">,</span> <span class="mi">300</span><span class="p">))</span>
+            <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+            <span class="n">pygame</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">delay</span><span class="p">(</span><span class="mi">2000</span><span class="p">)</span>
+            <span class="n">Village_dice_roll</span><span class="p">(</span><span class="n">dice</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">character</span><span class="p">,</span> <span class="n">screen</span><span class="p">)</span>
+            <span class="n">popup_active</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">pygame</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">QUIT</span><span class="p">:</span>
+                <span class="n">pygame</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">KEYDOWN</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">key</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">K_SPACE</span><span class="p">:</span>
+                    <span class="n">dice</span><span class="o">.</span><span class="n">roll</span><span class="p">()</span>
+                    <span class="n">dice_result_displayed</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+
+
+<div class="viewcode-block" id="Village_dice_roll">
+<a class="viewcode-back" href="../game_events.html#game_events.Village_dice_roll">[docs]</a>
+<span class="k">def</span> <span class="nf">Village_dice_roll</span><span class="p">(</span><span class="n">dice_result</span><span class="p">,</span> <span class="n">character</span><span class="p">,</span> <span class="n">screen</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Processes and applies the effects of a die roll when a character is in the village. Effects vary depending</span>
+<span class="sd">        on the dice result, affecting the character&#39;s alignment, strength, or craft.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            dice_result (int): The result of the dice roll, determining the effect to apply.</span>
+<span class="sd">            character (Character): The character to whom the dice roll effects will be applied.</span>
+<span class="sd">            screen (pygame.Surface): The display surface used for updating the character&#39;s attributes visually.</span>
+
+<span class="sd">        This function modifies the character&#39;s attributes based on the dice roll. Possible outcomes include:</span>
+<span class="sd">        - Becoming evil or good (alignment change).</span>
+<span class="sd">        - Increment in craft or strength attributes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="n">initial_stats</span> <span class="o">=</span> <span class="p">(</span><span class="n">character</span><span class="o">.</span><span class="n">strength</span><span class="p">,</span> <span class="n">character</span><span class="o">.</span><span class="n">craft</span><span class="p">)</span>
+    <span class="n">rect</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">Rect</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">800</span><span class="p">,</span> <span class="mi">800</span><span class="p">,</span> <span class="mi">600</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">dice_result</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">character</span><span class="o">.</span><span class="n">alignment</span> <span class="o">=</span> <span class="s2">&quot;Evil&quot;</span>
+    <span class="k">elif</span> <span class="n">dice_result</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">pass</span>
+    <span class="k">elif</span> <span class="n">dice_result</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="k">pass</span>
+    <span class="k">elif</span> <span class="n">dice_result</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+        <span class="n">character</span><span class="o">.</span><span class="n">alignment</span> <span class="o">=</span> <span class="s2">&quot;Good&quot;</span>
+    <span class="k">elif</span> <span class="n">dice_result</span> <span class="o">==</span> <span class="mi">5</span><span class="p">:</span>
+        <span class="n">character</span><span class="o">.</span><span class="n">craft</span> <span class="o">+=</span> <span class="mi">2</span>
+    <span class="k">elif</span> <span class="n">dice_result</span> <span class="o">==</span> <span class="mi">6</span><span class="p">:</span>
+        <span class="n">character</span><span class="o">.</span><span class="n">strength</span> <span class="o">+=</span> <span class="mi">2</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">character</span><span class="o">.</span><span class="n">strength</span><span class="p">,</span> <span class="n">character</span><span class="o">.</span><span class="n">craft</span><span class="p">,</span> <span class="n">character</span><span class="o">.</span><span class="n">alignment</span><span class="p">)</span> <span class="o">!=</span> <span class="n">initial_stats</span><span class="p">:</span>
+        <span class="n">screen</span><span class="o">.</span><span class="n">fill</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">rect</span><span class="p">)</span>
+        <span class="n">character</span><span class="o">.</span><span class="n">display_attribute</span><span class="p">(</span><span class="n">screen</span><span class="p">)</span>
+        <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">update</span><span class="p">()</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Viliam Misař.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

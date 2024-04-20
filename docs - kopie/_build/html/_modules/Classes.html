@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Classes &mdash; Talisman 00.00.01 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=d7bb8d4d"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Talisman
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">code</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Talisman</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">Classes</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for Classes</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pygame</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">game_events</span>
+
+<span class="n">pygame</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+
+<span class="n">default_resolution</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">Info</span><span class="p">()</span>
+
+<span class="n">current_screen_width</span> <span class="o">=</span> <span class="n">default_resolution</span><span class="o">.</span><span class="n">current_w</span>
+<span class="n">current_screen_height</span> <span class="o">=</span> <span class="n">default_resolution</span><span class="o">.</span><span class="n">current_h</span>
+
+<span class="n">default_resolution_width</span> <span class="o">=</span> <span class="mi">1920</span>
+<span class="n">default_resolution_height</span> <span class="o">=</span> <span class="mi">1080</span>
+
+<span class="n">scale_factor_width</span> <span class="o">=</span> <span class="n">current_screen_width</span> <span class="o">/</span> <span class="n">default_resolution_width</span>
+<span class="n">scale_factor_height</span> <span class="o">=</span> <span class="n">current_screen_height</span> <span class="o">/</span> <span class="n">default_resolution_height</span>
+
+
+<div class="viewcode-block" id="DeckShuffle">
+<a class="viewcode-back" href="../Classes.html#Classes.DeckShuffle">[docs]</a>
+<span class="k">class</span> <span class="nc">DeckShuffle</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Manages a deck of cards, allowing shuffling and display of the deck&#39;s backside image on a specified screen.</span>
+
+<span class="sd">        Attributes:</span>
+<span class="sd">            deck (list): A list of card objects to be shuffled and managed.</span>
+<span class="sd">            cards (list): A duplicate list for operations, currently unused.</span>
+<span class="sd">            screen (pygame.Surface): The screen where the deck image will be displayed.</span>
+<span class="sd">            image (pygame.Surface): The image of the deck&#39;s backside, loaded during display.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">deck</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">                Initializes the DeckShuffle class with a deck of cards.</span>
+
+<span class="sd">                Args:</span>
+<span class="sd">                    deck (list): A list of card objects.</span>
+<span class="sd">                &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cards</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">deck</span> <span class="o">=</span> <span class="n">deck</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">screen</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="DeckShuffle.shuffle">
+<a class="viewcode-back" href="../Classes.html#Classes.DeckShuffle.shuffle">[docs]</a>
+    <span class="k">def</span> <span class="nf">shuffle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Shuffles the deck randomly.&quot;&quot;&quot;</span>
+        <span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">deck</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DeckShuffle.display">
+<a class="viewcode-back" href="../Classes.html#Classes.DeckShuffle.display">[docs]</a>
+    <span class="k">def</span> <span class="nf">display</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">screen</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">                Displays the backside of the deck on the provided screen.</span>
+
+<span class="sd">                Args:</span>
+<span class="sd">                    screen (pygame.Surface): The screen where the deck image will be displayed.</span>
+<span class="sd">                &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">screen</span> <span class="o">=</span> <span class="n">screen</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;backside.png&quot;</span><span class="p">)</span>
+        <span class="n">screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">image</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">200</span><span class="p">))</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="Character">
+<a class="viewcode-back" href="../Classes.html#Classes.Character">[docs]</a>
+<span class="k">class</span> <span class="nc">Character</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Represents a character in the game with various attributes and the ability to move on the game board.</span>
+
+<span class="sd">        Attributes:</span>
+<span class="sd">            name (str): The name of the character.</span>
+<span class="sd">            image (str): Path to the character&#39;s image file.</span>
+<span class="sd">            strength (int): The character&#39;s strength attribute.</span>
+<span class="sd">            craft (int): The character&#39;s craft attribute.</span>
+<span class="sd">            life (int): The character&#39;s life points.</span>
+<span class="sd">            gold (int): The amount of gold the character possesses.</span>
+<span class="sd">            alignment (str): The character&#39;s alignment (e.g., good, evil, neutral).</span>
+<span class="sd">            talisman (bool): Flag to indicate if the character has a talisman.</span>
+<span class="sd">            fate (int): The character&#39;s fate points.</span>
+<span class="sd">            trophy (int): The character&#39;s trophy points.</span>
+<span class="sd">            start (str): The starting section name on the board for the character.</span>
+<span class="sd">            position (tuple): The current position (x, y) on the screen.</span>
+<span class="sd">            position_index (int): The current index of the board section where the character is.</span>
+<span class="sd">            section_name (str): The name of the current board section.</span>
+<span class="sd">            deck (list): A list of cards the character holds.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">strength</span><span class="p">,</span> <span class="n">craft</span><span class="p">,</span> <span class="n">life</span><span class="p">,</span> <span class="n">fate</span><span class="p">,</span> <span class="n">gold</span><span class="p">,</span> <span class="n">alignment</span><span class="p">,</span> <span class="n">start</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">                Initializes a character with specified attributes.</span>
+
+<span class="sd">                Args:</span>
+<span class="sd">                    name (str): The name of the character.</span>
+<span class="sd">                    image (str): Path to the character&#39;s image file.</span>
+<span class="sd">                    strength (int): Initial strength.</span>
+<span class="sd">                    craft (int): Initial craft.</span>
+<span class="sd">                    life (int): Initial life points.</span>
+<span class="sd">                    fate (int): Initial fate points.</span>
+<span class="sd">                    gold (int): Initial amount of gold.</span>
+<span class="sd">                    alignment (str): Alignment, e.g., &#39;good&#39;, &#39;evil&#39;, &#39;neutral&#39;.</span>
+<span class="sd">                    start (str): The starting section on the game board.</span>
+<span class="sd">                &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">strength</span> <span class="o">=</span> <span class="n">strength</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">craft</span> <span class="o">=</span> <span class="n">craft</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">life</span> <span class="o">=</span> <span class="n">life</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gold</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alignment</span> <span class="o">=</span> <span class="n">alignment</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">talisman</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fate</span> <span class="o">=</span> <span class="n">fate</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gold</span> <span class="o">=</span> <span class="n">gold</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">trophy</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">=</span> <span class="n">start</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">image</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">position_index</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">section_name</span> <span class="o">=</span> <span class="n">start</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">deck</span> <span class="o">=</span> <span class="p">[]</span>
+
+<div class="viewcode-block" id="Character.move">
+<a class="viewcode-back" href="../Classes.html#Classes.Character.move">[docs]</a>
+    <span class="k">def</span> <span class="nf">move</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">direction</span><span class="p">,</span> <span class="n">board_sections</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">                Moves the character in a specified direction on the board.</span>
+
+<span class="sd">                Args:</span>
+<span class="sd">                    direction (str): The direction to move (&#39;up&#39;, &#39;down&#39;, &#39;left&#39;, &#39;right&#39;).</span>
+<span class="sd">                    board_sections (list): A list of BoardSection objects representing the game board.</span>
+<span class="sd">                &quot;&quot;&quot;</span>
+        <span class="n">current_section</span> <span class="o">=</span> <span class="n">board_sections</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">position_index</span><span class="p">]</span>
+
+        <span class="c1"># Determine the new position based on the direction</span>
+        <span class="k">if</span> <span class="n">direction</span> <span class="o">==</span> <span class="s1">&#39;up&#39;</span> <span class="ow">and</span> <span class="n">current_section</span><span class="o">.</span><span class="n">up_neighbor_index</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">position_index</span> <span class="o">=</span> <span class="n">current_section</span><span class="o">.</span><span class="n">up_neighbor_index</span>
+        <span class="k">elif</span> <span class="n">direction</span> <span class="o">==</span> <span class="s1">&#39;down&#39;</span> <span class="ow">and</span> <span class="n">current_section</span><span class="o">.</span><span class="n">down_neighbor_index</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">position_index</span> <span class="o">=</span> <span class="n">current_section</span><span class="o">.</span><span class="n">down_neighbor_index</span>
+        <span class="k">elif</span> <span class="n">direction</span> <span class="o">==</span> <span class="s1">&#39;left&#39;</span> <span class="ow">and</span> <span class="n">current_section</span><span class="o">.</span><span class="n">left_neighbor_index</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">position_index</span> <span class="o">=</span> <span class="n">current_section</span><span class="o">.</span><span class="n">left_neighbor_index</span>
+        <span class="k">elif</span> <span class="n">direction</span> <span class="o">==</span> <span class="s1">&#39;right&#39;</span> <span class="ow">and</span> <span class="n">current_section</span><span class="o">.</span><span class="n">right_neighbor_index</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">position_index</span> <span class="o">=</span> <span class="n">current_section</span><span class="o">.</span><span class="n">right_neighbor_index</span>
+
+        <span class="n">new_section</span> <span class="o">=</span> <span class="n">board_sections</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">position_index</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_position</span><span class="p">(</span><span class="n">new_section</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">new_section</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">scale_factor_width</span><span class="p">,</span> <span class="n">scale_factor_height</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Character.current_section_name">
+<a class="viewcode-back" href="../Classes.html#Classes.Character.current_section_name">[docs]</a>
+    <span class="k">def</span> <span class="nf">current_section_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">section_name</span></div>
+
+
+<div class="viewcode-block" id="Character.set_position">
+<a class="viewcode-back" href="../Classes.html#Classes.Character.set_position">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_position</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">scale_x</span><span class="p">,</span> <span class="n">scale_y</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">                Sets the character&#39;s position on the screen, scaled by the given factors.</span>
+
+<span class="sd">                Args:</span>
+<span class="sd">                    x (int): The x-coordinate of the character&#39;s position.</span>
+<span class="sd">                    y (int): The y-coordinate of the character&#39;s position.</span>
+<span class="sd">                    scale_x (float): Horizontal scaling factor.</span>
+<span class="sd">                    scale_y (float): Vertical scaling factor.</span>
+<span class="sd">                &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">position</span> <span class="o">=</span> <span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">scale_x</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">y</span> <span class="o">*</span> <span class="n">scale_y</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="Character.display">
+<a class="viewcode-back" href="../Classes.html#Classes.Character.display">[docs]</a>
+    <span class="k">def</span> <span class="nf">display</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">screen</span><span class="p">,</span> <span class="n">font</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">                Displays the character&#39;s name at their current position on the screen.</span>
+
+<span class="sd">                Args:</span>
+<span class="sd">                    screen (pygame.Surface): The screen to draw on.</span>
+<span class="sd">                    font (pygame.font.Font): The font used to render the character&#39;s name.</span>
+<span class="sd">                &quot;&quot;&quot;</span>
+        <span class="n">name_surface</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">))</span>
+        <span class="n">text_position</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">position</span>
+        <span class="n">screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">name_surface</span><span class="p">,</span> <span class="n">text_position</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Character.display_attribute">
+<a class="viewcode-back" href="../Classes.html#Classes.Character.display_attribute">[docs]</a>
+    <span class="k">def</span> <span class="nf">display_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">screen</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">                Displays the character&#39;s attributes (life, strength, etc.) on the screen.</span>
+
+<span class="sd">                Args:</span>
+<span class="sd">                    screen (pygame.Surface): The screen to display attributes on.</span>
+<span class="sd">                &quot;&quot;&quot;</span>
+        <span class="n">base_y</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1050</span> <span class="o">*</span> <span class="n">scale_factor_height</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">current_screen_height</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1080</span> <span class="o">*</span> <span class="n">scale_factor_height</span><span class="p">))</span>
+
+        <span class="n">attributes</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Life = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">life</span><span class="p">),</span>
+                      <span class="s2">&quot;Strength = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">strength</span><span class="p">),</span>
+                      <span class="s2">&quot;Craft = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">craft</span><span class="p">),</span>
+                      <span class="s2">&quot;Fate = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fate</span><span class="p">),</span>
+                      <span class="s2">&quot;Gold = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gold</span><span class="p">),</span>
+                      <span class="s2">&quot;Alignment = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alignment</span><span class="p">)]</span>
+        <span class="n">x_offset</span> <span class="o">=</span> <span class="mi">10</span>
+        <span class="n">font</span> <span class="o">=</span> <span class="n">game_events</span><span class="o">.</span><span class="n">get_font</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>
+
+        <span class="n">total_width</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">font</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">attr</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">attributes</span><span class="p">)</span> <span class="o">+</span> <span class="n">x_offset</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">attributes</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># Calculate the starting x position to center the attributes block</span>
+        <span class="n">base_x</span> <span class="o">=</span> <span class="p">(</span><span class="n">current_screen_width</span> <span class="o">-</span> <span class="n">total_width</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>  <span class="c1"># Assuming current_screen_width is defined</span>
+
+        <span class="n">current_x</span> <span class="o">=</span> <span class="n">base_x</span>
+        <span class="k">for</span> <span class="n">attribute</span> <span class="ow">in</span> <span class="n">attributes</span><span class="p">:</span>
+            <span class="n">attribute_surface</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">attribute</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">))</span>
+            <span class="n">screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">attribute_surface</span><span class="p">,</span> <span class="p">(</span><span class="n">current_x</span><span class="p">,</span> <span class="n">base_y</span><span class="p">))</span>
+            <span class="n">current_x</span> <span class="o">+=</span> <span class="n">attribute_surface</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span> <span class="o">+</span> <span class="n">x_offset</span></div>
+
+
+<div class="viewcode-block" id="Character.update_and_display_stats">
+<a class="viewcode-back" href="../Classes.html#Classes.Character.update_and_display_stats">[docs]</a>
+    <span class="k">def</span> <span class="nf">update_and_display_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">screen</span><span class="p">):</span>
+        <span class="n">rect</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">Rect</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="mi">800</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">600</span><span class="p">)</span>
+        <span class="n">screen</span><span class="o">.</span><span class="n">fill</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">rect</span><span class="p">)</span>
+
+        <span class="n">base_y</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1050</span> <span class="o">*</span> <span class="n">scale_factor_height</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">current_screen_height</span> <span class="o">-</span> <span class="p">(</span><span class="mi">1080</span> <span class="o">*</span> <span class="n">scale_factor_height</span><span class="p">))</span>
+        <span class="n">attributes</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="sa">f</span><span class="s2">&quot;Life = </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">life</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Strength = </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">strength</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Craft = </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">craft</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Fate = </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">fate</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Gold = </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">gold</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">&quot;Alignment = </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">alignment</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">]</span>
+        <span class="n">x_offset</span> <span class="o">=</span> <span class="mi">10</span>
+        <span class="n">font</span> <span class="o">=</span> <span class="n">game_events</span><span class="o">.</span><span class="n">get_font</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>
+
+        <span class="n">total_width</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">font</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">attr</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">attributes</span><span class="p">)</span> <span class="o">+</span> <span class="n">x_offset</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">attributes</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">current_x</span> <span class="o">=</span> <span class="p">(</span><span class="n">current_screen_width</span> <span class="o">-</span> <span class="n">total_width</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="k">for</span> <span class="n">attribute</span> <span class="ow">in</span> <span class="n">attributes</span><span class="p">:</span>
+            <span class="n">attribute_surface</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">attribute</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">))</span>
+            <span class="n">screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">attribute_surface</span><span class="p">,</span> <span class="p">(</span><span class="n">current_x</span><span class="p">,</span> <span class="n">base_y</span><span class="p">))</span>
+            <span class="n">current_x</span> <span class="o">+=</span> <span class="n">attribute_surface</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span> <span class="o">+</span> <span class="n">x_offset</span>
+
+        <span class="c1"># Update the display only for the part that changed</span>
+        <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">rect</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Character.clear_name">
+<a class="viewcode-back" href="../Classes.html#Classes.Character.clear_name">[docs]</a>
+    <span class="k">def</span> <span class="nf">clear_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">screen</span><span class="p">,</span> <span class="n">font</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">screen</span><span class="p">,</span> <span class="n">font</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="Card">
+<a class="viewcode-back" href="../Classes.html#Classes.Card">[docs]</a>
+<span class="k">class</span> <span class="nc">Card</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Represents a basic card in the game with an image and type.</span>
+
+<span class="sd">        Attributes:</span>
+<span class="sd">            screen (pygame.Surface): The screen where the card will be displayed.</span>
+<span class="sd">            image_path (str): The file path of the card&#39;s image.</span>
+<span class="sd">            types (str): The type of card, e.g., &#39;Object&#39;, &#39;MagicObject&#39;, etc.</span>
+<span class="sd">            image (pygame.Surface): The loaded image of the card.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">types</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">                Initializes the Card with its image and type.</span>
+
+<span class="sd">                Args:</span>
+<span class="sd">                    image (str): The path to the image file for the card.</span>
+<span class="sd">                    types (str): The type of card.</span>
+<span class="sd">                &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">screen</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">image_path</span> <span class="o">=</span> <span class="n">image</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">types</span> <span class="o">=</span> <span class="n">types</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Card.display">
+<a class="viewcode-back" href="../Classes.html#Classes.Card.display">[docs]</a>
+    <span class="k">def</span> <span class="nf">display</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">screen</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">                Displays the card on the provided screen.</span>
+
+<span class="sd">                Args:</span>
+<span class="sd">                    screen (pygame.Surface): The screen where the card will be displayed.</span>
+<span class="sd">                &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">screen</span> <span class="o">=</span> <span class="n">screen</span>
+        <span class="n">screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">image</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">500</span><span class="p">))</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="ObjectCard">
+<a class="viewcode-back" href="../Classes.html#Classes.ObjectCard">[docs]</a>
+<span class="k">class</span> <span class="nc">ObjectCard</span><span class="p">(</span><span class="n">Card</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">       Represents an Object card, a specific type of card with an effect that can be applied to characters.</span>
+
+<span class="sd">       Attributes:</span>
+<span class="sd">           name (str): The name of the card.</span>
+<span class="sd">           effect (str): The effect description, e.g., &#39;add_strength&#39;.</span>
+<span class="sd">           effect_value (int, optional): The value by which the effect alters the character&#39;s attribute.</span>
+<span class="sd">       &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">effect</span><span class="p">,</span> <span class="n">effect_value</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">                Initializes an Object card with name, image, effect, and effect value.</span>
+
+<span class="sd">                Args:</span>
+<span class="sd">                    name (str): The name of the card.</span>
+<span class="sd">                    image (str): The path to the card&#39;s image file.</span>
+<span class="sd">                    effect (str): The description of the card&#39;s effect.</span>
+<span class="sd">                    effect_value (int, optional): The numerical value of the effect.</span>
+<span class="sd">                &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="s2">&quot;Object&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">effect</span> <span class="o">=</span> <span class="n">effect</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">effect_value</span> <span class="o">=</span> <span class="n">effect_value</span>
+
+<div class="viewcode-block" id="ObjectCard.apply_effect">
+<a class="viewcode-back" href="../Classes.html#Classes.ObjectCard.apply_effect">[docs]</a>
+    <span class="k">def</span> <span class="nf">apply_effect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">character</span><span class="p">,</span> <span class="n">screen</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">                Applies the card&#39;s effect to a character.</span>
+
+<span class="sd">                Args:</span>
+<span class="sd">                    character (Character): The character to which the effect is applied.</span>
+<span class="sd">                    screen (pygame.Surface): The screen where updates are to be displayed.</span>
+<span class="sd">                &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">effect</span> <span class="o">==</span> <span class="s2">&quot;add_strength&quot;</span><span class="p">:</span>
+            <span class="n">character</span><span class="o">.</span><span class="n">strength</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">effect_value</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">effect</span> <span class="o">==</span> <span class="s2">&quot;give_gold&quot;</span><span class="p">:</span>
+            <span class="n">character</span><span class="o">.</span><span class="n">gold</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">effect_value</span>
+            <span class="n">character</span><span class="o">.</span><span class="n">deck</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="n">character</span><span class="o">.</span><span class="n">update_and_display_stats</span><span class="p">(</span><span class="n">screen</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="MagicObject">
+<a class="viewcode-back" href="../Classes.html#Classes.MagicObject">[docs]</a>
+<span class="k">class</span> <span class="nc">MagicObject</span><span class="p">(</span><span class="n">Card</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Represents a Magic Object card with special effects that can influence a character&#39;s attributes.</span>
+
+<span class="sd">        Attributes:</span>
+<span class="sd">            name (str): The name of the magic object card.</span>
+<span class="sd">            effect (str): A description of the effect, e.g., &#39;give_craft&#39;.</span>
+<span class="sd">            effect_value (int, optional): The amount by which the effect modifies the character&#39;s attributes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">effect</span><span class="p">,</span> <span class="n">effect_value</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">                Initializes a Magic Object card.</span>
+
+<span class="sd">                Args:</span>
+<span class="sd">                    name (str): The name of the magic object.</span>
+<span class="sd">                    image (str): The path to the card&#39;s image file.</span>
+<span class="sd">                    effect (str): The effect that the card has on characters.</span>
+<span class="sd">                    effect_value (int, optional): The value associated with the effect.</span>
+<span class="sd">                &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="s2">&quot;MagicObject&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">effect</span> <span class="o">=</span> <span class="n">effect</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">effect_value</span> <span class="o">=</span> <span class="n">effect_value</span>
+
+<div class="viewcode-block" id="MagicObject.apply_effect">
+<a class="viewcode-back" href="../Classes.html#Classes.MagicObject.apply_effect">[docs]</a>
+    <span class="k">def</span> <span class="nf">apply_effect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">character</span><span class="p">,</span> <span class="n">screen</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">                Applies the effect of the magic object to a character.</span>
+
+<span class="sd">                Args:</span>
+<span class="sd">                    character (Character): The character affected by the magic object.</span>
+<span class="sd">                    screen (pygame.Surface): The screen for displaying updates.</span>
+<span class="sd">                &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">effect</span> <span class="o">==</span> <span class="s2">&quot;add_strength&quot;</span><span class="p">:</span>
+            <span class="n">character</span><span class="o">.</span><span class="n">strength</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">effect_value</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">effect</span> <span class="o">==</span> <span class="s2">&quot;give_craft&quot;</span><span class="p">:</span>
+            <span class="n">character</span><span class="o">.</span><span class="n">craft</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">effect_value</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">effect</span> <span class="o">==</span> <span class="s2">&quot;give_both&quot;</span><span class="p">:</span>
+            <span class="n">character</span><span class="o">.</span><span class="n">strength</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">effect_value</span>
+            <span class="n">character</span><span class="o">.</span><span class="n">craft</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">effect_value</span>
+
+        <span class="n">character</span><span class="o">.</span><span class="n">update_and_display_stats</span><span class="p">(</span><span class="n">screen</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="Follower">
+<a class="viewcode-back" href="../Classes.html#Classes.Follower">[docs]</a>
+<span class="k">class</span> <span class="nc">Follower</span><span class="p">(</span><span class="n">Card</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Represents a Follower card that can attach to a character and modify their attributes.</span>
+
+<span class="sd">        Attributes:</span>
+<span class="sd">            name (str): The name of the follower.</span>
+<span class="sd">            effect (str): A description of what the follower does, e.g., &#39;add_strength&#39;.</span>
+<span class="sd">            effect_value (int, optional): The numerical value associated with the effect.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">effect</span><span class="p">,</span> <span class="n">effect_value</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">               Initializes a Follower card with a specific effect on a character.</span>
+
+<span class="sd">               Args:</span>
+<span class="sd">                   name (str): The name of the follower.</span>
+<span class="sd">                   image (str): The image path for the follower card.</span>
+<span class="sd">                   effect (str): The effect description.</span>
+<span class="sd">                   effect_value (int, optional): The value of the effect, if applicable.</span>
+<span class="sd">               &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="s2">&quot;Follower&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">effect</span> <span class="o">=</span> <span class="n">effect</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">effect_value</span> <span class="o">=</span> <span class="n">effect_value</span>
+
+<div class="viewcode-block" id="Follower.apply_effect">
+<a class="viewcode-back" href="../Classes.html#Classes.Follower.apply_effect">[docs]</a>
+    <span class="k">def</span> <span class="nf">apply_effect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">character</span><span class="p">,</span> <span class="n">screen</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">                Applies the effect of the follower to the character.</span>
+
+<span class="sd">                Args:</span>
+<span class="sd">                    character (Character): The character to apply the effect to.</span>
+<span class="sd">                    screen (pygame.Surface): The screen where updates are displayed.</span>
+<span class="sd">                &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">effect</span> <span class="o">==</span> <span class="s2">&quot;add_strength&quot;</span><span class="p">:</span>
+            <span class="n">character</span><span class="o">.</span><span class="n">strength</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">effect_value</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">effect</span> <span class="o">==</span> <span class="s2">&quot;give_craft&quot;</span><span class="p">:</span>
+            <span class="n">character</span><span class="o">.</span><span class="n">craft</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">effect_value</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">effect</span> <span class="o">==</span> <span class="s2">&quot;give_both&quot;</span><span class="p">:</span>
+            <span class="n">character</span><span class="o">.</span><span class="n">strength</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">effect_value</span>
+            <span class="n">character</span><span class="o">.</span><span class="n">craft</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">effect_value</span>
+
+        <span class="n">character</span><span class="o">.</span><span class="n">update_and_display_stats</span><span class="p">(</span><span class="n">screen</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="Stranger">
+<a class="viewcode-back" href="../Classes.html#Classes.Stranger">[docs]</a>
+<span class="k">class</span> <span class="nc">Stranger</span><span class="p">(</span><span class="n">Card</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">       Represents a Stranger card, which typically triggers a one-time or unique effect when encountered.</span>
+
+<span class="sd">       Attributes:</span>
+<span class="sd">           name (str): The name of the stranger.</span>
+<span class="sd">           effect (str): A description of the effect this stranger has in the game.</span>
+<span class="sd">       &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">effect</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">                Initializes a Stranger card with a specific game effect.</span>
+
+<span class="sd">                Args:</span>
+<span class="sd">                    name (str): The name of the stranger.</span>
+<span class="sd">                    image (str): The image path for the card.</span>
+<span class="sd">                    effect (str): The narrative or mechanical effect the stranger has when encountered.</span>
+<span class="sd">                &quot;&quot;&quot;</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="s2">&quot;Stranger&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">effect</span> <span class="o">=</span> <span class="n">effect</span></div>
+
+
+
+<div class="viewcode-block" id="Enemy">
+<a class="viewcode-back" href="../Classes.html#Classes.Enemy">[docs]</a>
+<span class="k">class</span> <span class="nc">Enemy</span><span class="p">(</span><span class="n">Card</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Represents an Enemy card that characters can encounter and must overcome using strength or craft.</span>
+
+<span class="sd">        Attributes:</span>
+<span class="sd">            name (str): The name of the enemy.</span>
+<span class="sd">            effect (str): The specific effect or interaction this enemy has.</span>
+<span class="sd">            craft (int): The craft value of the enemy, used in challenges.</span>
+<span class="sd">            strength (int): The strength value of the enemy, used in battles.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">effect</span><span class="p">,</span> <span class="n">craft</span><span class="p">,</span> <span class="n">strength</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">                Initializes an Enemy card with strength and craft attributes for battles.</span>
+
+<span class="sd">                Args:</span>
+<span class="sd">                    name (str): The name of the enemy.</span>
+<span class="sd">                    image (str): The image path for the card.</span>
+<span class="sd">                    effect (str): The effect the enemy has when encountered.</span>
+<span class="sd">                    craft (int): The craft attribute of the enemy.</span>
+<span class="sd">                    strength (int): The strength attribute of the enemy.</span>
+<span class="sd">                &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="s2">&quot;Enemy&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">effect</span> <span class="o">=</span> <span class="n">effect</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">craft</span> <span class="o">=</span> <span class="n">craft</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">strength</span> <span class="o">=</span> <span class="n">strength</span></div>
+
+
+
+<div class="viewcode-block" id="Place">
+<a class="viewcode-back" href="../Classes.html#Classes.Place">[docs]</a>
+<span class="k">class</span> <span class="nc">Place</span><span class="p">(</span><span class="n">Card</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Represents a Place card, which provides a location-based effect or interaction in the game.</span>
+
+<span class="sd">        Attributes:</span>
+<span class="sd">            name (str): The name of the place.</span>
+<span class="sd">            effect (str): A description of the interaction or effect provided by this place.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">effect</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="s2">&quot;Place&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">effect</span> <span class="o">=</span> <span class="n">effect</span></div>
+
+
+
+<div class="viewcode-block" id="Spell">
+<a class="viewcode-back" href="../Classes.html#Classes.Spell">[docs]</a>
+<span class="k">class</span> <span class="nc">Spell</span><span class="p">(</span><span class="n">Card</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Represents a Spell card that can be used by characters for various effects, typically during their turn or in response to events.</span>
+
+<span class="sd">        Attributes:</span>
+<span class="sd">            name (str): The name of the spell.</span>
+<span class="sd">            effect (str): A description of what the spell does when cast.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">effect</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">                Initializes a Spell card with a specific magical effect.</span>
+
+<span class="sd">                Args:</span>
+<span class="sd">                    name (str): The name of the spell.</span>
+<span class="sd">                    image (str): The image path for the card.</span>
+<span class="sd">                    effect (str): The specific effect or action of the spell.</span>
+<span class="sd">                &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="s2">&quot;Spell&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">effect</span> <span class="o">=</span> <span class="n">effect</span></div>
+
+
+
+<div class="viewcode-block" id="Dice">
+<a class="viewcode-back" href="../Classes.html#Classes.Dice">[docs]</a>
+<span class="k">class</span> <span class="nc">Dice</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Represents a die used in the game to determine random outcomes, equipped with multiple sides and images for each side.</span>
+
+<span class="sd">        Attributes:</span>
+<span class="sd">            sides (int): Number of sides on the dice.</span>
+<span class="sd">            width (int): The width of the dice image.</span>
+<span class="sd">            height (int): The height of the dice image.</span>
+<span class="sd">            images (list): List of images, one for each side of the dice.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sides</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">190</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">190</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">                Initializes the dice with a specified number of sides and dimensions for the images.</span>
+
+<span class="sd">                Args:</span>
+<span class="sd">                    sides (int, optional): The number of sides on the dice. Defaults to 6.</span>
+<span class="sd">                    width (int, optional): The width of each side&#39;s image. Defaults to 190.</span>
+<span class="sd">                    height (int, optional): The height of each side&#39;s image. Defaults to 190.</span>
+<span class="sd">                &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">screen</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sides</span> <span class="o">=</span> <span class="n">sides</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">images</span> <span class="o">=</span> <span class="p">[</span><span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;die</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">.png&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">sides</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">width</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">height</span>
+
+<div class="viewcode-block" id="Dice.roll">
+<a class="viewcode-back" href="../Classes.html#Classes.Dice.roll">[docs]</a>
+    <span class="k">def</span> <span class="nf">roll</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">                Rolls the dice to generate a random value between 1 and the number of sides.</span>
+<span class="sd">                &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sides</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Dice.display">
+<a class="viewcode-back" href="../Classes.html#Classes.Dice.display">[docs]</a>
+    <span class="k">def</span> <span class="nf">display</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">screen</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">                Displays the current side of the dice based on the last roll.</span>
+
+<span class="sd">                Args:</span>
+<span class="sd">                    screen (pygame.Surface): The screen where the dice will be displayed.</span>
+<span class="sd">                &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">screen</span> <span class="o">=</span> <span class="n">screen</span>
+        <span class="n">image</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">images</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="n">screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="BoardSection">
+<a class="viewcode-back" href="../Classes.html#Classes.BoardSection">[docs]</a>
+<span class="k">class</span> <span class="nc">BoardSection</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Represents a section of the game board with specific coordinates and potential connections to other sections.</span>
+
+<span class="sd">        Attributes:</span>
+<span class="sd">            x (int): The x-coordinate of the board section.</span>
+<span class="sd">            y (int): The y-coordinate of the board section.</span>
+<span class="sd">            section (str): The name of the board section.</span>
+<span class="sd">            up_neighbor_index (int, optional): Index of the neighboring section above this one.</span>
+<span class="sd">            down_neighbor_index (int, optional): Index of the neighboring section below this one.</span>
+<span class="sd">            left_neighbor_index (int, optional): Index of the neighboring section to the left of this one.</span>
+<span class="sd">            right_neighbor_index (int, optional): Index of the neighboring section to the right of this one.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">section</span><span class="p">,</span> <span class="n">up</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">down</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">                Initializes a BoardSection with coordinates, a name, and neighbor connections.</span>
+
+<span class="sd">                Args:</span>
+<span class="sd">                    x (int): The x-coordinate of the section.</span>
+<span class="sd">                    y (int): The y-coordinate of the section.</span>
+<span class="sd">                    section (str): The name or type of the board section.</span>
+<span class="sd">                    up (int, optional): Index of the upper neighboring section.</span>
+<span class="sd">                    down (int, optional): Index of the lower neighboring section.</span>
+<span class="sd">                    left (int, optional): Index of the left neighboring section.</span>
+<span class="sd">                    right (int, optional): Index of the right neighboring section.</span>
+<span class="sd">                &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">section</span> <span class="o">=</span> <span class="n">section</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">up_neighbor_index</span> <span class="o">=</span> <span class="n">up</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">down_neighbor_index</span> <span class="o">=</span> <span class="n">down</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">left_neighbor_index</span> <span class="o">=</span> <span class="n">left</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">right_neighbor_index</span> <span class="o">=</span> <span class="n">right</span></div>
+
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Viliam Misař.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

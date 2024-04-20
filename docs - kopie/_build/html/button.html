@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>button module &mdash; Talisman 00.00.01 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=d7bb8d4d"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="game_events module" href="game_events.html" />
+    <link rel="prev" title="Classes module" href="Classes.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Talisman
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">code</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Cards.html">Cards module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Classes.html">Classes module</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">button module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#button.Button"><code class="docutils literal notranslate"><span class="pre">Button</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#button.Button.image"><code class="docutils literal notranslate"><span class="pre">Button.image</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#button.Button.x_pos"><code class="docutils literal notranslate"><span class="pre">Button.x_pos</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#button.Button.y_pos"><code class="docutils literal notranslate"><span class="pre">Button.y_pos</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#button.Button.font"><code class="docutils literal notranslate"><span class="pre">Button.font</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#button.Button.base_color"><code class="docutils literal notranslate"><span class="pre">Button.base_color</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#button.Button.hovering_color"><code class="docutils literal notranslate"><span class="pre">Button.hovering_color</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#button.Button.text_input"><code class="docutils literal notranslate"><span class="pre">Button.text_input</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#button.Button.char_name"><code class="docutils literal notranslate"><span class="pre">Button.char_name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#button.Button.text"><code class="docutils literal notranslate"><span class="pre">Button.text</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#button.Button.rect"><code class="docutils literal notranslate"><span class="pre">Button.rect</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#button.Button.text_rect"><code class="docutils literal notranslate"><span class="pre">Button.text_rect</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#button.Button.update"><code class="docutils literal notranslate"><span class="pre">Button.update()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#button.Button.checkForInput"><code class="docutils literal notranslate"><span class="pre">Button.checkForInput()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#button.Button.changeColor"><code class="docutils literal notranslate"><span class="pre">Button.changeColor()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id0"><code class="docutils literal notranslate"><span class="pre">Button.changeColor()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id1"><code class="docutils literal notranslate"><span class="pre">Button.checkForInput()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id2"><code class="docutils literal notranslate"><span class="pre">Button.update()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="game_events.html">game_events module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="main.html">main module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testing.html">testing module</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Talisman</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">code</a></li>
+      <li class="breadcrumb-item active">button module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/button.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-button">
+<span id="button-module"></span><h1>button module<a class="headerlink" href="#module-button" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="button.Button">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">button.</span></span><span class="sig-name descname"><span class="pre">Button</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text_input</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">font</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_color</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hovering_color</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">char_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/button.html#Button"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#button.Button" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class to create interactive button elements for a PyGame application, supporting text rendering,
+dynamic color changes based on hover state, and interaction detection.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="button.Button.image">
+<span class="sig-name descname"><span class="pre">image</span></span><a class="headerlink" href="#button.Button.image" title="Link to this definition"></a></dt>
+<dd><p>The graphical image of the button. Can be None if the button only uses text.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pygame.Surface</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="button.Button.x_pos">
+<span class="sig-name descname"><span class="pre">x_pos</span></span><a class="headerlink" href="#button.Button.x_pos" title="Link to this definition"></a></dt>
+<dd><p>The x-coordinate of the button’s position.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="button.Button.y_pos">
+<span class="sig-name descname"><span class="pre">y_pos</span></span><a class="headerlink" href="#button.Button.y_pos" title="Link to this definition"></a></dt>
+<dd><p>The y-coordinate of the button’s position.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="button.Button.font">
+<span class="sig-name descname"><span class="pre">font</span></span><a class="headerlink" href="#button.Button.font" title="Link to this definition"></a></dt>
+<dd><p>The font used for rendering the button’s text.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pygame.font.Font</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="button.Button.base_color">
+<span class="sig-name descname"><span class="pre">base_color</span></span><a class="headerlink" href="#button.Button.base_color" title="Link to this definition"></a></dt>
+<dd><p>The color of the text when the button is not being hovered over.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="button.Button.hovering_color">
+<span class="sig-name descname"><span class="pre">hovering_color</span></span><a class="headerlink" href="#button.Button.hovering_color" title="Link to this definition"></a></dt>
+<dd><p>The color of the text when the button is being hovered over by the mouse.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="button.Button.text_input">
+<span class="sig-name descname"><span class="pre">text_input</span></span><a class="headerlink" href="#button.Button.text_input" title="Link to this definition"></a></dt>
+<dd><p>The text displayed on the button.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="button.Button.char_name">
+<span class="sig-name descname"><span class="pre">char_name</span></span><a class="headerlink" href="#button.Button.char_name" title="Link to this definition"></a></dt>
+<dd><p>An additional attribute to store character names or other identifiers associated with the button.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="button.Button.text">
+<span class="sig-name descname"><span class="pre">text</span></span><a class="headerlink" href="#button.Button.text" title="Link to this definition"></a></dt>
+<dd><p>The rendered text surface.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pygame.Surface</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="button.Button.rect">
+<span class="sig-name descname"><span class="pre">rect</span></span><a class="headerlink" href="#button.Button.rect" title="Link to this definition"></a></dt>
+<dd><p>The rectangular area of the button used for interaction detection.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pygame.Rect</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="button.Button.text_rect">
+<span class="sig-name descname"><span class="pre">text_rect</span></span><a class="headerlink" href="#button.Button.text_rect" title="Link to this definition"></a></dt>
+<dd><p>The rectangular area used for positioning the text on the button.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pygame.Rect</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="button.Button.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">screen</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/button.html#Button.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#button.Button.update" title="Link to this definition"></a></dt>
+<dd><p>Renders the button’s image and text to the specified display surface.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="button.Button.checkForInput">
+<span class="sig-name descname"><span class="pre">checkForInput</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mouse_pos</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/button.html#Button.checkForInput"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#button.Button.checkForInput" title="Link to this definition"></a></dt>
+<dd><p>Checks if the mouse position intersects with the button’s rectangular area.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="button.Button.changeColor">
+<span class="sig-name descname"><span class="pre">changeColor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/button.html#Button.changeColor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#button.Button.changeColor" title="Link to this definition"></a></dt>
+<dd><p>Changes the text color based on whether the mouse is over the button.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">changeColor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">position</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/button.html#Button.changeColor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
+<dd><p>Updates the text color of the button depending on whether the mouse cursor is hovering over it.
+This dynamic visual feedback helps users identify interactive elements on the screen.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>position</strong> (<em>tuple</em>) – The current position of the mouse cursor, given as (x, y) coordinates.</p>
+</dd>
+</dl>
+<p>The method checks if the mouse position is within the rectangular bounds of the button. If the cursor
+is within the button’s area, it changes the text color to the hovering color to indicate interactivity.
+If the cursor is outside the button’s area, it reverts the text color to the base color.</p>
+<p>This functionality enhances user experience by providing immediate visual feedback about button interactivity,
+aiding in navigation and usability within the application.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">checkForInput</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mouse_pos</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/button.html#Button.checkForInput"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
+<dd><p>Checks if the mouse cursor is over the button’s area, which is necessary for determining whether the button
+has been hovered over or clicked.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mouse_pos</strong> (<em>tuple</em>) – The current mouse cursor position, typically obtained from pygame.mouse.get_pos(),
+containing coordinates (x, y).</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Returns True if the mouse cursor is over the button, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+<p>This method utilizes the <cite>collidepoint</cite> method of the pygame.Rect object associated with the button (<cite>self.rect</cite>).
+It evaluates whether the provided mouse position intersects with the rectangle that defines the button’s area.
+This functionality is crucial for interactive GUI elements in PyGame, allowing for responsive feedback and actions
+based on user input.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id2">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">screen</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/button.html#Button.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id2" title="Link to this definition"></a></dt>
+<dd><p>Draws the button onto the specified PyGame display surface (screen). This includes both the background image
+and the text of the button.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>screen</strong> (<em>pygame.Surface</em>) – The PyGame display surface onto which the button will be drawn.</p>
+</dd>
+</dl>
+<p>This method is responsible for rendering the button’s graphical components onto the game’s display.
+It checks if there is a specific image set for the background of the button and draws it, followed by
+overlaying the button’s text. If no specific image is set, it assumes the background is handled by the text rendering.</p>
+<p>The button’s text and image are positioned according to the pre-set rectangle attributes (<cite>self.rect</cite> for the image
+and <cite>self.text_rect</cite> for the text), ensuring proper alignment and placement on the screen.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Classes.html" class="btn btn-neutral float-left" title="Classes module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="game_events.html" class="btn btn-neutral float-right" title="game_events module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Viliam Misař.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
