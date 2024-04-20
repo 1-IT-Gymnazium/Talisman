@@ -1,6 +1,5 @@
 import pygame
 import sys
-import time
 import Classes
 import button
 
@@ -21,10 +20,29 @@ Screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 
 
 def get_font(size):
+    """
+        Loads and returns a pygame font object at a specified size.
+
+        Args:
+            size (int): The font size to load.
+
+        Returns:
+            pygame.font.Font: The loaded font object at the specified size.
+        """
     return pygame.font.Font("Stuff/font.ttf", size)
 
 
 def draw_deck_popup(screen, character_deck):
+    """
+    Displays a popup window that lists all cards in a character's deck on the screen.
+
+    Args:
+        screen (pygame.Surface): The display surface to draw the popup on.
+        character_deck (list): A list of Card objects that the character currently holds.
+
+    The function calculates the placement of each card image within a defined area of the screen,
+    ensuring that all cards are visible and neatly arranged.
+    """
     popup_bg_rect = pygame.Rect(200, 50, current_screen_width - 200, current_screen_height - 100)
     pygame.draw.rect(screen, (0, 0, 0), popup_bg_rect)
 
@@ -39,6 +57,18 @@ def draw_deck_popup(screen, character_deck):
 
 
 def fight(character, enemy, dice, screen):
+    """
+    Conducts a combat sequence between a player's character and an enemy, using dice rolls to determine the outcome.
+
+    Args:
+        character (Character): The player's character involved in the fight.
+        enemy (Enemy): The enemy that the character is fighting.
+        dice (Dice): A dice object used for rolling during the fight to determine attack strength.
+        screen (pygame.Surface): The display surface on which the fight visuals are rendered.
+
+    The function handles the sequence of combat, including rolling for enemy and player attacks, and determines
+    the winner based on the total attack values.
+    """
     fight_surface = pygame.Surface((800, 600))
     fight_surface.fill((0, 0, 0))
     fight_rect = fight_surface.get_rect(center=(current_screen_width // 2, current_screen_height // 2))
@@ -64,10 +94,8 @@ def fight(character, enemy, dice, screen):
                     dice.roll()
                     enemy_total = int(enemy_stat_value) + dice.value
                     fight_stage = "enemy_rolled"
-                elif fight_stage == "enemy_rolled":
                     fight_surface.fill(bg_color, text_area)
-                    fight_stage = "player_roll"
-                elif fight_stage == "player_roll":
+                elif fight_stage == "enemy_rolled":
                     dice.roll()
                     player_total = int(player_stat_value) + dice.value
                     fight_stage = "player_rolled"
@@ -94,6 +122,25 @@ def fight(character, enemy, dice, screen):
 
 
 def display_fight_details(surface, player, enemy, enemy_stat, enemy_stat_value, enemy_fin, player_fin, stage):
+    """
+    Updates the fight surface with the current details of the fight sequence. This function visualizes
+    both the player's and enemy's stats and states at various stages of the fight.
+
+    Args:
+        surface (pygame.Surface): The surface on which to draw the fight details, typically a subsurface for the fight area.
+        player (Character): The player's character involved in the fight.
+        enemy (Enemy): The enemy character involved in the fight.
+        enemy_stat (str): The primary stat being contested in the fight (either 'craft' or 'strength').
+        enemy_stat_value (int): The base value of the enemy's contested stat before the dice roll.
+        enemy_fin (int): The final value of the enemy's contested stat after adding the dice roll.
+        player_fin (int): The final value of the player's contested stat after adding the dice roll.
+        stage (str): The current stage of the fight, controlling what information is displayed ('enemy_roll', 'enemy_rolled', 'player_rolled').
+
+    This function dynamically updates depending on the fight stage to provide feedback such as:
+    - Prompts for rolling dice.
+    - Showing the results of dice rolls.
+    - Displaying final attack values.
+    """
     player_image = pygame.image.load(player.image)
     enemy_image = pygame.image.load(enemy.image_path)
 
@@ -110,7 +157,6 @@ def display_fight_details(surface, player, enemy, enemy_stat, enemy_stat_value, 
     elif stage == "enemy_rolled":
         enemy_total_stat = font.render(f"{enemy_stat.capitalize()}: {enemy_fin}", True, "#b68f40")
         surface.blit(enemy_total_stat, (50, 500))
-    elif stage == "player_roll":
         message2 = get_font(30).render("Press space to roll for yourself", True, "#b68f40")
         surface.blit(message2, (250, 50))
     elif stage == "player_rolled":
@@ -119,10 +165,30 @@ def display_fight_details(surface, player, enemy, enemy_stat, enemy_stat_value, 
 
 
 def fight_result(surface, winner):
+    """
+        Displays the result of a fight on the given surface.
+
+        Args:
+            surface (pygame.Surface): The surface where the fight result is to be displayed.
+            winner (pygame.Surface): The rendered text indicating the fight's outcome.
+        """
     surface.blit(winner, (300, 200))
 
 
 def Tavern_action(dice, character, screen):
+    """
+    Handles interactions within the Tavern game location, where the player can roll a dice to trigger various random events.
+    This function dynamically updates the game state based on dice roll outcomes and displays results on the screen.
+
+    Args:
+        dice (Dice): The dice object used for determining the outcome of the Tavern interaction.
+        character (Character): The player's character that is experiencing the Tavern actions.
+        screen (pygame.Surface): The display surface where Tavern actions and outcomes are visualized.
+
+    The function maintains a loop that awaits player input to roll the dice. Based on the roll, different effects
+    may impact the player's character such as losing life, engaging in a fight, gaining or losing gold, teleportation,
+    or other thematic actions specific to the Tavern location.
+    """
     popup_active = True
     dice_result_displayed = False
     while popup_active:
@@ -167,6 +233,18 @@ def Tavern_action(dice, character, screen):
 
 
 def handle_tavern_dice_roll(dice_result, character, screen):
+    """
+    Processes the result of a dice roll when a character is in the Tavern location, applying the corresponding
+    effects directly to the character's attributes or triggering specific game actions.
+
+    Args:
+        dice_result (int): The result of the dice roll, which determines the specific outcome or action to be applied.
+        character (Character): The player's character that experiences the outcome of the dice roll.
+        screen (pygame.Surface): The display surface where any resulting changes or effects are visually updated.
+
+    The function interprets the dice roll result and applies various effects such as modifying the character's
+    life or gold, or initiating a fight scenario. Each outcome is also visually updated on the provided screen.
+    """
     initial_stats = (character.life, character.gold)
     rect = pygame.Rect(500, 800, 600, 600)
     my_die = Classes.Dice()
@@ -192,6 +270,22 @@ def handle_tavern_dice_roll(dice_result, character, screen):
 
 
 def Chapel_action(character, screen):
+    """
+    Manages interactions at the Chapel location within the game, applying different effects based on the character's
+    alignment. This function simulates a character praying at the chapel and receiving various consequences.
+
+    Args:
+        character (Character): The player's character who is interacting at the Chapel location.
+        screen (pygame.Surface): The display surface on which the Chapel interactions and their outcomes are visually presented.
+
+    The function first displays a message indicating the character is praying, then waits and processes the result of this
+    action based on the character's moral alignment:
+    - Evil characters lose life.
+    - Neutral characters experience no change.
+    - Good characters have an opportunity to perform another action (not implemented in this function).
+
+    All outcomes are visually updated on the screen, and any changes to the character's stats are displayed.
+    """
     global result_text
     rect = pygame.Rect(500, 800, 600, 600)
     popup_bg = pygame.Rect(300, 200, 800, 600)
@@ -225,6 +319,18 @@ def Chapel_action(character, screen):
 
 
 def City_action(character, dice, screen):
+    """
+    Manages interactions in the City location, allowing the character to either visit the enchantress by rolling a dice
+    or visiting a doctor by clicking a button. Each choice leads to different outcomes that affect the character's game state.
+
+    Args:
+        character (Character): The player's character interacting in the City.
+        dice (Dice): The dice object used to determine outcomes when visiting the enchantress.
+        screen (pygame.Surface): The screen where city interactions are rendered.
+
+    This function maintains a loop that waits for user input, either a dice roll for random enchantress outcomes or
+    a button press for a doctor's visit, each affecting the character's attributes or game progress differently.
+    """
     popup_active = True
     dice_result_displayed = False
 
@@ -283,6 +389,24 @@ def City_action(character, dice, screen):
 
 
 def City_dice_roll(dice_result, character, screen):
+    """
+    Processes and applies the results of a dice roll when a character is in the City location. This function modifies the
+    character's attributes based on the dice result, reflecting gains or losses in strength or craft.
+
+    Args:
+        dice_result (int): The result of the dice roll, determining the specific outcome or action to be applied.
+        character (Character): The character experiencing the effects of the dice roll.
+        screen (pygame.Surface): The display surface used for visually updating the character's attributes.
+
+    Each possible dice outcome is associated with different changes to the character's attributes:
+    - Dice result 1 and 6: No change occurs.
+    - Dice result 2: Decreases strength by 1, not allowing it to go below zero.
+    - Dice result 3: Decreases craft by 1, not allowing it to go below zero.
+    - Dice result 4: Increases craft by 2.
+    - Dice result 5: Increases strength by 2.
+
+    The function updates the screen only if there is a change in the character's strength or craft.
+    """
     initial_stats = (character.strength, character.craft)
     rect = pygame.Rect(500, 800, 600, 600)
 
@@ -306,6 +430,17 @@ def City_dice_roll(dice_result, character, screen):
 
 
 def doc_interaction(character, screen):
+    """
+    Manages the interaction with a doctor in the City location, which results in the character gaining additional life.
+    This function displays a notification of the healing event and updates the character's life attribute.
+
+    Args:
+        character (Character): The character receiving medical attention and healing.
+        screen (pygame.Surface): The display surface used for updating and showing the healing effect.
+
+    This function increases the character's life by one and visually updates this change on the screen. If the
+    character's life is increased, the function will update the display to reflect the new life total.
+    """
     initial_stats = character.life
     rect = pygame.Rect(500, 800, 600, 600)
     doc_text = get_font(50).render("You have healed 1 life", True, "#b68f40")
@@ -319,6 +454,20 @@ def doc_interaction(character, screen):
 
 
 def village_action(character, dice, screen):
+    """
+    Facilitates interactive gameplay in the Village location, allowing the character to roll a dice and experience
+    various mystical outcomes based on the roll. This function creates a dynamic, interactive environment where
+    the character's moral alignment or attributes can be altered.
+
+    Args:
+        character (Character): The character visiting the village, potentially facing significant changes.
+        dice (Dice): The dice object used to determine the outcome of the visit.
+        screen (pygame.Surface): The display surface on which the village interactions and their outcomes are shown.
+
+    The function runs a loop that displays a menu with possible outcomes and waits for the player to roll the dice.
+    Depending on the dice result, the character's alignment may change or their attributes such as strength or craft
+    may increase. The function updates the display to show the dice result and applies the corresponding effects.
+    """
     popup_active = True
     dice_result_displayed = False
 
@@ -366,6 +515,19 @@ def village_action(character, dice, screen):
 
 
 def Village_dice_roll(dice_result, character, screen):
+    """
+        Processes and applies the effects of a die roll when a character is in the village. Effects vary depending
+        on the dice result, affecting the character's alignment, strength, or craft.
+
+        Args:
+            dice_result (int): The result of the dice roll, determining the effect to apply.
+            character (Character): The character to whom the dice roll effects will be applied.
+            screen (pygame.Surface): The display surface used for updating the character's attributes visually.
+
+        This function modifies the character's attributes based on the dice roll. Possible outcomes include:
+        - Becoming evil or good (alignment change).
+        - Increment in craft or strength attributes.
+        """
     initial_stats = (character.strength, character.craft)
     rect = pygame.Rect(500, 800, 800, 600)
 

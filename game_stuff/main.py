@@ -26,6 +26,14 @@ BackGround = pygame.image.load("Background.png")
 
 
 def Game(selected_characetrs):
+    """
+    Runs the main game loop, handling all game logic, player actions, and rendering updates for the game.
+
+    Args:
+        selected_characters (list of list): Nested list of character names selected by each player, used to initiate character states.
+
+    This function sets up the game environment, initializes game objects, and enters a loop that continuously checks for and responds to events such as player movements, actions, and system commands.
+    """
     pygame.display.set_caption("Game")
     Screen.fill("black")
     global BoardSection, current_player_index, event, drawn_card, current_section
@@ -33,6 +41,17 @@ def Game(selected_characetrs):
     button_cooldown = 500
 
     def load_and_scale_image(image, scale_x, scale_y):
+        """
+                Loads an image, scales it according to the given factors, and returns the scaled image.
+
+                Args:
+                    image (str): Path to the image file.
+                    scale_x (float): Factor to scale the image width.
+                    scale_y (float): Factor to scale the image height.
+
+                Returns:
+                    pygame.Surface: Scaled image.
+                """
         image = pygame.image.load(image)
         image_width = image.get_width() * scale_x
         image_height = image.get_height() * scale_y
@@ -41,7 +60,18 @@ def Game(selected_characetrs):
 
     game_board = load_and_scale_image("./board.png", scale_factor_width, scale_factor_height)
 
-    def handle_movement(event, characters, current_player_index, board_sections, screen, game_board, scale_x, scale_y):
+    def handle_movement(event, characters, current_player_index, board_sections, screen, game_board):
+        """
+                Processes player movement based on key inputs and updates the game board accordingly.
+
+                Args:
+                    event (pygame.Event): Event object capturing the keyboard input.
+                    characters (list): List of character objects participating in the game.
+                    current_player_index (int): Index of the current player controlling the turn.
+                    board_sections (list): List of all game board sections.
+                    screen (pygame.Surface): Main display surface where the game is rendered.
+                    game_board (pygame.Surface): Surface representing the game board.
+                """
         current_character = characters[current_player_index]
         direction = None
         if event.key == pygame.K_LEFT:
@@ -60,14 +90,40 @@ def Game(selected_characetrs):
                 character.display(screen, game_events.get_font(40))
 
     def display_current_state(screen, game_board, characters, current_player_index):
+        """
+                Displays the current state of the game board, including character positions and any relevant game info.
+
+                Args:
+                    screen (pygame.Surface): Main display surface where the game is rendered.
+                    game_board (pygame.Surface): Surface representing the game board.
+                    characters (list): List of character objects participating in the game.
+                    current_player_index (int): Index of the current player controlling the turn.
+                """
         screen.blit(game_board, (190, 80))
         for character in characters:
             character.display(screen, game_events.get_font(40))
 
     def get_current_section_name(character, board_sections):
+        """
+                Retrieves the name of the current board section where the character is located.
+
+                Args:
+                    character (Character): The character whose position is being queried.
+                    board_sections (list): List of all game board sections.
+
+                Returns:
+                    str: Name of the current section.
+                """
         return board_sections[character.position_index].section
 
     def update_player_turn_text(screen, current_player_name):
+        """
+                Updates the display to show which player's turn it is.
+
+                Args:
+                    screen (pygame.Surface): Main display surface where the game is rendered.
+                    current_player_name (str): Name of the player whose turn is current.
+                """
         background_color = (0, 0, 0)
         clear_rect = pygame.Rect(screen.get_width() // 2 - 200, 20 - 35, 400, 70)  # Adjust the size as needed
         screen.fill(background_color, clear_rect)
@@ -77,6 +133,7 @@ def Game(selected_characetrs):
         screen.blit(player_turn_text, player_turn_rect)
 
     Board_Section = [
+        # List of board sections, initializing BoardSection objects from Classes module.
         Classes.BoardSection(395, 135, "Village", down=23, right=1),  # 0
         Classes.BoardSection(579, 135, "Forest", left=0, right=2),  # 1
         Classes.BoardSection(770, 135, "Graveyard", left=1, right=3),  # 2
@@ -121,21 +178,26 @@ def Game(selected_characetrs):
     selected_character_objects = []
     for player_characters in selected_characters:
         for character_name in player_characters:
+            # Retrieve the character object from the mapping using its name.
             character = character_mapping.get(character_name)
             if character:
-                # Find the matching section for the character's start location
+                # Locate the starting section of the board that matches the character's start location.
                 matching_section = next((index for index, section in enumerate(Board_Section) if
                                          section.section.lower() == character.start.lower()), None)
                 if matching_section is not None:
-                    character.position_index = matching_section  # Set the character's position index to the matching section index
+                    # If a matching section is found, set the character's position index.
+                    character.position_index = matching_section
+                    # Set the actual position coordinates of the character on the game screen, accounting for scale factors.
                     character.set_position(Board_Section[matching_section].x, Board_Section[matching_section].y,
                                            scale_factor_width, scale_factor_height)
+                    # Add the character to the list of selected characters in the game.
                     selected_character_objects.append(character)
+                    # Display the character on the game screen using the predefined font.
                     character.display(Screen, font)
 
     run = True
     show_deck = False
-    Sentinel = Classes.Enemy("Sentinel", "./EnemyCards/Sentinel.png", "yep", "0", "15")
+    Sentinel = Classes.Enemy("Sentinel", "./EnemyCards/Sentinel.png", "yep", 0, 15)
 
     current_player_index = 0
     current_characters = selected_characters[current_player_index][0]
@@ -145,6 +207,8 @@ def Game(selected_characetrs):
         current_char.display_attribute(Screen)
 
     while run:
+        # Main game loop, processing events, updating game state, and rendering.
+
         MousePos = pygame.mouse.get_pos()
         current_time = pygame.time.get_ticks()
         current_character = selected_character_objects[current_player_index]
@@ -180,7 +244,7 @@ def Game(selected_characetrs):
                               text_input="Fight", font=game_events.get_font(40), base_color="#b68f40",
                               hovering_color="Blue")
 
-        rect_height = 50
+        rect_height = 70
         rect_y_start = current_screen_height - rect_height
         attributes_display_area = pygame.Rect(0, rect_y_start, current_screen_width, rect_height)
 
@@ -190,7 +254,7 @@ def Game(selected_characetrs):
                 sys.exit()
             if event.type == pygame.KEYDOWN:
                 handle_movement(event, selected_character_objects, current_player_index, Board_Section, Screen,
-                                game_board, scale_factor_width, scale_factor_height)
+                                game_board)
 
                 display_current_state(Screen, game_board, selected_character_objects, current_player_index)
 
@@ -271,6 +335,14 @@ def Game(selected_characetrs):
 
 
 def CharSelection(num_players):
+    """
+    Displays and manages the character selection screen for the specified number of players. Each player chooses their characters from a given set.
+
+    Args:
+        num_players (int): The number of players participating in the game, determining how many selections are made.
+
+    This function initializes a selection interface where players can view and select characters based on visual representations and text descriptions. The selections are captured, stored, and used to initialize the game state with the chosen characters.
+    """
     global selected_characters
     pygame.display.set_caption("Character_Selection")
     selected_characters = [[] for _ in range(num_players)]
@@ -341,6 +413,11 @@ def CharSelection(num_players):
 
 
 def PlayerNum():
+    """
+    Displays and manages the player number selection screen of the game. This function allows users to choose how many players will participate in the game.
+
+    It provides a user interface where players can select between different options (e.g., 2 Players, 3 Players, 4 Players) to determine the number of participants. Upon selecting a player count, the function transitions to character selection for the specified number of players.
+    """
     pygame.display.set_caption("Player_Selection")
     while True:
         CharMousePos = pygame.mouse.get_pos()
@@ -385,6 +462,11 @@ def PlayerNum():
 
 
 def main_menu():
+    """
+    Displays and manages the main menu interface of the game. This function handles user interactions for starting the game or quitting.
+
+    The main menu provides the player with the options to either start playing by entering into player selection or to exit the game. The function maintains a loop that continuously checks for user input and updates the display accordingly.
+    """
     pygame.display.set_caption("Menu")
     original_wtf_image = pygame.image.load("wtf.png")
     # Scale the image to match the screen dimensions
