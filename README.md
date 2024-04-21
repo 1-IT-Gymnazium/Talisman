@@ -31,7 +31,7 @@ The game starts by selecting the number of players and characters. Character sta
 
 ## File Structure
 
-- `AstroJump.exe` - The game launcher.
+- `Talisman.exe` - The game launcher.
 - `main.py` - Initializes and runs the game.
 - `game_events.py` - Handles game events.
 - `Cards.py` - Manages card data.
