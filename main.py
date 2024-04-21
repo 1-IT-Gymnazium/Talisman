@@ -299,7 +299,8 @@ def Game(selected_characetrs):
                     if current_char:
                         current_char.display_attribute(Screen)
                 if TakeCardButton.checkForInput(MousePos):
-                    if isinstance(drawn_card, (Classes.ObjectCard, Classes.MagicObject, Classes.Spell, Classes.Follower)):
+                    if isinstance(drawn_card,
+                                  (Classes.ObjectCard, Classes.MagicObject, Classes.Spell, Classes.Follower)):
                         current_character.deck.append(drawn_card)
                         if isinstance(drawn_card, (Classes.ObjectCard, Classes.MagicObject, Classes.Follower)):
                             drawn_card.apply_effect(current_character, Screen)
@@ -461,6 +462,50 @@ def PlayerNum():
         pygame.display.update()
 
 
+def controls():
+    pygame.display.set_caption("Controls")
+
+    while True:
+        Screen.fill("black")
+
+        MenuMousePos = pygame.mouse.get_pos()
+        SettingsText = game_events.get_font(100).render("Controls", True, "#b68f40")
+        SettingsRect = SettingsText.get_rect(center=(Screen.get_width() // 2, 100))
+
+        Screen.blit(SettingsText, SettingsRect)
+
+        BackButton = Button(image=pygame.image.load("Stuff/Rect.png"), pos=(Screen.get_width() // 2, 800),
+                            text_input="Back", font=game_events.get_font(75), base_color="#b68f40",
+                            hovering_color="Blue")
+
+        BackButton.changeColor(MenuMousePos)
+        BackButton.update(Screen)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if BackButton.checkForInput(MenuMousePos):
+                    main_menu()
+
+        DiceText = game_events.get_font(30).render("To throw dice press spacebar", True, "#b68f40")
+        DiceRect = DiceText.get_rect(center=(Screen.get_width() // 2, 250))
+        Screen.blit(DiceText, DiceRect)
+
+        MovementText = game_events.get_font(30).render("To move your character, use arrows on keyboard", True,
+                                                       "#b68f40")
+        MovementRect = MovementText.get_rect(center=(Screen.get_width() // 2, 300))
+        Screen.blit(MovementText, MovementRect)
+
+        DrawText = game_events.get_font(30).render("To draw a card press D on keyboard", True,
+                                                   "#b68f40")
+        DrawRect = MovementText.get_rect(center=(Screen.get_width() // 2, 350))
+        Screen.blit(DrawText, DrawRect)
+
+        pygame.display.update()
+
+
 def main_menu():
     """
     Displays and manages the main menu interface of the game. This function handles user interactions for starting the game or quitting.
@@ -483,13 +528,16 @@ def main_menu():
         PlayButton = Button(image=pygame.image.load("Stuff/Rect.png"), pos=(Screen.get_width() // 2, 450),
                             text_input="PLAY", font=game_events.get_font(75), base_color="#b68f40",
                             hovering_color="Blue")
+        SettingsButton = Button(image=pygame.image.load("Stuff/Rect.png"), pos=(Screen.get_width() // 2, 600),
+                                text_input="Controls", font=game_events.get_font(75), base_color="#b68f40",
+                                hovering_color="Blue")
         QuitButton = Button(image=pygame.image.load("Stuff/Rect.png"), pos=(Screen.get_width() // 2, 750),
                             text_input="QUIT", font=game_events.get_font(75), base_color="#b68f40",
                             hovering_color="Blue")
 
         Screen.blit(MenuText, MenuRect)
 
-        for button in [PlayButton, QuitButton]:
+        for button in [PlayButton, QuitButton, SettingsButton]:
             button.changeColor(MenuMousePos)
             button.update(Screen)
 
@@ -503,6 +551,8 @@ def main_menu():
                 if QuitButton.checkForInput(MenuMousePos):
                     pygame.quit()
                     sys.exit()
+                if SettingsButton.checkForInput(MenuMousePos):
+                    controls()
 
         pygame.display.update()
 
